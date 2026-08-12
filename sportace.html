@@ -40,35 +40,56 @@
 /* Header: el logotipo completo, sin título.
    El archivo es muy apaisado (7:1) y viene en gris medio, así que se aclara
    para que lea bien sobre el fondo oscuro. */
-.sa-head{padding:160px 5vw 50px;display:flex;justify-content:center}
+/* El logo va lo más arriba que se puede: la barra de navegación mide 69px y es
+   fija, así que 88px lo deja pegado abajo de ella con 19px de aire y sin que
+   se pise nada. Antes eran 160px y quedaban 91px muertos. */
+.sa-head{padding:88px 5vw 40px;display:flex;justify-content:center}
 .sa-head img{display:block;width:min(760px,88%);height:auto;
   filter:brightness(1.75) contrast(1.05);
   opacity:0;transform:translateY(14px);animation:saIn 1s .15s var(--ease) forwards}
 @keyframes saIn{to{opacity:1;transform:none}}
 
-/* descripción de apertura */
-.sa-intro{padding:44px 5vw 10px}
-.sa-introbox{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);
-  border-radius:0 10px 10px 0;padding:32px clamp(22px,3.4vw,46px);width:100%}
-.sa-introbox p{font-size:clamp(16px,1.6vw,21px);line-height:1.75;color:var(--fg);
-  font-weight:300;margin:0}
-.sa-introbox p + p{margin-top:20px;font-size:clamp(15px,1.3vw,18px);color:var(--fg-soft)}
-
-/* el rol y las tareas, debajo de la caja de apertura.
-   Las tareas son 10: en dos columnas quedan 5 y 5, sin hueco al final. */
-.sa-rol{padding:34px clamp(22px,3.4vw,46px) 0}
-.sa-rol .sa-rol-in{font-size:clamp(15px,1.3vw,18px);line-height:1.75;
-  color:var(--fg);font-weight:300;margin:0 0 22px;max-width:74ch}
-.sa-rol ul{margin:0;padding:0;list-style:none;columns:2;column-gap:clamp(24px,3.4vw,52px)}
+/* ===== descripción de apertura: cada bloque con su rótulo al costado =====
+   Se sabe qué se está leyendo antes de leerlo. En celular el rótulo pasa
+   arriba del texto en vez de quedar a la izquierda. */
+.sa-intro{padding:34px 5vw 10px}
+.sa-fila{display:grid;grid-template-columns:150px 1fr;gap:clamp(18px,3vw,44px);
+  padding:24px 0;border-top:1px solid var(--line)}
+.sa-fila > b{font-family:var(--mono);font-size:10px;letter-spacing:2.2px;
+  text-transform:uppercase;color:var(--accent);font-weight:400;padding-top:6px}
+.sa-par{font-size:clamp(16px,1.5vw,20px);line-height:1.75;font-weight:300;
+  margin:0;max-width:74ch}
+.sa-par.soft{color:var(--fg-soft);font-size:clamp(15px,1.3vw,17px)}
+.sa-rol-in{font-size:clamp(15px,1.3vw,17px);line-height:1.75;color:var(--fg-soft);
+  margin:0 0 20px;max-width:74ch}
+.sa-fila ul{margin:0;padding:0;list-style:none;columns:2;column-gap:clamp(24px,3.4vw,52px)}
 /* El navegador reparte por ALTURA, no por cantidad: quedan 6 y 4, con las dos
-   columnas casi a la par (211 y 167px). Se probó forzar 5 y 5 con
+   columnas casi a la par. Se probó forzar 5 y 5 con
    li:nth-child(5){break-after:column} y sale peor: 156 contra 223, porque las
    tareas 6 y 8 son de dos renglones. Se deja balancear al navegador. */
-.sa-rol li{break-inside:avoid;position:relative;padding-left:16px;margin:0 0 11px;
+.sa-fila li{break-inside:avoid;position:relative;padding-left:16px;margin:0 0 11px;
   font-size:14px;line-height:1.6;color:var(--fg-soft)}
-.sa-rol li::before{content:"";position:absolute;left:0;top:10px;
+.sa-fila li::before{content:"";position:absolute;left:0;top:10px;
   width:7px;height:1px;background:var(--accent)}
-@media(max-width:820px){.sa-rol ul{columns:1}}
+
+/* entrada al scrollear: cada bloque y cada tarea aparecen al llegar, con el
+   guioncito dibujándose. Mismo recurso que la Trayectoria del índice.
+   El escalonado lo pone el JS con transition-delay. */
+.sa-en{opacity:0;transform:translateY(14px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.sa-en.in{opacity:1;transform:none}
+.sa-fila li.sa-en::before{width:0;transition:width .5s var(--ease) .15s}
+.sa-fila li.sa-en.in::before{width:7px}
+/* si el sistema pide menos movimiento, se muestra todo quieto */
+@media(prefers-reduced-motion:reduce){
+  .sa-en{opacity:1;transform:none;transition:none}
+  .sa-fila li.sa-en::before{width:7px;transition:none}
+}
+@media(max-width:900px){
+  .sa-fila{grid-template-columns:1fr;gap:12px;padding:20px 0}
+  .sa-fila > b{padding-top:0}
+  .sa-fila ul{columns:1}
+}
 
 /* ===== los tres componentes, uno al lado del otro =====
    Poco margen y poco aire entre columnas: la idea es que las fotos manden. */
@@ -125,10 +146,10 @@
 .sa-back:hover{border-color:var(--accent);color:var(--accent)}
 
 @media(max-width:900px){
-  .sa-head{padding:126px 6vw 34px}
+  /* en celular la barra mide 75px: 92 la deja igual de pegada */
+  .sa-head{padding:92px 6vw 28px}
   .sa-head img{width:92%}
-  .sa-intro{padding:30px 6vw 6px}
-  .sa-introbox{padding:24px 20px}
+  .sa-intro{padding:26px 6vw 6px}
   /* en celular vuelven a apilarse, uno debajo del otro */
   .sa-tres{padding:32px 6vw 8px;grid-template-columns:1fr;gap:34px}
   .sa-main{aspect-ratio:4/3}
@@ -162,12 +183,19 @@
 <div class="fx-dash"></div>
 
 <section class="sa-intro">
-  <div class="sa-introbox">
-    <p>Desarrollé piezas y componentes que acompañan a las bicicletas, tanto para mejorar sus características técnicas como la percepción de la marca al llevar productos donde hasta el más mínimo detalle está pensado para el usuario.</p>
-    <p>El enfoque de esta marca está puesto en transmitir una lógica de ingeniería aplicada al rendimiento, tanto desde la selección de componentes como desde su diseño y comunicación.</p>
+  <div class="sa-fila">
+    <b>La marca</b>
+    <p class="sa-par">Desarrollé piezas y componentes que acompañan a las bicicletas, tanto para mejorar sus características técnicas como la percepción de la marca al llevar productos donde hasta el más mínimo detalle está pensado para el usuario.</p>
   </div>
 
-  <div class="sa-rol">
+  <div class="sa-fila">
+    <b>El enfoque</b>
+    <p class="sa-par soft">El enfoque de esta marca está puesto en transmitir una lógica de ingeniería aplicada al rendimiento, tanto desde la selección de componentes como desde su diseño y comunicación.</p>
+  </div>
+
+  <div class="sa-fila">
+    <b>Mi rol</b>
+    <div>
     <p class="sa-rol-in">Mi rol consistía en desarrollar nuevos productos que se utilicen tanto en las bicis como para la venta. Para realizar esto mis tareas consistían en:</p>
     <ul>
       <li>Investigar las tendencias del mercado global.</li>
@@ -181,6 +209,7 @@
       <li>Planificar el lanzamiento de los productos desarrollados.</li>
       <li>Presentar los productos al grupo comercial de la empresa y dar capacitaciones técnicas de cada desarrollo.</li>
     </ul>
+    </div>
   </div>
 </section>
 
@@ -275,6 +304,40 @@ cont.querySelectorAll('.sa-prod').forEach(prod=>{
     el.classList.add('destacado');
     setTimeout(()=>el.classList.remove('destacado'),2600);
   });
+})();
+
+/* ---- la apertura entra al scrollear ----
+   Cada bloque y cada tarea aparecen al llegar. El escalonado se pone acá y no
+   en el CSS para no tener que escribir diez nth-child: si se suman o sacan
+   tareas, se acomoda solo.
+   Los rótulos y los párrafos entran de a uno; las tareas, más rápido entre sí
+   (60ms), para que la lista no se sienta lenta. */
+(function(){
+  const quieto=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const filas=[...document.querySelectorAll('.sa-fila')];
+  if(!filas.length)return;
+
+  filas.forEach(f=>{
+    /* el rótulo, el texto y cada tarea entran por separado */
+    const piezas=[...f.children].flatMap(h=>
+      h.tagName==='DIV' ? [h.querySelector('.sa-rol-in'),...h.querySelectorAll('li')] : [h]
+    ).filter(Boolean);
+    piezas.forEach((p,i)=>{
+      p.classList.add('sa-en');
+      p.style.transitionDelay=(quieto?0:(p.tagName==='LI'?i*60:i*90))+'ms';
+    });
+  });
+
+  if(quieto){
+    document.querySelectorAll('.sa-en').forEach(p=>p.classList.add('in'));
+    return;
+  }
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    e.target.classList.add('in');
+    io.unobserve(e.target);
+  }),{threshold:.15,rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.sa-en').forEach(p=>io.observe(p));
 })();
 
 /* menu mobile */
