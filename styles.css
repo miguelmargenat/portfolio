@@ -183,7 +183,11 @@ header.intro-hero .bp-grid{opacity:.22}
    y el video, en vez de encabezar la página. */
 @media(min-width:1000px){
   .hm-top{display:flex;flex-direction:column;padding-top:0}
-  .hm-top .intro-hero{order:1;padding-top:calc(var(--navh) + 28px)}
+  /* min-height:0 anula el 70vh de más arriba: con el retrato y el video más
+     chicos, el bloque ya no llega a esa altura y el 70vh sólo repartía aire
+     de sobra arriba y abajo de la presentación. Ahora la caja mide lo que
+     mide el contenido. */
+  .hm-top .intro-hero{order:1;padding-top:calc(var(--navh) + 28px);min-height:0}
   .hm-top .strip{order:2;position:static;border-top:1px solid var(--line);
     background:var(--bg-2);backdrop-filter:none;padding:20px 0}
 }
@@ -211,10 +215,27 @@ section{padding:150px 5vw;position:relative}
 /* En horizontal el video entra como tercera columna de la presentación,
    en la misma línea que el retrato y el texto. */
 @media(min-width:1000px){
-  .intro{grid-template-columns:.62fr 1fr .72fr;gap:clamp(24px,3vw,48px)}
-  .intro #video{padding:0}
-  .intro .video-wrap video{max-height:56vh}
-  .intro .video-cap{margin-top:12px;font-size:10px;justify-content:flex-start}
+  /* Las dos imágenes de los costados mandan por ALTO, no por ancho: las dos
+     miden --hmedia y su ancho sale de la proporción real de cada archivo
+     (retrato 3:4, video 9:16). Antes las columnas eran fijas (.62 / 1 / .72),
+     así que la fila quedaba tan alta como la foto y el texto del medio, que
+     mide ~330px, flotaba con más de 100px de aire arriba y abajo. Además el
+     video entraba en una caja más ancha que él y aparecían dos franjas negras
+     a los costados: con el alto mandando, la caja mide exactamente el video. */
+  .intro{--hmedia:clamp(330px,44vh,410px);
+    grid-template-columns:auto minmax(0,1fr) auto;gap:clamp(24px,3vw,48px)}
+  .intro .intro-photo{max-width:none}
+  .intro .intro-photo .ph{height:var(--hmedia)}
+  .intro .intro-photo img{width:auto;height:100%;max-height:none;object-fit:cover}
+  .intro .intro-text h1{font-size:clamp(30px,4.4vw,68px)}
+  /* 64ch es el ancho más grande en el que el párrafo sigue entrando en cinco
+     renglones: con más, pasa a cuatro y vuelve a sobrar aire arriba y abajo */
+  .intro .intro-text p{max-width:64ch}
+  .intro #video{padding:0;display:flex;flex-direction:column;align-items:center}
+  /* el ancho se calcula, no se deduce: el video es 1080×1920 (9:16), así que
+     la caja mide justo lo que mide el video y no quedan franjas negras */
+  .intro .video-wrap{height:var(--hmedia);width:calc(var(--hmedia) * 9 / 16)}
+  .intro .video-wrap video{width:100%;height:100%;max-height:none;object-fit:cover}
   .intro .sound-cta{font-size:11px;padding:12px 20px;gap:8px}
   .intro .sound-cta .ic{font-size:17px}
 }
@@ -542,7 +563,11 @@ header.pagehead p{margin-top:28px;max-width:540px;font-size:16px;color:var(--fg-
 }
 
 /* ---------- overlay panel ---------- */
-.overlay{position:fixed;inset:0;z-index:80;background:var(--bg);transform:translateX(100%);transition:transform .6s var(--ease);overflow-y:auto;visibility:hidden}
+/* z-index 50: por debajo del nav (60), a propósito. Antes iba en 80 y la ficha
+   tapaba la barra de arriba, así que abrir Volta se sentía como salirse del
+   sitio: no quedaba forma de ir a Inicio o Contacto sin cerrar. Ahora la ficha
+   se ve como una página más, con la barra siempre arriba. */
+.overlay{position:fixed;inset:0;z-index:50;background:var(--bg);transform:translateX(100%);transition:transform .6s var(--ease);overflow-y:auto;visibility:hidden}
 .overlay.open{transform:translateX(0);visibility:visible}
 .po-inner{max-width:920px;margin:0 auto;padding:130px 5vw 100px;position:relative}
 
@@ -641,7 +666,9 @@ header.pagehead p{margin-top:28px;max-width:540px;font-size:16px;color:var(--fg-
 }
 .overlay.has-subs .po-tools{order:8}
 .overlay.has-subs .po-gallery{order:9}
-.po-close{position:fixed;top:24px;right:5vw;z-index:90;background:none;border:1px solid var(--line-strong);color:var(--fg);width:46px;height:46px;border-radius:50%;font-size:18px;cursor:pointer;transition:border-color .3s,transform .3s}
+/* baja hasta debajo de la barra: en 24px se le montaba a los enlaces del nav,
+   que ahora queda visible mientras la ficha está abierta */
+.po-close{position:fixed;top:88px;right:5vw;z-index:90;background:none;border:1px solid var(--line-strong);color:var(--fg);width:46px;height:46px;border-radius:50%;font-size:18px;cursor:pointer;transition:border-color .3s,transform .3s}
 .po-close:hover{border-color:var(--accent);transform:rotate(90deg)}
 .po-icon{width:88px;height:88px;stroke:var(--accent);fill:none;stroke-width:1.1;margin-bottom:30px}
 .po-title{font-family:var(--disp);font-size:clamp(19px,3vw,34px);font-weight:700;letter-spacing:-.8px;line-height:1.15}
@@ -797,7 +824,10 @@ header.pagehead p{margin-top:28px;max-width:540px;font-size:16px;color:var(--fg-
 
 /* grilla de sub-proyectos (Renders) */
 /* los 8 proyectos: 4 × 2 en horizontal, 2 × 4 en celular */
-.po-embed.sub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+/* 3 columnas porque las fichas visibles son 6 (Clash y Ruta están ocultas en
+   experiencia.html): dos filas completas, sin huecos al final. Si vuelven las
+   dos ocultas, esto tiene que volver a repeat(4,...). */
+.po-embed.sub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .sub-tile{position:relative;aspect-ratio:4/3;border:1px solid var(--line);padding:0;border-radius:5px;overflow:hidden;cursor:pointer;background:var(--bg-3);display:block;transition:transform .35s var(--ease),border-color .3s}
 .sub-tile:hover{transform:translateY(-4px);border-color:var(--accent);z-index:2}
 .sub-tile .st-img{position:absolute;inset:0}
