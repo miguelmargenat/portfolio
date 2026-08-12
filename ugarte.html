@@ -31,15 +31,19 @@
 
 /* 07 · fondo de chapa perforada */
 .ug-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
-.ug-bg .perf{position:absolute;inset:0;
+.ug-bg .perf{position:absolute;inset:0;opacity:.45;
   background-image:radial-gradient(rgba(245,242,234,.10) 1px,transparent 1px);
   background-size:11px 11px;
   -webkit-mask-image:radial-gradient(ellipse 95% 70% at 50% 42%,#000 0%,transparent 88%);
   mask-image:radial-gradient(ellipse 95% 70% at 50% 42%,#000 0%,transparent 88%)}
 
-/* 01 · franja de seguridad */
-.ug-stripe{height:16px;background:repeating-linear-gradient(45deg,var(--warn) 0 12px,#131311 12px 24px);animation:stripeMove 6s linear infinite;position:relative;z-index:2}
-.ug-stripe.rev{animation-direction:reverse;animation-duration:8s}
+/* 01 · franja de seguridad
+   Va QUIETA y atenuada a propósito. Antes eran dos franjas animadas, y sumadas
+   al fondo perforado, al zoom del hero y a las tres cintas, el movimiento le
+   ganaba a las fotos. Quedó una sola, arriba de todo.
+   La regla .rev se conserva por si se quiere volver atrás; hoy no la usa nadie. */
+.ug-stripe{height:16px;background:repeating-linear-gradient(45deg,rgba(232,181,58,.55) 0 12px,#131311 12px 24px);position:relative;z-index:2}
+.ug-stripe.rev{animation:stripeMove 8s linear infinite reverse}
 @keyframes stripeMove{to{background-position:68px 0}}
 
 /* hero con fotos */
@@ -65,19 +69,25 @@
 .ug-row{overflow:hidden;border-radius:4px;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+/* Ritmo de fondo, no de protagonista: las cintas son contexto de planta y no
+   tienen que competir con el bloque de modelados. Antes iban a 44/52/60s. */
 .ug-track{display:flex;gap:var(--hueco);width:max-content;height:100%;
-  animation:ugParade 44s linear infinite}
-.ug-row.rev .ug-track{animation-direction:reverse;animation-duration:52s}
-.ug-row.slow .ug-track{animation-duration:60s}
+  animation:ugParade 110s linear infinite}
+.ug-row.rev .ug-track{animation-direction:reverse;animation-duration:130s}
+.ug-row.slow .ug-track{animation-duration:150s}
 .ug-row:hover .ug-track{animation-play-state:paused}
 @keyframes ugParade{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ug-track img{height:100%;
   width:calc((var(--ancho) - var(--hueco)*(var(--vista) - 1)) / var(--vista));object-fit:cover;
-  border-radius:4px;background:var(--bg-3);cursor:pointer;flex-shrink:0;
-  transition:transform .4s var(--ease),filter .4s}
-.ug-track img:hover{transform:scale(1.04);filter:brightness(1.1)}
+  border-radius:4px;background:var(--bg-3);cursor:pointer;flex-shrink:0;opacity:.62;
+  transition:transform .4s var(--ease),filter .4s,opacity .4s}
+.ug-track img:hover{transform:scale(1.04);filter:brightness(1.1);opacity:1}
 .ug-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;
   color:var(--fg-soft);opacity:.7;margin-top:12px;text-align:right}
+/* rótulo de la cinta: deja claro que esto es contexto, no obra propia */
+.ug-gal .lbl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--fg-soft);margin-bottom:12px;display:flex;align-items:center;gap:12px}
+.ug-gal .lbl::after{content:"";flex:1;height:1px;background:var(--line)}
 
 /* zoom */
 .ug-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
@@ -91,7 +101,9 @@
 .ug-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
 @media(max-width:640px){.ug-track img{width:170px;height:120px}.ug-zoom .zp,.ug-zoom .zn{width:42px;height:42px;font-size:20px}.ug-zoom .zp{left:8px}.ug-zoom .zn{right:8px}}
 .ug-hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:18px}
-.ug-hero h1{font-family:var(--disp);font-size:clamp(42px,9vw,128px);font-weight:700;letter-spacing:-3px;line-height:.9}
+/* Título contenido (opción 10): a 128px se comía el hero y dejaba el bloque
+   desbalanceado contra la foto. Va solo, sin volanta ni bajada. */
+.ug-hero h1{font-family:var(--disp);font-size:clamp(34px,5vw,72px);font-weight:700;letter-spacing:-2.4px;line-height:.92}
 .ug-hero h1 em{font-style:italic;font-weight:300;color:var(--accent)}
 .ug-hero p{margin-top:26px;max-width:520px;font-size:16px;line-height:1.75;color:var(--fg-soft)}
 
@@ -108,12 +120,29 @@
 /* intro + datos · texto a la izquierda, cintas a la derecha */
 .ug-intro{display:block;padding:50px 5vw 80px}
 @media(min-width:1000px){
-  .ug-intro{display:grid;grid-template-columns:minmax(0,28fr) minmax(0,70fr);
+  /* la columna de texto pasó de 28fr a 34fr: con la lista agrupada, a 28fr
+     medía ~320px de ancho y se estiraba a 793px de alto, muy por encima de
+     las cintas. Más ancha, el mismo texto entra en menos renglones. */
+  .ug-intro{display:grid;grid-template-columns:minmax(0,34fr) minmax(0,64fr);
     gap:clamp(18px,2vw,30px);align-items:start}
   /* 4 por cinta: las fotos promedian ratio 1.12 y la celda queda en 1.14,
-     así que entran casi sin recorte. Si se cambia, cambiar también VISTA. */
-  .ug-gal{--galh:clamp(440px,64vh,680px);--vista:4}
+     así que entran casi sin recorte. Si se cambia, cambiar también VISTA.
+
+     El alto va FIJO a propósito. Se probó atarlo al alto de la columna de
+     texto para que las dos cierren parejas, de dos maneras (align-items:
+     stretch, y el alto copiado por JS), y las dos rompen el encuadre: el alto
+     del texto depende del ancho de pantalla y el de las fotos no, así que
+     abajo de ~1300px las celdas se estiran a ratio 0.57 y se comen medio
+     producto. Es exactamente el problema que ya pasó dos veces (ver CLAUDE.md).
+     Preferimos un poco de aire abajo de las cintas antes que recortar. */
+  .ug-gal{--galh:clamp(440px,64vh,680px);--vista:3}
 }
+/* Cuántas fotos entran a lo ancho de cada cinta. Es lo que gobierna el
+   encuadre: la celda tiene que quedar cerca del 1.12 que promedian los
+   archivos. Con un número fijo, la celda se deforma al cambiar el ancho de
+   pantalla (a 1280px con 4 quedaba en 0.95, a 1920 con 4 en 1.48). */
+@media(min-width:1400px){.ug-gal{--vista:4}}
+@media(min-width:1800px){.ug-gal{--vista:5}}
 .ug-box{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);border-radius:0 8px 8px 0;
   padding:30px clamp(22px,3.4vw,46px);width:100%;margin-bottom:38px}
 .ug-box p{font-size:clamp(16px,1.5vw,21px);line-height:1.7;color:var(--fg);margin:0;font-weight:300;max-width:90ch}
@@ -131,6 +160,37 @@
 .ug-list ul{list-style:none;display:flex;flex-direction:column;gap:11px}
 .ug-list li{position:relative;padding-left:20px;font-size:14px;line-height:1.65;color:var(--fg-soft)}
 .ug-list li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:1px;background:var(--accent)}
+/* La lista va agrupada en tres frentes (piezas · materiales · procesos).
+   Plana eran siete bullets que había que leer enteros para saber qué hacía. */
+.ug-grupo + .ug-grupo{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.ug-grupo .gt{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--accent);display:flex;align-items:baseline;gap:10px;margin-bottom:13px}
+.ug-grupo .gt i{font-style:normal;color:var(--fg-soft);opacity:.5;font-size:9px}
+
+/* ===== obra propia · modelado y documentación =====
+   Va a todo el ancho, grande y con epígrafe. Antes estos cuatro modelados
+   estaban intercalados entre las fotos de planta, del mismo tamaño y sin
+   texto, así que el trabajo propio se confundía con el material de contexto.
+   OJO con el recorte: los cuatro archivos tienen proporciones muy distintas
+   (1.11 · 2.07 · 1.44 · 1.09), así que van con `contain`, no con `cover`.
+   Cada uno lleva su propio fondo en --bgf, que es el color real del render
+   (#9ca3ab los de SolidWorks, #c6c6c6 los otros): así el relleno de la celda
+   se funde con la imagen y no se ve la caja. */
+.ug-obra{padding:0 5vw 70px}
+.ug-obra .lbl{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--fg-soft);margin-bottom:20px}
+.ug-obra .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.ug-obra figure{margin:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+  background:var(--bg-2);transition:border-color .35s,transform .35s var(--ease)}
+.ug-obra figure:hover{border-color:rgba(232,85,58,.5);transform:translateY(-3px)}
+.ug-obra img{width:100%;aspect-ratio:4/3;object-fit:contain;display:block;
+  background:var(--bgf,#c6c6c6);cursor:pointer}
+.ug-obra figcaption{padding:14px 16px 16px}
+.ug-obra .nm{font-family:var(--disp);font-size:15px;font-weight:600;color:var(--fg)}
+.ug-obra .ds{font-size:12px;line-height:1.55;color:var(--fg-soft);margin-top:5px}
+@media(max-width:900px){.ug-obra{padding:0 6vw 50px}
+  .ug-obra .grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.ug-obra .grid{grid-template-columns:1fr}}
 
 /* 09 · etapas de planta */
 .ug-stages{padding:0 5vw 90px}
@@ -201,8 +261,6 @@
   </div>
 </header>
 
-<div class="ug-stripe rev"></div>
-
 <section class="ug-intro">
   <div class="ug-txt">
     <div class="ug-box">
@@ -210,20 +268,55 @@
     </div>
     <div class="ug-list">
       <span class="ttl">Diseñé</span>
-      <ul>
-        <li>Piezas del interior del vehículo: escalones, torpedos, frentes y culatas, gargantas de aire, pasamanería y más</li>
-        <li>Matricería y piezas de distintas materialidades: fibra de vidrio, termoformados y chapas metálicas</li>
-        <li>Seguimiento de producción</li>
-        <li>Dispositivos de perfilería de hierro y aluminio</li>
-        <li>Piezas de chapa plegada y por corte láser</li>
-        <li>Optimización de procesos productivos de la planta para economizar las piezas existentes</li>
-        <li>Modelado 3D de ensambles de los vehículos y documentación técnica</li>
-      </ul>
+      <div class="ug-grupo">
+        <div class="gt">Piezas <i>— interior y carrocería</i></div>
+        <ul>
+          <li>Escalones, torpedos, frentes y culatas, gargantas de aire y pasamanería</li>
+          <li>Dispositivos de perfilería de hierro y aluminio</li>
+          <li>Piezas de chapa plegada y corte láser</li>
+        </ul>
+      </div>
+      <div class="ug-grupo">
+        <div class="gt">Procesos y documentación</div>
+        <ul>
+          <li>Matrices y piezas en fibra de vidrio, termoformado y chapa metálica</li>
+          <li>Seguimiento de producción en planta</li>
+          <li>Optimización de procesos para economizar piezas existentes</li>
+          <li>Modelado 3D de ensambles y documentación técnica</li>
+        </ul>
+      </div>
     </div>
   </div>
   <div class="ug-gal">
+    <div class="lbl">La planta</div>
     <div id="ugGal"></div>
     <div class="ug-note">Pasá el mouse para frenar · clic para ampliar</div>
+  </div>
+</section>
+
+<section class="ug-obra">
+  <div class="lbl">Modelado y documentación</div>
+  <div class="grid">
+    <figure>
+      <img src="img/4.%20Ugarte/fotos/fotos%20modelado/perfileria.jpg" alt="Perfilería" style="--bgf:#9ca3ab" data-z="0">
+      <figcaption><div class="nm">Perfilería</div>
+        <div class="ds">Dispositivos de hierro y aluminio para ensamble</div></figcaption>
+    </figure>
+    <figure>
+      <img src="img/4.%20Ugarte/fotos/fotos%20modelado/frente.jpg" alt="Frente y culata" style="--bgf:#c6c6c6" data-z="1">
+      <figcaption><div class="nm">Frente y culata</div>
+        <div class="ds">Modelado y matricería en fibra de vidrio</div></figcaption>
+    </figure>
+    <figure>
+      <img src="img/4.%20Ugarte/fotos/fotos%20modelado/asientos.jpg" alt="Ensamble de asientos" style="--bgf:#c6c6c6" data-z="2">
+      <figcaption><div class="nm">Ensamble de asientos</div>
+        <div class="ds">Modelado 3D y documentación técnica</div></figcaption>
+    </figure>
+    <figure>
+      <img src="img/4.%20Ugarte/fotos/fotos%20modelado/ca%C3%B1os.jpg" alt="Pasamanería" style="--bgf:#9ca3ab" data-z="3">
+      <figcaption><div class="nm">Pasamanería</div>
+        <div class="ds">Estructura de caños y sujeciones</div></figcaption>
+    </figure>
   </div>
 </section>
 
@@ -284,6 +377,9 @@ const BASE=[
 "0f27f89b12a0b95c80531802970173d2.jpg","4f14bb0ad8e43e441d2695429865e32c.jpg"
 ].map(f=>P+f);
 
+/* Los cuatro modelados YA NO van intercalados en las cintas: viven en el
+   bloque .ug-obra, grandes y con epígrafe. El orden de este array tiene que
+   coincidir con el de las <figure> del HTML, porque de ahí sale su data-z. */
 const MODELADO=[
   "img/4.%20Ugarte/fotos/fotos%20modelado/perfileria.jpg",
   "img/4.%20Ugarte/fotos/fotos%20modelado/frente.jpg",
@@ -291,13 +387,12 @@ const MODELADO=[
   "img/4.%20Ugarte/fotos/fotos%20modelado/ca%C3%B1os.jpg"
 ];
 
-/* Intercala los modelados de forma pareja entre las fotografías */
-const FOTOS=(function(){
-  const out=BASE.slice();
-  const paso=Math.floor(out.length/(MODELADO.length+1));
-  MODELADO.forEach((m,i)=>out.splice(paso*(i+1)+i,0,m));
-  return out;
-})();
+/* Las cintas quedaron sólo con fotos de planta. */
+const FOTOS=BASE;
+
+/* El visor recorre primero los modelados y después la planta, así los data-z
+   de las <figure> (0 a 3) y los de las cintas caen en un único array. */
+const ZOOM=MODELADO.concat(FOTOS);
 
 const HP="img/4.%20Ugarte/fotos/header/";
 const HEADER=["1.jpg","2.webp","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg"].map(f=>HP+f);
@@ -328,10 +423,15 @@ const HEADER=["1.jpg","2.webp","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg"].map(f=>H
    El reparto es round-robin: cada foto vive en una sola cinta, así que
    nunca aparece repetida en pantalla. Se guarda el índice real para el zoom. */
 (function(){
-  const FILAS=3, VISTA=4;   /* tiene que coincidir con --vista del CSS */
+  /* VISTA sólo se usa para calcular cuántas veces repetir la lista. Va con el
+     valor MÁS ALTO que puede tomar --vista en el CSS (5): de más repeticiones
+     no pasa nada, de menos la pista no llega al doble de lo visible y el
+     bucle a -50% pega un salto al reiniciar. */
+  const FILAS=3, VISTA=5;
   const gal=document.querySelector('.ug-gal');
   const filas=Array.from({length:FILAS},()=>[]);
-  FOTOS.forEach((src,i)=>filas[i%FILAS].push({src:src,i:i}));
+  /* el índice guardado es el del array ZOOM, que arranca con los modelados */
+  FOTOS.forEach((src,i)=>filas[i%FILAS].push({src:src,i:i+MODELADO.length}));
 
   document.getElementById('ugGal').innerHTML=filas.map((fila,f)=>{
     /* se repite la lista lo necesario para cubrir el ancho; siempre un
@@ -350,14 +450,29 @@ const HEADER=["1.jpg","2.webp","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg"].map(f=>H
     im.addEventListener('click',()=>openZ(+im.dataset.z));
   });
 
+  /* El ancho de cada foto sale del ancho real de la columna, y el alto de las
+     cintas se empata con el de la columna de texto para que las dos cierren
+     parejas (con la lista agrupada el texto mide ~740px y las cintas quedaban
+     en 626: un hueco de 114px abajo).
+     Va por JS y no por CSS a propósito: el alto del texto cambia con el ancho
+     de la pantalla, así que ningún clamp fijo lo alcanza. Y va en un solo
+     sentido —texto manda, cintas obedecen— justamente para no entrar en el
+     bucle que da align-items:stretch. */
   /* el ancho de cada foto sale del ancho real de la columna */
   function medir(){
     const w=gal.getBoundingClientRect().width;
     if(w)gal.style.setProperty('--ancho',w+'px');
   }
   medir();
-  if(window.ResizeObserver)new ResizeObserver(medir).observe(gal);
-  else window.addEventListener('resize',medir);
+  /* el observer se guarda en una variable viva: sin referencia el navegador
+     lo puede juntar y las fotos quedan con el ancho del primer dibujado.
+     El listener de resize va igual, como red. */
+  if(window.ResizeObserver){
+    window.ugRO=new ResizeObserver(medir);
+    window.ugRO.observe(gal);
+  }
+  window.addEventListener('resize',medir);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(medir);
 })();
 
 /* zoom */
@@ -365,8 +480,13 @@ const zb=document.getElementById('ugZoom'), zim=document.getElementById('ugZoomI
 let zi=0;
 function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
 function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
-function paintZ(){zim.src=FOTOS[zi];zct.textContent=(zi+1)+' / '+FOTOS.length;}
-function stepZ(n){zi=(zi+n+FOTOS.length)%FOTOS.length;paintZ();}
+function paintZ(){zim.src=ZOOM[zi];zct.textContent=(zi+1)+' / '+ZOOM.length;}
+function stepZ(n){zi=(zi+n+ZOOM.length)%ZOOM.length;paintZ();}
+
+/* los modelados también abren el visor */
+document.querySelectorAll('.ug-obra img').forEach(im=>{
+  im.addEventListener('click',()=>openZ(+im.dataset.z));
+});
 zb.querySelector('.zc').addEventListener('click',closeZ);
 zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
 zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});

@@ -58,6 +58,12 @@
   border-radius:0 0 8px 8px;padding:20px clamp(20px,3vw,40px)}
 .pz-bar p{font-size:clamp(15px,1.5vw,18px);line-height:1.7;color:var(--fg-soft);margin:0}
 .pz-bar p strong{color:var(--fg);font-weight:500}
+.pz-bar .lead{color:var(--fg);font-weight:300}
+.pz-bar .lead strong{font-weight:600}
+/* mismo listado que la página de Indumentaria */
+.pz-lista{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+.pz-lista li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.65;color:var(--fg-soft)}
+.pz-lista li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--accent)}
 .pz-facts{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .pz-facts div{background:var(--bg);padding:18px 20px;display:flex;justify-content:space-between;align-items:baseline;gap:14px}
 .pz-facts b{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:400}
@@ -250,7 +256,18 @@
 
 <!-- barra pegada al header, como pie de la foto -->
 <section class="pz-bar">
-  <p>Desarrollo integral de la línea de calzado, pensada para distintas disciplinas: ruta, MTB, gravel y urbano.</p>
+  <p class="lead">Desarrollé la <strong>línea completa de indumentaria y calzado</strong> de Volta. Mi rol fue dirigir el proyecto, participando en:</p>
+  <ul class="pz-lista">
+    <li>Investigación de tendencias del mercado y propuesta de la línea de productos.</li>
+    <li>Realización del brief inicial y definición del alcance de toda la línea de productos.</li>
+    <li>Selección y gestión de proveedores.</li>
+    <li>Contacto con proveedores chinos para gestionar el desarrollo de muestras y sus iteraciones.</li>
+    <li>Seguimiento de muestras, modificaciones y avances hasta llegar al producto final.</li>
+    <li>Coordinación con los distintos equipos involucrados en el desarrollo para llevar adelante el proyecto de manera integral.</li>
+    <li>Dirección del lenguaje visual del producto junto a un equipo de diseñadores gráficos, definiendo su look &amp; feel para construir una identidad coherente con la marca.</li>
+    <li>Presentación y validación de los avances y desarrollos con la dirección de la empresa.</li>
+    <li>Planificación de la estrategia de lanzamiento.</li>
+  </ul>
 </section>
 
 <section class="pz-stage">
