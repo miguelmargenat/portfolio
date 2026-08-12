@@ -1,0 +1,350 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campeones — Migue.stl</title>
+<meta name="description" content="La bici más argentina de todas: identidad emocional y cultural.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Campeones — Volta">
+<meta property="og:description" content="La bici más argentina de todas: identidad emocional y cultural.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/campeones.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Campeones — Volta">
+<meta name="twitter:description" content="La bici más argentina de todas: identidad emocional y cultural.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ===== CAMPEONES ===== */
+
+/* fondo: grilla técnica */
+.cp-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.cp-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* encabezado */
+.cp-head{padding:158px 5vw 46px;position:relative}
+.cp-head .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:18px}
+.cp-head h1{font-family:var(--disp);font-size:clamp(38px,7vw,104px);font-weight:700;letter-spacing:-2.4px;line-height:.96}
+.cp-head h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+
+/* video: en horizontal va al costado del texto */
+.cp-vwrap{position:relative;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#000;
+  display:flex;justify-content:center}
+.cp-vwrap video{display:block;width:100%;height:auto;object-fit:contain}
+
+/* la pieza del Obelisco cierra el encabezado, a todo el ancho */
+.cp-keywrap{position:relative;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;
+  margin-top:34px}
+.cp-keywrap img{display:block;width:100%;height:auto}
+
+/* texto + video */
+.cp-intro{padding:30px 5vw 60px}
+/* En horizontal: arriba video y texto en una misma línea, y las dos cintas
+   debajo ocupando todo el ancho.
+   --alto lo manda el video, que es vertical 1080x1920: se toma el menor entre
+   el alto de la ventana y lo que da su columna, para que el texto de al lado
+   cierre a la misma altura. */
+@media(min-width:901px){
+  .cp-intro{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);
+    gap:0 30px;align-items:start;
+    --alto:min(clamp(460px,72vh,780px), 44vw)}
+  .cp-video{grid-column:1;grid-row:1}
+  /* la caja del texto llega hasta donde termina el video, así los dos cierran
+     al mismo nivel. El texto ocupa cerca de la mitad, así que va centrado y el
+     aire queda repartido arriba y abajo en vez de caer todo abajo.
+     min-height y no height: si algún día el texto crece, la caja lo sigue. */
+  .cp-txt{grid-column:2;grid-row:1;min-height:var(--alto);
+    display:flex;flex-direction:column;justify-content:center}
+  .cp-vwrap{max-height:var(--alto)}
+  .cp-vwrap video{max-height:var(--alto);width:auto;max-width:100%}
+  /* las cintas cruzan las dos columnas */
+  .cp-gal{grid-column:1 / -1;grid-row:2;padding:30px 0 0;min-width:0}
+  /* 3:2 es la proporción exacta de las fotos (6960x4640): así entran enteras.
+     Con recorte cuadrado se perdía un tercio del ancho y la bici quedaba
+     cortada de los dos lados. */
+  .cp-track img{width:345px;height:230px}
+}
+.cp-txt{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);
+  border-radius:0 8px 8px 0;padding:34px clamp(22px,3.4vw,46px);width:100%}
+.cp-txt p{font-size:clamp(16px,1.6vw,21px);line-height:1.75;color:var(--fg-soft);margin-bottom:18px;max-width:none}
+.cp-txt p:first-child{color:var(--fg);font-weight:300}
+.cp-txt p:last-child{margin-bottom:0}
+.cp-txt p strong{color:var(--fg);font-weight:600}
+.cp-sound{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:3;
+  display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;cursor:pointer;
+  font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;
+  background:rgba(12,12,11,.72);border:1px solid var(--line-strong);color:#fff;backdrop-filter:blur(5px);
+  transition:border-color .3s,background .3s}
+.cp-sound:hover{border-color:var(--accent);background:rgba(232,85,58,.8)}
+.cp-vcap{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--fg-soft);margin-top:12px;opacity:.75}
+
+/* cinta de fotos */
+.cp-gal{padding:20px 5vw 40px;overflow:hidden}
+.cp-gal .g-head{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:20px}
+.cp-row{overflow:hidden;margin-bottom:10px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.cp-track{display:flex;gap:10px;width:max-content;animation:cpParade 52s linear infinite}
+.cp-row.rev .cp-track{animation-direction:reverse;animation-duration:64s}
+.cp-row:hover .cp-track{animation-play-state:paused}
+@keyframes cpParade{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.cp-track img{width:250px;height:250px;object-fit:cover;border-radius:4px;background:var(--bg-3);cursor:pointer;flex-shrink:0;transition:transform .4s var(--ease),filter .4s}
+.cp-track img:hover{transform:scale(1.04);filter:brightness(1.1)}
+.cp-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-soft);margin-top:14px;opacity:.7}
+
+/* fila de videos de TikTok */
+.cp-tok{padding:34px 5vw 20px}
+.cp-tok .t-head{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:20px}
+.cp-tokrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.cp-slot{min-height:560px;background:var(--bg-3);border-radius:8px;position:relative;overflow:hidden}
+.cp-slot::after{content:"cargando…";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--fg-soft)}
+.cp-slot[data-loaded]{min-height:0;background:transparent}
+.cp-slot[data-loaded]::after{display:none}
+.cp-tokrow .tiktok-embed{margin:0!important;min-width:0!important;max-width:100%!important}
+@media(max-width:900px){.cp-tokrow{grid-template-columns:1fr;max-width:420px;margin:0 auto}}
+
+/* separadores punteados */
+.fx-dash{height:1px;margin:0 5vw;background-image:linear-gradient(90deg,rgba(245,242,234,.28) 50%,transparent 50%);background-size:12px 1px;animation:fxDash 3.2s linear infinite}
+.fx-dash.rev{background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);animation-duration:4.6s;animation-direction:reverse}
+@keyframes fxDash{to{background-position:60px 0}}
+
+/* zoom */
+.cp-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.cp-zoom.on{opacity:1;visibility:visible}
+.cp-zoom img{max-width:88vw;max-height:86vh;object-fit:contain;border-radius:4px}
+.cp-zoom button{position:absolute;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;border-radius:50%;transition:border-color .3s,background .3s}
+.cp-zoom .zc{top:22px;right:4vw;width:46px;height:46px;font-size:18px}
+.cp-zoom .zp,.cp-zoom .zn{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:24px}
+.cp-zoom .zp{left:3vw}.cp-zoom .zn{right:3vw}
+.cp-zoom button:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.cp-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+
+.cp-back{display:inline-flex;align-items:center;gap:10px;margin:0 5vw 90px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.cp-back:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:900px){
+  .cp-head{padding:126px 6vw 32px}
+  .cp-head h1{letter-spacing:-1.5px}
+  /* en vertical el video baja debajo del texto */
+  .cp-intro{padding:24px 6vw 44px}
+  .cp-txt{padding:24px 20px}
+  .cp-video{margin-top:20px}
+  .cp-vwrap{max-height:78vh}
+  .cp-vwrap video{max-height:78vh;width:auto;max-width:100%}
+  .cp-gal{margin-top:24px;padding:0}
+  .cp-keywrap{margin-top:26px}
+  .cp-back{margin:0 6vw 64px}
+}
+@media(max-width:640px){
+  .cp-track img{width:180px;height:180px}
+  .cp-zoom .zp,.cp-zoom .zn{width:42px;height:42px;font-size:20px}
+  .cp-zoom .zp{left:8px}.cp-zoom .zn{right:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="cp-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<header class="cp-head">
+  <span class="eyebrow">Volta · López Hermanos</span>
+  <h1>Campeones</h1>
+  <div class="cp-keywrap" id="cpKey">
+    <img src="img/3.%20Volta/4.5%20campeones/fotografias/web-02.jpg" alt="La bici Campeones en el Obelisco">
+  </div>
+</header>
+
+<div class="fx-dash"></div>
+
+<section class="cp-intro">
+  <div class="cp-txt">
+    <p>El desafío nunca fue solamente lanzar una bicicleta con una gráfica inspirada en el Mundial. La conversación siempre iba más por otro lado: cómo transmitir ese orgullo colectivo y esa emoción que todos vivimos de una manera tan argentina.</p>
+    <p>Ahí es donde el diseño de producto se pone interesante, cuando también puede ayudar a construir una <strong>identidad emocional y cultural</strong>, no solo algo funcional. En conjunto con el estudio Pileta logramos convertir toda esa intención en una identidad clara y con mucho carácter.</p>
+  </div>
+  <div class="cp-video">
+    <div class="cp-vwrap">
+      <video id="cpVideo" muted loop playsinline preload="metadata"
+             src="img/3.%20Volta/4.5%20campeones/fotografias/video%20de%20Lanzamiento.mp4"></video>
+      <button class="cp-sound" id="cpSound"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+    </div>
+    <div class="cp-vcap">Video de lanzamiento</div>
+  </div>
+  <section class="cp-gal">
+    <div class="g-head">La bicicleta</div>
+    <div id="cpGal"></div>
+    <div class="cp-note">Pasá el mouse para frenar · clic para ampliar</div>
+  </section>
+</section>
+
+<section class="cp-tok">
+  <div class="t-head">En redes</div>
+  <div class="cp-tokrow" id="cpTok"></div>
+</section>
+
+<div class="cp-zoom" id="cpZoom">
+  <button class="zc" aria-label="Cerrar">✕</button>
+  <button class="zp" aria-label="Anterior">‹</button>
+  <img id="cpZoomImg" src="" alt="">
+  <button class="zn" aria-label="Siguiente">›</button>
+  <span class="zct" id="cpZoomCount"></span>
+</div>
+
+<a href="experiencia.html" class="cp-back">← Volver a Portfolio</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+const AP="img/3.%20Volta/4.5%20campeones/fotografias/Alta%20calidad/";
+const FOTOS=[
+ "1012487.jpg","1012487%20(1).jpg","1012487%20(2).jpg","1012487%20(3).jpg",
+ "1012487%20(4).jpg","1012487%20(5).jpg","1012487%20(6).jpg","1012487%20(7).jpg",
+ "1012487%20(8).jpg","1012487%20(9).jpg","1012487%20(10).jpg",
+ "IMG_7197.jpg","IMG_7198.jpg"
+].map(f=>AP+f);
+
+/* la pieza gráfica también entra en el visor, al final */
+const ZOOM=FOTOS.concat([document.querySelector('#cpKey img').getAttribute('src')]);
+
+
+/* video: arranca solo al entrar en pantalla, muteado */
+(function(){
+  const v=document.getElementById('cpVideo'), b=document.getElementById('cpSound');
+  const vio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting) v.play().catch(()=>{}); else v.pause();
+  }),{threshold:.3});
+  vio.observe(v);
+  function paint(){
+    b.querySelector('.ic').textContent = v.muted ? '🔇' : '🔊';
+    b.querySelector('.tx').textContent = v.muted ? 'Activar sonido' : 'Desactivar sonido';
+  }
+  b.addEventListener('click',()=>{ v.muted=!v.muted; if(!v.muted)v.volume=1; v.play().catch(()=>{}); paint(); });
+  paint();
+})();
+
+/* cinta de fotos en dos filas */
+(function(){
+  const half=Math.ceil(FOTOS.length/2);
+  const rows=[FOTOS.slice(0,half),FOTOS.slice(half)];
+  let base=0;
+  document.getElementById('cpGal').innerHTML=rows.map((row,r)=>{
+    const desde=base; base+=row.length;
+    const cells=row.concat(row).map((src,n)=>
+      '<img src="'+src+'" alt="Bicicleta Campeones" loading="lazy" data-z="'+(desde+n%row.length)+'">'
+    ).join('');
+    return '<div class="cp-row'+(r===1?' rev':'')+'"><div class="cp-track">'+cells+'</div></div>';
+  }).join('');
+  document.querySelectorAll('.cp-track img').forEach(im=>{
+    im.addEventListener('error',()=>im.remove());
+    im.addEventListener('click',()=>openZ(+im.dataset.z));
+  });
+})();
+
+/* zoom */
+const zb=document.getElementById('cpZoom'), zim=document.getElementById('cpZoomImg'), zct=document.getElementById('cpZoomCount');
+let zi=0;
+function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
+function paintZ(){zim.src=ZOOM[zi];zct.textContent=(zi+1)+' / '+ZOOM.length;}
+function stepZ(n){zi=(zi+n+ZOOM.length)%ZOOM.length;paintZ();}
+zb.querySelector('.zc').addEventListener('click',closeZ);
+zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
+zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
+zb.addEventListener('click',e=>{if(e.target===zb)closeZ();});
+document.getElementById('cpKey').addEventListener('click',()=>openZ(ZOOM.length-1));
+document.addEventListener('keydown',e=>{
+  if(!zb.classList.contains('on'))return;
+  if(e.key==='Escape')closeZ();
+  if(e.key==='ArrowRight')stepZ(1);
+  if(e.key==='ArrowLeft')stepZ(-1);
+});
+
+/* Videos de TikTok, con carga diferida como los embeds de Instagram.
+   Igual que aquellos, no cargan abriendo el archivo con doble clic (file://):
+   necesitan que la página esté servida por http. */
+(function(){
+  const TOK=[
+    {u:"https://www.tiktok.com/@topmega_oficial_arg/video/7659885901027216658", id:"7659885901027216658"},
+    {u:"https://www.tiktok.com/@topmega_oficial_arg/video/7655744068063890706", id:"7655744068063890706"},
+    {u:"https://www.tiktok.com/@topmega_oficial_arg/video/7642797512587283719", id:"7642797512587283719"}
+  ];
+  const row=document.getElementById('cpTok');
+  if(!row)return;
+  row.innerHTML=TOK.map(t=>'<div class="cp-slot" data-u="'+t.u+'" data-id="'+t.id+'"></div>').join('');
+
+  let cargado=false;
+
+  /* Carga diferida al acercarse a la pantalla */
+  const ioCarga=new IntersectionObserver(es=>es.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const s=e.target;
+    if(!s.dataset.loaded){
+      s.dataset.loaded='1';
+      s.innerHTML='<blockquote class="tiktok-embed" cite="'+s.dataset.u+'" '+
+        'data-video-id="'+s.dataset.id+'" style="max-width:100%;min-width:0">'+
+        '<section><a href="'+s.dataset.u+'" target="_blank" rel="noopener">Ver en TikTok ↗</a></section></blockquote>';
+      if(!cargado){
+        cargado=true;
+        const sc=document.createElement('script');
+        sc.async=true; sc.src='https://www.tiktok.com/embed.js';
+        document.body.appendChild(sc);
+      }
+    }
+    ioCarga.unobserve(s);
+  }),{rootMargin:'500px 0px',threshold:.01});
+  row.querySelectorAll('.cp-slot').forEach(s=>ioCarga.observe(s));
+
+  /* Al salir de pantalla se recarga el iframe: es la única manera de cortar
+     la reproducción, porque el reproductor de TikTok es de otro dominio y no
+     acepta órdenes de play/pausa desde la página. */
+  const ioPausa=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting)return;
+    const f=e.target.querySelector('iframe');
+    if(f&&f.src)f.src=f.src;
+  }),{threshold:.15});
+  row.querySelectorAll('.cp-slot').forEach(s=>ioPausa.observe(s));
+
+  /* Lo mismo si la persona cambia de pestaña o minimiza la ventana */
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      row.querySelectorAll('.cp-slot iframe').forEach(f=>{if(f.src)f.src=f.src;});
+    }
+  });
+})();
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

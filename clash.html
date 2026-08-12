@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clash · Volta Kids — Migue.stl</title>
+<meta name="description" content="Línea de bicicletas para chicos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Clash · Línea infantil — Volta">
+<meta property="og:description" content="Línea de bicicletas para chicos.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/clash.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Clash · Línea infantil — Volta">
+<meta name="twitter:description" content="Línea de bicicletas para chicos.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ===== CLASH · Volta Kids =====
+   Las fotos de las bicis vienen sobre negro pleno, así que toda la página
+   adopta ese mismo negro: de otro modo se recorta el rectángulo de la foto
+   contra el fondo, que es apenas más claro. */
+body{--bg:#000;--bg-2:#0a0a0a;--bg-3:#101010;background:#000}
+
+/* fondo: grilla técnica */
+.cl-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.cl-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* encabezado sólo de texto */
+.cl-head{padding:150px 5vw 34px}
+.cl-head .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:16px}
+.cl-head h1{font-family:var(--disp);font-size:clamp(30px,5vw,64px);font-weight:700;letter-spacing:-2px;line-height:1}
+.cl-head h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+
+/* barra de texto */
+.cl-bar{margin:0 5vw;background:var(--bg-2);border:1px solid var(--line);
+  border-left:2px solid var(--accent);border-radius:0 8px 8px 0;
+  padding:22px clamp(20px,3vw,40px)}
+.cl-bar p{font-size:clamp(15px,1.5vw,18px);line-height:1.7;color:var(--fg-soft);margin:0}
+.cl-bar p + p{margin-top:14px}
+.cl-bar strong{color:var(--fg);font-weight:500}
+
+/* ===== bloque por rodado: visor + variantes ===== */
+/* En horizontal los dos rodados van lado a lado, así el ancho se reparte
+   y las bicis no quedan enormes una debajo de la otra. */
+.cl-mods{padding:44px 5vw 10px}
+@media(min-width:1000px){
+  .cl-mods{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,3vw,50px);align-items:start}
+  .cl-mods .fx-dash{display:none}
+  .cl-mod{padding:0}
+}
+.cl-mod{padding:44px 5vw 10px}
+.cl-top{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);
+  padding-bottom:12px;margin-bottom:18px}
+.cl-top .r{font-family:var(--disp);font-size:clamp(20px,2.4vw,30px);font-weight:700;letter-spacing:-1px}
+.cl-top .k{font-family:var(--mono);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.cl-top .c{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:1.6px;color:var(--fg-soft)}
+
+/* Las fotos ya vienen sobre negro, así que el visor no lleva caja:
+   la bici se apoya directo sobre la página. */
+.cl-view{position:relative;height:clamp(230px,34vh,380px);display:flex;align-items:center;justify-content:center}
+.cl-view img{position:absolute;max-width:96%;max-height:100%;object-fit:contain;
+  opacity:0;transition:opacity .8s var(--ease)}
+.cl-view img.on{opacity:1}
+
+.cl-sel{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.cl-sel button{background:none;border:0;border-top:2px solid transparent;cursor:pointer;
+  font-family:inherit;color:var(--fg-soft);padding:12px 8px 10px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  transition:color .3s,border-color .4s var(--ease),background .35s}
+.cl-sel button:hover{color:var(--fg);background:rgba(245,242,234,.03)}
+.cl-sel button.on{color:var(--fg);border-top-color:var(--accent);background:rgba(232,85,58,.05)}
+.cl-sel img{width:100%;height:74px;object-fit:contain;transition:transform .45s var(--ease)}
+.cl-sel button:hover img{transform:translateY(-4px)}
+.cl-sel .nm{font-family:var(--mono);font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase}
+
+/* separadores punteados */
+.fx-dash{height:1px;margin:0 5vw;background-image:linear-gradient(90deg,rgba(245,242,234,.28) 50%,transparent 50%);background-size:12px 1px;animation:fxDash 3.2s linear infinite}
+.fx-dash.rev{background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);animation-duration:4.6s;animation-direction:reverse}
+@keyframes fxDash{to{background-position:60px 0}}
+
+.cl-back{display:inline-flex;align-items:center;gap:10px;margin:50px 5vw 90px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.cl-back:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:900px){
+  .cl-head{padding:120px 6vw 26px}
+  .cl-bar{margin:0 6vw;padding:20px}
+  .cl-mods{padding:0}
+  .cl-mod{padding:32px 6vw 8px}
+  .cl-view{height:clamp(190px,32vh,300px)}
+  .cl-sel img{height:56px}
+  .cl-sel .nm{font-size:8.5px;letter-spacing:1px}
+  .cl-back{margin:36px 6vw 64px}
+}
+</style>
+</head>
+<body>
+
+<div class="cl-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<header class="cl-head">
+  <span class="eyebrow">Volta · López Hermanos</span>
+  <h1>Clash <em>Volta Kids</em></h1>
+</header>
+
+<section class="cl-bar">
+  <p>Desarrollo de la <strong>línea infantil</strong> de la marca, con dos rodados y tres variantes de color en cada uno.</p>
+</section>
+
+<div class="cl-mods" id="clMods"></div>
+
+<div class="fx-dash rev"></div>
+
+<a href="experiencia.html" class="cl-back">← Volver a Portfolio</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+const B="img/3.%20Volta/4.%20kids%20CLASH/Fotos%20bicicletas%20ia/";
+
+const RODADOS=[
+  {
+    r:'Rodado 20"',
+    k:"Horquilla rígida",
+    variantes:[
+      {nm:"Naranja", src:B+"20%20naranja%20edit.jpg"},
+      {nm:"Rojo",    src:B+"20%20rojo.jpg"},
+      {nm:"Verde",   src:B+"20%20verde%20edit.jpg"}
+    ]
+  },
+  {
+    r:'Rodado 24"',
+    k:"Horquilla con suspensión",
+    variantes:[
+      {nm:"Blanco",     src:B+"24%20blanco%20edit.jpg"},
+      {nm:"Naranja",    src:B+"24%20naranja.jpg"},
+      {nm:"Full black", src:B+"24%20full%20black.jpg"}
+    ]
+  }
+];
+
+document.getElementById('clMods').innerHTML=RODADOS.map((g,n)=>{
+  const visor=g.variantes.map((v,i)=>
+    '<img src="'+v.src+'" alt="Clash '+g.r+' '+v.nm+'"'+(i===0?' class="on"':'')+'>').join('');
+  const sel=g.variantes.map((v,i)=>
+    '<button data-i="'+i+'"'+(i===0?' class="on"':'')+'>'
+    +'<img src="'+v.src+'" alt="" loading="lazy">'
+    +'<span class="nm">'+v.nm+'</span></button>').join('');
+  return (n?'<div class="fx-dash"></div>':'')
+    +'<section class="cl-mod">'
+    +'<div class="cl-top"><span class="k">'+g.k+'</span><span class="r">'+g.r+'</span>'
+      +'<span class="c">3 colores</span></div>'
+    +'<div class="cl-view">'+visor+'</div>'
+    +'<div class="cl-sel">'+sel+'</div>'
+    +'</section>';
+}).join('');
+
+/* Cada bloque rota sus colores cada 3 segundos, y el clic manda:
+   al elegir un color el conteo vuelve a empezar. */
+document.querySelectorAll('.cl-mod').forEach(mod=>{
+  const imgs=mod.querySelectorAll('.cl-view img');
+  const bs=mod.querySelectorAll('.cl-sel button');
+  let i=0,iv=null;
+
+  function ir(n){
+    i=(n+imgs.length)%imgs.length;
+    imgs.forEach((im,k)=>im.classList.toggle('on',k===i));
+    bs.forEach((x,k)=>x.classList.toggle('on',k===i));
+  }
+  function arrancar(){clearInterval(iv);iv=setInterval(()=>ir(i+1),3000);}
+
+  bs.forEach(b=>b.addEventListener('click',()=>{ir(+b.dataset.i);arrancar();}));
+  arrancar();
+});
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

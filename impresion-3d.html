@@ -1,0 +1,336 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impresión 3D — Migue.stl</title>
+<meta name="description" content="Objetos y luminarias diseñados e impresos en 3D.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Impresión 3D — Pantano y Lunfardo">
+<meta property="og:description" content="Objetos y luminarias diseñados e impresos en 3D.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/impresion-3d.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Impresión 3D — Pantano y Lunfardo">
+<meta name="twitter:description" content="Objetos y luminarias diseñados e impresos en 3D.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* fondo: trama paramétrica que respira (anillos, como las piezas impresas) */
+.lf-bg{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden}
+.lf-bg .rings{position:absolute;inset:-25%;
+  background-image:repeating-radial-gradient(circle at 50% 45%,rgba(245,242,234,.05) 0 1px,transparent 1px 46px);
+  animation:lfBreath 26s ease-in-out infinite alternate;
+  -webkit-mask-image:radial-gradient(ellipse 90% 78% at 50% 42%,#000 0%,transparent 86%);
+  mask-image:radial-gradient(ellipse 90% 78% at 50% 42%,#000 0%,transparent 86%)}
+@keyframes lfBreath{to{transform:scale(1.14)}}
+
+/* franja de capas de impresión con barrido del cabezal */
+.lf-strata{position:relative;height:18px;overflow:hidden;z-index:2;
+  background:repeating-linear-gradient(180deg,rgba(245,242,234,.14) 0 1px,transparent 1px 3px);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.lf-strata::after{content:"";position:absolute;top:0;bottom:0;width:190px;left:-190px;
+  background:linear-gradient(90deg,transparent,rgba(232,85,58,.55),transparent);
+  animation:lfHead 7s linear infinite}
+.lf-strata.slow::after{animation-duration:11s;animation-direction:reverse}
+@keyframes lfHead{to{left:100%}}
+
+/* encabezado sólo de texto */
+.lf-head{padding:150px 5vw 40px;position:relative}
+.lf-head .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:18px}
+.lf-head h1{font-family:var(--disp);font-size:clamp(30px,4.6vw,64px);font-weight:700;letter-spacing:-1.6px;line-height:1;white-space:nowrap}
+.lf-head h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+
+/* secuencia de fotos, al costado del texto */
+.lf-side{display:flex;flex-direction:column;gap:16px}
+.lf-shots{position:relative;aspect-ratio:1/1;border:1px solid var(--line);border-radius:8px;
+  overflow:hidden;background:var(--bg-2);cursor:pointer}
+.lf-shots .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s var(--ease)}
+.lf-shots .slide.on{opacity:1}
+/* "contain": la foto se ve entera, sin recorte */
+.lf-shots .slide img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:contain;object-position:center}
+.lf-dots{position:absolute;left:16px;bottom:14px;z-index:3;display:flex;gap:5px;flex-wrap:wrap}
+.lf-dots span{width:18px;height:2px;background:rgba(245,242,234,.32);transition:background .4s;cursor:pointer}
+.lf-dots span.on{background:var(--accent)}
+
+/* galería desfile */
+.lf-gal{overflow:hidden}
+.lf-gal.top{padding:56px 5vw 0}
+.lf-gal.bottom{padding:0 5vw 20px}
+.lf-row{overflow:hidden;margin-bottom:10px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.lf-track{display:flex;gap:10px;width:max-content;animation:lfParade 52s linear infinite}
+.lf-row.rev .lf-track{animation-direction:reverse;animation-duration:64s}
+.lf-row:hover .lf-track{animation-play-state:paused}
+@keyframes lfParade{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.lf-track img{width:250px;height:170px;object-fit:cover;border-radius:4px;background:var(--bg-3);cursor:pointer;flex-shrink:0;transition:transform .4s var(--ease),filter .4s}
+.lf-track img:hover{transform:scale(1.04);filter:brightness(1.1)}
+.lf-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-soft);margin-top:12px;opacity:.7}
+
+/* intro + lista */
+.lf-intro{display:grid;grid-template-columns:1.3fr .9fr;gap:34px;
+  padding:34px 5vw 34px;align-items:start}
+.lf-box{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);border-radius:0 8px 8px 0;
+  padding:34px clamp(22px,3.4vw,46px);width:100%;margin-bottom:0}
+.lf-box p{font-size:clamp(16px,1.5vw,21px);line-height:1.7;color:var(--fg);margin:0;font-weight:300;max-width:90ch}
+.lf-box p + p{margin-top:20px;font-size:clamp(15px,1.28vw,18px);color:var(--fg-soft)}
+.lf-box .yr{font-family:var(--mono);font-size:.72em;letter-spacing:1.6px;color:var(--accent);margin-right:8px;white-space:nowrap}
+
+/* zoom */
+.lf-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.lf-zoom.on{opacity:1;visibility:visible}
+.lf-zoom img{max-width:88vw;max-height:86vh;object-fit:contain;border-radius:4px}
+.lf-zoom button{position:absolute;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;border-radius:50%;transition:border-color .3s,background .3s}
+.lf-zoom .zc{top:22px;right:4vw;width:46px;height:46px;font-size:18px}
+.lf-zoom .zp,.lf-zoom .zn{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:24px}
+.lf-zoom .zp{left:3vw}.lf-zoom .zn{right:3vw}
+.lf-zoom button:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.lf-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+
+/* reels */
+.lf-reels{padding:24px 5vw 60px}
+.lf-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.lf-slot{min-height:440px;background:var(--bg-3);border-radius:6px;position:relative;overflow:hidden}
+.lf-slot::after{content:"cargando…";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--fg-soft)}
+.lf-slot[data-loaded]{min-height:0;background:transparent}
+.lf-slot[data-loaded]::after{display:none}
+.lf-grid .instagram-media{margin:0!important;min-width:0!important;width:100%!important}
+
+.lf-back{display:inline-flex;align-items:center;gap:10px;margin:0 5vw 80px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.lf-back:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:1400px){.lf-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1100px){.lf-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:900px){
+  .lf-head{padding:120px 6vw 28px}
+  /* en vertical las fotos van primero, antes del texto */
+  .lf-intro{grid-template-columns:1fr;gap:22px;padding:26px 6vw 26px}
+  .lf-side{order:-1}
+  .lf-shots{aspect-ratio:4/3}
+  .lf-box{padding:24px 20px;margin-bottom:0}
+  .lf-reels{padding-left:6vw;padding-right:6vw}
+  .lf-gal.top{padding:40px 6vw 0}
+  .lf-gal.bottom{padding:0 6vw 16px}
+  .lf-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .lf-back{margin:0 6vw 60px}
+}
+@media(max-width:640px){
+  .lf-track img{width:170px;height:120px}
+  .lf-zoom .zp,.lf-zoom .zn{width:42px;height:42px;font-size:20px}
+  .lf-zoom .zp{left:8px}.lf-zoom .zn{right:8px}
+}
+@media(max-width:560px){
+  .lf-procgrid{grid-template-columns:1fr}
+  .lf-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="lf-bg"><div class="rings"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<div class="lf-strata"></div>
+
+<header class="lf-head">
+  <span class="eyebrow">Pantano · Lunfardo</span>
+  <h1>Impresión <em>3D</em></h1>
+</header>
+
+<div class="lf-strata slow"></div>
+
+<section class="lf-gal top">
+  <div id="lfGalA"></div>
+</section>
+
+<section class="lf-intro">
+  <div class="lf-box">
+    <p>En el 2020 cofundé Pantano, una marca de diseño enfocada en desarrollar productos innovadores para comercializarlos en tiendas de toda Argentina. Con el tiempo, ese proyecto evolucionó hasta convertirse en Lunfardo, una marca dedicada a la comercialización global de licencias de archivos para impresión 3D.</p>
+    <p>Durante la etapa de Pantano estuve a cargo de la gestión integral de la marca como el desarrollo de la identidad, el diseño de los productos y la gestión del e-commerce. Con la transformación hacia Lunfardo, mi trabajo pasó a centrarse exclusivamente en la dirección del catálogo de productos, en la producción de fotografía y video para comunicar cada nuevo lanzamiento.</p>
+  </div>
+  <aside class="lf-side">
+    <div class="lf-shots" id="lfShots">
+      <div class="lf-dots" id="lfDots"></div>
+    </div>
+  </aside>
+</section>
+
+<section class="lf-gal bottom">
+  <div id="lfGalB"></div>
+  <div class="lf-note">Pasá el mouse para frenar · clic para ampliar</div>
+</section>
+
+<section class="lf-reels">
+  <div class="lf-grid" id="lfGrid"></div>
+</section>
+
+<div class="lf-zoom" id="lfZoom">
+  <button class="zc" aria-label="Cerrar">✕</button>
+  <button class="zp" aria-label="Anterior">‹</button>
+  <img id="lfZoomImg" src="" alt="">
+  <button class="zn" aria-label="Siguiente">›</button>
+  <span class="zct" id="lfZoomCount"></span>
+</div>
+
+<a href="experiencia.html" class="lf-back">← Volver a Experiencia</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script async src="https://www.instagram.com/embed.js"></script>
+<script>
+/* Header: "imagenes portada / Lunfardo / selección".
+   "p" es el punto de foco de cada foto: dónde está el producto dentro de la
+   imagen. El recorte del header se ancla ahí, así el objeto nunca queda fuera. */
+const HP="img/0.%20Experiencia/imagenes%20portada/Lunfardo/selecci%C3%B3n/";
+const HERO=[
+ {f:"final1-3.jpg",              p:"50% 62%"},  /* grupo de vasos, base abajo */
+ {f:"final1-107.jpg",            p:"50% 50%"},  /* maceta negra, llena el cuadro */
+ {f:"final1-108.jpg",            p:"42% 60%"},  /* maceta roja en mano */
+ {f:"Tanda2-5.jpg",              p:"50% 72%"},  /* maceta beige sobre la mesa */
+ {f:"Tanda2-15.jpg",             p:"52% 40%"},  /* maceta verde sobre banqueta */
+ {f:"Tanda2-40.jpg",             p:"48% 46%"},  /* pieza verde en mano */
+ {f:"pantano%20edit%202.jpg",    p:"30% 74%"},  /* maceta amarilla, abajo izq. */
+ {f:"Editadas3-5.JPG",           p:"35% 76%"},  /* maceta negra, abajo izq. */
+ {f:"Editadas3-6.JPG",           p:"37% 74%"},  /* maceta amarilla, abajo izq. */
+ {f:"Editadas3-8.JPG",           p:"39% 80%"},  /* maceta roja, abajo izq. */
+ {f:"Editadas3-12.JPG",          p:"62% 78%"},  /* maceta terracota, abajo der. */
+ {f:"PantanoSeptiembre-7.JPG",   p:"62% 64%"},  /* mate verde en la bandeja */
+ {f:"VULCA%20MATE%2001.JPG",     p:"48% 48%"},  /* mate rojo en mano */
+ {f:"HELENA%20VASE%203%201080.jpg",p:"48% 58%"} /* florero negro en mano */
+].map(o=>({src:HP+o.f,pos:o.p}));
+
+/* Carrete: "5. Pantano / fotos / carrete" */
+const P="img/5.%20Pantano/fotos/carrete/";
+const FOTOS=[
+"1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg","8.jpg","9.jpg",
+"14%201080x1350.jpg",
+"CORA%20LAMP%206%201350.jpg","CORA%20LAMP%207%201080.jpg",
+"EVE%208%201920.jpg",
+"FIORE%20LAMP%205%201080.jpg",
+"FLORENTINA%20LAMP%208%201920.jpg",
+"HELENA%20VASE%203%201080.jpg",
+"LOLA%202%201920.jpg",
+"SOFIA%20WALL%20LAMP%205%201920.jpg",
+"VULCA%20MATE%2001.JPG","VULCA%20MATE%2005.JPG",
+"Editadas3-12.JPG","PantanoSeptiembre-7.JPG",
+"final1-107.jpg","final1-108.jpg"
+].map(f=>P+f);
+
+const REELS=[
+"https://www.instagram.com/p/DC8SJ_tvctQ/","https://www.instagram.com/p/DLWR82Qt-UR/",
+"https://www.instagram.com/p/DLJaA9sNRF8/","https://www.instagram.com/p/DKn7rgWJy-M/",
+"https://www.instagram.com/p/DKhajCGM46C/","https://www.instagram.com/p/DKOLwfbNOMp/",
+"https://www.instagram.com/p/DKBTyvFNqKi/","https://www.instagram.com/p/DJdQnC2JZBh/",
+"https://www.instagram.com/p/DJk-_w0NID4/","https://www.instagram.com/p/DJrZkLftPLz/",
+"https://www.instagram.com/p/DJ8KMNet3O2/","https://www.instagram.com/p/DJYHFdsJv9b/",
+"https://www.instagram.com/p/DJLPG_kNMu6/","https://www.instagram.com/p/DJHfvf_tQCd/",
+"https://www.instagram.com/p/DIQAvaOJeeN/","https://www.instagram.com/p/DE_L6bqvZnI/",
+"https://www.instagram.com/p/DBAyVCBsPvJ/","https://www.instagram.com/p/DAxAw95tfvh/",
+"https://www.instagram.com/p/DAPzHUqMpp5/","https://www.instagram.com/p/C_5fmdhPmHn/",
+"https://www.instagram.com/p/C_lHHi1uGfD/","https://www.instagram.com/p/C-ojQT8tYnt/",
+"https://www.instagram.com/p/C96bWTmt2Za/","https://www.instagram.com/p/C-Mb_m1tsLK/",
+"https://www.instagram.com/p/C9WZDkDtC2h/","https://www.instagram.com/p/C7LIwMQOjZX/"];
+
+/* secuencia de fotos al costado del texto */
+(function(){
+  const hero=document.getElementById('lfShots'), dots=document.getElementById('lfDots');
+  const frag=document.createDocumentFragment();
+  HERO.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='slide'+(i===0?' on':'');
+    d.innerHTML='<img src="'+o.src+'" alt="Impresión 3D — Pantano y Lunfardo">';
+    frag.appendChild(d);
+    const s=document.createElement('span'); if(i===0)s.className='on'; dots.appendChild(s);
+  });
+  hero.insertBefore(frag,hero.firstChild);
+  const sl=hero.querySelectorAll('.slide'), mk=dots.querySelectorAll('span');
+  let i=0,iv=null;
+  function go(n){sl[i].classList.remove('on');mk[i].classList.remove('on');i=(n+sl.length)%sl.length;sl[i].classList.add('on');mk[i].classList.add('on');}
+  function start(){clearInterval(iv);iv=setInterval(()=>go(i+1),3600);}
+  start();
+  hero.addEventListener('click',e=>{if(e.target.closest('a,button'))return;go(i+1);start();});
+  mk.forEach((s,n)=>s.addEventListener('click',e=>{e.stopPropagation();go(n);start();}));
+})();
+
+/* galería desfile en dos filas */
+(function(){
+  const half=Math.ceil(FOTOS.length/2);
+  const rows=[FOTOS.slice(0,half),FOTOS.slice(half)];
+  const dest=['lfGalA','lfGalB'];
+  rows.forEach((row,r)=>{
+    const cells=row.concat(row).map(src=>
+      '<img src="'+src+'" alt="Lunfardo" loading="lazy" data-z="'+FOTOS.indexOf(src)+'">'
+    ).join('');
+    document.getElementById(dest[r]).innerHTML=
+      '<div class="lf-row'+(r===1?' rev':'')+'"><div class="lf-track">'+cells+'</div></div>';
+  });
+  document.querySelectorAll('.lf-track img').forEach(im=>{
+    im.addEventListener('error',()=>im.remove());
+    im.addEventListener('click',()=>openZ(+im.dataset.z));
+  });
+})();
+
+/* zoom */
+const zb=document.getElementById('lfZoom'), zim=document.getElementById('lfZoomImg'), zct=document.getElementById('lfZoomCount');
+let zi=0;
+function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
+function paintZ(){zim.src=FOTOS[zi];zct.textContent=(zi+1)+' / '+FOTOS.length;}
+function stepZ(n){zi=(zi+n+FOTOS.length)%FOTOS.length;paintZ();}
+zb.querySelector('.zc').addEventListener('click',closeZ);
+zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
+zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
+zb.addEventListener('click',e=>{if(e.target===zb)closeZ();});
+document.addEventListener('keydown',e=>{
+  if(!zb.classList.contains('on'))return;
+  if(e.key==='Escape')closeZ();
+  if(e.key==='ArrowRight')stepZ(1);
+  if(e.key==='ArrowLeft')stepZ(-1);
+});
+
+/* reels con carga progresiva */
+const grid=document.getElementById('lfGrid');
+grid.innerHTML=REELS.map(u=>'<div class="lf-slot" data-url="'+u+'"></div>').join('');
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const s=e.target;
+  if(!s.dataset.loaded){
+    s.dataset.loaded='1';
+    s.innerHTML='<blockquote class="instagram-media" data-instgrm-permalink="'+s.dataset.url+'" data-instgrm-version="14" style="width:100%!important;min-width:0!important;margin:0"></blockquote>';
+    if(window.instgrm&&window.instgrm.Embeds)window.instgrm.Embeds.process();
+  }
+  io.unobserve(s);
+}),{rootMargin:'500px 0px',threshold:.01});
+grid.querySelectorAll('.lf-slot').forEach(s=>io.observe(s));
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

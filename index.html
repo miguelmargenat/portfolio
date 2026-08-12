@@ -1,0 +1,304 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Migue.stl — Miguel Margenat, diseñador industrial</title>
+<meta name="description" content="Miguel Margenat, diseñador industrial. Del concepto al mercado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Miguel Margenat — Diseñador industrial">
+<meta property="og:description" content="Desarrollo de producto de punta a punta. Bicicletas, vehículos, impresión 3D y renders.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/index.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Miguel Margenat — Diseñador industrial">
+<meta name="twitter:description" content="Desarrollo de producto de punta a punta. Bicicletas, vehículos, impresión 3D y renders.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="loading">
+
+<!-- FONDO ANIMADO: luces que respiran + grilla a la deriva -->
+<div class="hm-bg" aria-hidden="true">
+  <span class="mesh"></span>
+</div>
+
+<!-- PRELOADER -->
+<div class="preloader">
+  <div class="pl-word"><span>Migue<em style="font-style:normal;color:var(--accent)">.</em>stl</span></div>
+  <div class="pl-count">0</div>
+  <div class="pl-bar"></div>
+</div>
+
+<nav class="haslang">
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <div class="navright">
+    <div class="links">
+      <a href="index.html" class="navlink active">Inicio</a>
+      <a href="experiencia.html" class="navlink">Portfolio</a>
+      <a href="contacto.html" class="navlink">Contacto</a>
+    </div>
+    <div class="lang">
+      <a href="index.html" class="flag active" title="Español" aria-label="Ver en español">
+        <svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg">
+          <rect width="30" height="20" fill="#74ACDF"/>
+          <rect y="6.67" width="30" height="6.66" fill="#fff"/>
+          <circle cx="15" cy="10" r="2.1" fill="#F6B40E"/>
+        </svg>
+      </a>
+      <!-- Versión en inglés pausada: index-en.html sigue en la carpeta para
+           retomarla cuando el sitio esté terminado. -->
+      <span class="flag off" title="English — próximamente" aria-hidden="true">
+        <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg">
+          <clipPath id="ukc"><rect width="60" height="30"/></clipPath>
+          <rect width="60" height="30" fill="#012169"/>
+          <g clip-path="url(#ukc)">
+            <path d="M0,0 60,30 M60,0 0,30" stroke="#fff" stroke-width="6"/>
+            <path d="M0,0 60,30" stroke="#C8102E" stroke-width="2"/>
+            <path d="M60,0 0,30" stroke="#C8102E" stroke-width="2"/>
+            <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+            <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+          </g>
+        </svg>
+      </span>
+    </div>
+  </div>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- La cinta encabeza la primera parte y acompaña el scroll hasta el video -->
+<div class="hm-top">
+
+<!-- MARQUEE -->
+<div class="strip">
+  <div class="track">
+    <span>Diseñador Industrial</span><span><em>Desarrollador de productos</em></span><span>Product Manager</span><span><em>Gestión de equipos</em></span>
+    <span>Diseñador Industrial</span><span><em>Desarrollador de productos</em></span><span>Product Manager</span><span><em>Gestión de equipos</em></span>
+  </div>
+</div>
+
+<!-- OPENER -->
+<header class="intro-hero">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="intro">
+    <div class="intro-photo">
+      <div class="ph"><img src="img/1.%20INICIO/foto%20perfil.jpg" alt="Retrato de Miguel Margenat"></div>
+      <span class="frame"></span>
+    </div>
+    <div class="intro-text">
+      <h1>
+        <span class="line-mask"><span>Hola, soy</span></span>
+        <span class="line-mask"><span><em>Miguel Margenat</em></span></span>
+      </h1>
+      <p class="reveal">Soy diseñador industrial recibido en la Universidad de Buenos Aires, con experiencia desarrollando productos en distintos rubros. Me considero una persona curiosa que disfruta de las múltiples aristas que tiene el diseño, probablemente me encuentres probando, investigando y aprendiendo algo nuevo.</p>
+    </div>
+
+    <!-- VIDEO: en horizontal acompaña a la presentación en la misma línea -->
+    <section id="video">
+      <div class="video-wrap reveal" id="videoWrap">
+        <video id="reelVideo" muted loop playsinline preload="metadata" poster="img/1.%20INICIO/foto%20perfil.jpg">
+          <source src="img/1.%20INICIO/experiencia-reina-volta%20mp4%20volumen%20200.mp4" type="video/mp4">
+          Tu navegador no puede reproducir este video.
+        </video>
+        <button class="sound-cta" id="soundToggle"><span class="ic">🔊</span> Activar sonido</button>
+      </div>
+      <div class="video-cap reveal"><span>Se reproduce solo al scrollear · tocá para activar el sonido</span></div>
+    </section>
+  </div>
+</header>
+
+</div><!-- /hm-top -->
+
+<!-- PORTADAS DE LOS PROYECTOS
+     Van justo debajo de la cinta. Ojo: la cinta cambia de lugar según la
+     pantalla. En PC cierra el bloque de presentación, así que esto queda
+     pegado abajo de ella. En celular la cinta encabeza la página, así que
+     estas portadas quedan después del retrato y el video, que es el orden
+     que tiene sentido al bajar con el dedo.
+
+     Es un <div> y no un <section> a propósito: la regla global
+     section{padding:150px 5vw} de styles.css le metería márgenes, y esto va
+     a sangre, sin aire a los costados. -->
+<div class="hm-proy">
+  <!-- Volta no tiene página propia: es la ficha con las 8 sub-fichas que vive
+       en el overlay de experiencia.html. El #volta la abre sola al llegar. -->
+  <a href="experiencia.html#volta" class="exp-tile">
+    <div class="ht-cover">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/1%20modificada.jpg" alt="Bicicletas Volta" style="animation-delay:0s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/4.jpg" alt="Bicicletas Volta" style="animation-delay:-2s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/3.jpg" alt="Bicicletas Volta" style="animation-delay:-4s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/5%20-%20copia.jpg" alt="Bicicletas Volta" style="animation-delay:-6s">
+    </div>
+    <div class="tfade"></div>
+    <div class="tinfo">
+      <span class="tnum">01</span>
+      <span class="tname">Bicicletas, indumentaria y accesorios <span class="ar">↗</span></span>
+    </div>
+  </a>
+  <a href="ugarte.html" class="exp-tile">
+    <div class="ht-cover">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Ugarte/1770412477114.jpg" alt="Vehículos Ugarte" style="animation-delay:0s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Ugarte/nave%20productiva%202.jpg" alt="Vehículos Ugarte" style="animation-delay:-2s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Ugarte/1740084998968.jpg" alt="Vehículos Ugarte" style="animation-delay:-4s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Ugarte/1763671009060.jpg" alt="Vehículos Ugarte" style="animation-delay:-6s">
+    </div>
+    <div class="tfade"></div>
+    <div class="tinfo">
+      <span class="tnum">02</span>
+      <span class="tname">Vehículos Ugarte <span class="ar">↗</span></span>
+    </div>
+  </a>
+  <a href="impresion-3d.html" class="exp-tile">
+    <div class="ht-cover">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Lunfardo/selecci%C3%B3n/final1-108.jpg" alt="Impresión 3D" style="animation-delay:0s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Lunfardo/selecci%C3%B3n/HELENA%20VASE%203%201080.jpg" alt="Impresión 3D" style="animation-delay:-2s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Lunfardo/selecci%C3%B3n/final1-107.jpg" alt="Impresión 3D" style="animation-delay:-4s">
+      <img src="img/0.%20Experiencia/imagenes%20portada/Lunfardo/selecci%C3%B3n/Editadas3-12.JPG" alt="Impresión 3D" style="animation-delay:-6s">
+    </div>
+    <div class="tfade"></div>
+    <div class="tinfo">
+      <span class="tnum">03</span>
+      <span class="tname">Impresión 3D <span class="ar">↗</span></span>
+    </div>
+  </a>
+  <a href="renders.html" class="exp-tile">
+    <div class="ht-cover n3">
+      <video src="img/6.%20Renders/secuencia%20portada/voronoi%20redimencionado.mp4" style="animation-delay:0s" autoplay muted loop playsinline preload="metadata" aria-label="Animación voronoi"></video>
+      <video src="img/6.%20Renders/secuencia%20portada/sillas%20redimensionado.mp4" style="animation-delay:-2.66s" autoplay muted loop playsinline preload="metadata" aria-label="Animación de sillas"></video>
+      <video src="img/6.%20Renders/secuencia%20portada/pantano%20flores%20redimensionado.mp4" style="animation-delay:-5.33s" autoplay muted loop playsinline preload="metadata" aria-label="Animación logo Pantano"></video>
+    </div>
+    <div class="tfade"></div>
+    <div class="tinfo">
+      <span class="tnum">04</span>
+      <span class="tname">Renders y animaciones <span class="ar">↗</span></span>
+    </div>
+  </a>
+</div>
+
+<!-- TRAYECTORIA
+     Se arma sola a medida que se baja: una línea vertical que se pinta de
+     naranja con el scroll, y cada hito que se enciende al llegar. Los títulos
+     van subrayados con un trazo a mano que se dibuja solo.
+     La lógica del dibujo está en script.js, al final. -->
+<section id="habilidades">
+  <div class="tray">
+    <!-- El riel. Baja fino y al llegar abajo rodea el botón del CV.
+         Las dos líneas son el mismo recorrido: una gris de fondo y otra
+         naranja que se va dibujando con el scroll. El dibujo lo calcula
+         script.js midiendo dónde caen los hitos y el botón. -->
+    <svg class="tr-riel" aria-hidden="true" preserveAspectRatio="none">
+      <path class="via"></path>
+      <path class="avance"></path>
+      <path class="medida"></path>
+    </svg>
+
+    <h2 class="tr-tt tr-hito">Trayectoria
+      <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8 C40,3 62,10 96,6 C130,2 158,9 198,4"/></svg>
+    </h2>
+
+    <!-- En PC cada trabajo se abre en tres columnas (fecha · puesto ·
+         descripción) para ocupar todo el ancho. En celular se apilan. -->
+    <div class="tr-job tr-hito">
+      <span class="f">2024 — 2026</span>
+      <div class="qq">
+        <h3 class="rol">Líder del Departamento de Producto</h3>
+        <div class="co">López Hermanos — Volta, Topmega y SportAce</div>
+      </div>
+      <p class="de">Desarrollo y gestión integral de tres marcas de bicicletas: Definición de líneas de producto, dirección de diseño y coordinación de equipos multidisciplinarios.</p>
+    </div>
+
+    <div class="tr-job tr-hito">
+      <span class="f">2021 — 2024</span>
+      <div class="qq">
+        <h3 class="rol">Diseñador y Proyectista</h3>
+        <div class="co">Ugarte Carrocera</div>
+      </div>
+      <p class="de">Diseño de piezas para la industria automotriz: Colectivos, micros, dispositivos de ensamble y mejora de procesos.</p>
+    </div>
+
+    <div class="tr-job tr-hito">
+      <span class="f">2019 — 2025</span>
+      <div class="qq">
+        <h3 class="rol">Impresión 3D</h3>
+      </div>
+      <p class="de">Desarrollo de marca, modelado 3D, dirección creativa de foto y video.</p>
+    </div>
+
+    <!-- flecha de anotación, como al costado de un boceto -->
+    <svg class="tr-flecha" width="66" height="26" viewBox="0 0 66 26" aria-hidden="true"><path d="M3,3 C22,3 30,16 44,20 M44,20 L35,19 M44,20 L41,12"/></svg>
+
+    <h3 class="tr-tt chico tr-hito">Herramientas y habilidades
+      <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8 C40,3 62,10 96,6 C130,2 158,9 198,4"/></svg>
+    </h3>
+    <!-- En PC cada categoría es una fila (rótulo · fichas a todo el ancho).
+         En celular vuelven a ser cuatro listas apiladas. -->
+    <div class="tr-cuatro">
+      <div class="tr-cat">
+        <b>Modelado 3D</b>
+        <div class="ll"><span>Rhino</span><span>Grasshopper</span><span>Blender</span><span>Fusion 360</span></div>
+      </div>
+      <div class="tr-cat">
+        <b>Render</b>
+        <div class="ll"><span>Keyshot</span><span>Nanobanana</span><span>Blender</span></div>
+      </div>
+      <div class="tr-cat">
+        <b>Imagen · Video</b>
+        <div class="ll"><span>Illustrator</span><span>Photoshop</span><span>Premiere</span><span>InShot</span></div>
+      </div>
+      <div class="tr-cat">
+        <b>Habilidades</b>
+        <div class="ll"><span>Sketching</span><span>Prototipado</span><span>Impresión 3D</span><span>Herramientas de IA</span><span>Claude</span></div>
+      </div>
+    </div>
+
+    <h3 class="tr-tt chico tr-hito">Educación y cursos
+      <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2,8 C40,3 62,10 96,6 C130,2 158,9 198,4"/></svg>
+    </h3>
+    <!-- el <i> es la guía punteada que une el nombre con el año: sin ella
+         quedaba un hueco enorme en el medio de cada fila -->
+    <div class="tr-dos">
+      <div>
+        <h4>Educación</h4>
+        <div class="tr-f"><span>Diseño Industrial — UBA</span><i></i><span>2016—2024</span></div>
+        <div class="tr-f"><span>Pasantía Morfología — UBA</span><i></i><span>2025</span></div>
+        <div class="tr-f"><span>Liceo Cultural Británico</span><i></i><span>2014—2017</span></div>
+      </div>
+      <div>
+        <h4>Cursos y formación</h4>
+        <div class="tr-f"><span>Mecánica de bicicletas — CiCat</span><i></i><span>2015</span></div>
+        <div class="tr-f"><span>Soldadura — ESAB</span><i></i><span>2018</span></div>
+        <div class="tr-f"><span>Blender para interiorismo y arquitectura — Domestika</span><i></i><span>2024</span></div>
+        <div class="tr-f"><span>Grasshopper desde 0 — Fábrica Virtual</span><i></i><span>2025</span></div>
+      </div>
+    </div>
+
+    <div class="tr-cv">
+      <a class="btn solid" href="img/9.%20recursos%20textos%20(PDF)/CV%20Miguel%20Margenat.pdf" download="CV Miguel Margenat.pdf">↓&nbsp;&nbsp;Descargar CV completo</a>
+    </div>
+  </div>
+</section>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="script.js"></script>
+<script src="ui.js"></script>
+</body>
+</html>

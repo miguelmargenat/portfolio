@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Renders y animaciones — Migue.stl</title>
+<meta name="description" content="Modelado, visualización y animación de producto.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Renders — Miguel Margenat">
+<meta property="og:description" content="Modelado, visualización y animación de producto.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/renders.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Renders — Miguel Margenat">
+<meta name="twitter:description" content="Modelado, visualización y animación de producto.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* fondo: grilla técnica */
+.rd-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.rd-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* hero */
+.rd-hero{position:relative;height:84vh;min-height:500px;overflow:hidden;display:flex;align-items:flex-end;cursor:pointer}
+.rd-hero .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.3s var(--ease)}
+.rd-hero .slide.on{opacity:1}
+.rd-hero .slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 7s linear}
+.rd-hero .slide.on img{transform:scale(1.12)}
+/* animaciones en el hero: se muestran completas, sin estirar,
+   sobre un fondo del mismo tono que su propio encuadre */
+.rd-hero .slide.vid{background:#0a0a0c}
+.rd-hero .slide.vid video{width:100%;height:100%;object-fit:cover;display:block;background:#0a0a0c}
+/* imágenes muy apaisadas: se muestran completas, sin recorte */
+.rd-hero .slide.fit{background:#000}
+.rd-hero .slide.fit img{object-fit:contain;background:#000;transform:none}
+.rd-hero .slide.fit.on img{transform:none}
+.rd-hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,11,.5) 0%,rgba(12,12,11,.12) 40%,rgba(12,12,11,.94) 100%)}
+.rd-hero .inner{position:relative;z-index:2;padding:0 5vw 7vh;width:100%}
+.rd-hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:16px}
+.rd-hero h1{font-family:var(--disp);font-size:clamp(44px,9vw,128px);font-weight:700;letter-spacing:-3px;line-height:.9}
+.rd-hero h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+.rd-dots{display:flex;gap:5px;margin-top:26px}
+.rd-dots span{width:24px;height:2px;background:rgba(245,242,234,.25);transition:background .4s;cursor:pointer}
+.rd-dots span.on{background:var(--accent)}
+
+/* separadores */
+.rd-dash{height:1px;margin:0 5vw;background-image:linear-gradient(90deg,rgba(245,242,234,.26) 50%,transparent 50%);background-size:12px 1px;animation:rdDash 3.2s linear infinite}
+.rd-dash.rev{background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);animation-duration:4.6s;animation-direction:reverse}
+@keyframes rdDash{to{background-position:60px 0}}
+
+/* intro */
+.rd-intro{padding:70px 5vw 20px}
+.rd-box{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);border-radius:0 8px 8px 0;
+  padding:32px clamp(24px,3.5vw,48px);width:100%}
+.rd-box p{font-size:clamp(15px,1.35vw,19px);line-height:1.75;color:var(--fg-soft);margin:0;max-width:100ch}
+.rd-box .lead{color:var(--fg);font-size:1.12em}
+@media(min-width:1100px){
+  .rd-box p{display:flex;gap:clamp(24px,3vw,52px);align-items:baseline}
+  .rd-box .lead{flex:0 0 42%;line-height:1.45}
+}
+@media(max-width:900px){.rd-intro{padding:56px 6vw 16px}.rd-box{padding:26px 22px}}
+
+/* 03 · díptico con ficha */
+.rd-proj{display:grid;grid-template-columns:1.35fr 1fr;gap:44px;padding:70px 5vw;align-items:center}
+.rd-proj.inv{grid-template-columns:1fr 1.35fr}
+.rd-proj.inv .rd-media{order:2}
+.rd-proj.inv .rd-info{order:1}
+.rd-media{display:flex;flex-direction:column;gap:10px;position:relative}
+.rd-media .lead{width:100%;border-radius:5px;display:block;cursor:zoom-in;transition:transform .5s var(--ease),filter .4s}
+.rd-media .subs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rd-media .subs img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:5px;cursor:zoom-in;opacity:.82;transition:opacity .35s,transform .5s var(--ease)}
+.rd-media .subs img:hover{opacity:1;transform:translateY(-3px)}
+.rd-media .lead:hover{filter:brightness(1.05)}
+.rd-media .corner{opacity:0;transition:opacity .35s;z-index:3}
+.rd-media:hover .corner{opacity:.5}
+.rd-num{font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--fg-soft)}
+.rd-title{font-family:var(--disp);font-size:clamp(26px,3.6vw,42px);font-weight:700;letter-spacing:-1.2px;line-height:1.05;margin:10px 0 22px}
+.rd-facts{display:flex;flex-direction:column;gap:13px;margin-bottom:20px}
+.rd-facts .row{display:flex;flex-direction:column;gap:5px}
+.rd-facts .k{font-family:var(--mono);font-size:9.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.rd-facts .v{font-size:13.5px;color:var(--fg);line-height:1.5}
+.rd-rule{height:1px;background:var(--line);margin-bottom:18px}
+.rd-desc{font-size:14px;line-height:1.85;color:var(--fg-soft)}
+.rd-desc p{margin-bottom:13px}
+.rd-desc p:last-child{margin-bottom:0}
+.rd-desc strong{color:var(--fg);font-weight:600}
+.rd-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:11px}
+.rd-list li{position:relative;padding-left:18px;line-height:1.65}
+.rd-list li::before{content:"";position:absolute;left:0;top:11px;width:8px;height:1px;background:var(--accent)}
+@media(max-width:900px){
+  .rd-proj,.rd-proj.inv{grid-template-columns:1fr;gap:26px;padding:54px 6vw}
+  .rd-proj.inv .rd-media{order:1}.rd-proj.inv .rd-info{order:2}
+  .rd-intro{padding:60px 6vw 16px}
+  .rd-dash{margin:0 6vw}
+}
+
+/* 05 · ficha flotante (Voronoi) */
+.rd-float{padding:70px 5vw 40px;position:relative}
+.rd-stage{position:relative;border-radius:6px;overflow:hidden;min-height:460px;display:flex}
+.rd-stage > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rd-stage .sh{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,12,11,.75) 0%,rgba(12,12,11,.15) 46%,rgba(12,12,11,.35) 100%)}
+.rd-card{position:relative;z-index:3;margin:26px;width:min(320px,86%);align-self:center;
+  background:rgba(12,12,11,.86);border:1px solid var(--line-strong);border-radius:8px;padding:24px;backdrop-filter:blur(8px)}
+.rd-card .rd-title{font-size:clamp(22px,2.6vw,30px);margin:9px 0 18px}
+.rd-play{position:absolute;right:26px;bottom:26px;z-index:4;display:inline-flex;align-items:center;gap:10px;
+  background:rgba(12,12,11,.72);border:1px solid var(--line-strong);color:#fff;border-radius:999px;padding:12px 22px;cursor:pointer;
+  font-family:var(--mono);font-size:11px;letter-spacing:1.4px;text-transform:uppercase;backdrop-filter:blur(5px);transition:border-color .3s,background .3s}
+.rd-play:hover{border-color:var(--accent);background:rgba(232,85,58,.8)}
+.rd-embed{margin-top:14px;border:1px solid var(--line);border-radius:6px;overflow:hidden;aspect-ratio:16/10;display:none}
+.rd-embed.on{display:block}
+.rd-embed iframe{width:100%;height:100%;border:0}
+@media(max-width:900px){.rd-float{padding:54px 6vw 30px}.rd-stage{min-height:380px}.rd-card{margin:18px;width:auto}}
+
+/* animaciones */
+.rd-anim{padding:70px 5vw 50px}
+.rd-lbl{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:24px}
+.rd-animgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.rd-vid{margin:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg-2);transition:border-color .3s}
+.rd-vid:hover{border-color:var(--accent)}
+.rd-vwrap{position:relative;background:#000;display:block}
+.rd-vid video{display:block;width:100%;height:auto;background:#000}
+.rd-vid figcaption{padding:10px 14px 11px;border-top:1px solid var(--line);font-size:10.5px;line-height:1.45;color:var(--fg-soft)}
+.rd-vid figcaption b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;color:var(--fg);font-weight:400;margin-bottom:3px}
+.rd-hint{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:none;color:var(--accent);margin-left:12px;opacity:.85}
+.rd-animintro{font-size:14px;line-height:1.8;color:var(--fg-soft);max-width:620px;margin:-8px 0 24px}
+.rd-sound{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:3;
+  display:inline-flex;align-items:center;gap:9px;padding:11px 20px;border-radius:999px;cursor:pointer;
+  background:rgba(12,12,11,.74);border:1px solid var(--line-strong);color:#fff;backdrop-filter:blur(6px);
+  font-family:var(--mono);font-size:11px;letter-spacing:1.3px;text-transform:uppercase;white-space:nowrap;
+  transition:border-color .3s,background .3s,transform .3s}
+.rd-sound .ic{font-size:16px;line-height:1}
+.rd-sound:hover{border-color:var(--accent);background:rgba(232,85,58,.85);transform:translateX(-50%) scale(1.05)}
+.rd-vid.audio-on .rd-sound{background:var(--accent);border-color:var(--accent);color:#0c0c0b}
+.rd-vid.audio-on{border-color:var(--accent)}
+@media(max-width:900px){.rd-anim{padding:54px 6vw 40px}.rd-animgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.rd-animgrid{grid-template-columns:1fr}}
+
+/* zoom */
+.rd-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.95);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.rd-zoom.on{opacity:1;visibility:visible}
+.rd-zoom img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:4px}
+.rd-zoom button{position:absolute;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;border-radius:50%;transition:border-color .3s,background .3s}
+.rd-zoom .zc{top:22px;right:4vw;width:46px;height:46px;font-size:18px}
+.rd-zoom .zp,.rd-zoom .zn{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:24px}
+.rd-zoom .zp{left:3vw}.rd-zoom .zn{right:3vw}
+.rd-zoom button:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.rd-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+
+.rd-back{display:inline-flex;align-items:center;gap:10px;margin:40px 5vw 80px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.rd-back:hover{border-color:var(--accent);color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="rd-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<header class="rd-hero" id="rdHero">
+  <div class="veil"></div>
+  <div class="inner">
+    <h1>Renders y animaciones</h1>
+    <div class="rd-dots" id="rdDots"></div>
+  </div>
+</header>
+
+<div class="rd-dash"></div>
+
+<section class="rd-intro">
+  <div class="rd-box">
+    <p><span class="lead">Me gusta crear animaciones que comuniquen.</span> <span class="rest">Cada render y cada animación son una oportunidad para experimentar con nuevas herramientas, técnicas y formas de dar vida a un concepto.</span></p>
+  </div>
+</section>
+
+<section class="rd-anim">
+  <div class="rd-lbl">Animaciones</div>
+  <div class="rd-animgrid">
+    <figure class="rd-vid">
+      <div class="rd-vwrap">
+        <video src="img/6.%20Renders/descargados%20de%20behance/disgusting%20voronoi.mp4" autoplay muted loop playsinline preload="auto"></video>
+        <button class="rd-sound" aria-label="Activar sonido"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+      </div>
+      <figcaption><b>Voronoi loop</b>Carriles de movimiento, inflado y subdivisiones con patrón voronoi</figcaption>
+    </figure>
+    <figure class="rd-vid">
+      <div class="rd-vwrap">
+        <video src="img/6.%20Renders/descargados%20de%20behance/sillas.mp4" autoplay muted loop playsinline preload="auto"></video>
+        <button class="rd-sound" aria-label="Activar sonido"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+      </div>
+      <figcaption><b>Sillas</b>Colisiones, campo de gravedad y apariciones espontáneas</figcaption>
+    </figure>
+    <figure class="rd-vid">
+      <div class="rd-vwrap">
+        <video src="img/6.%20Renders/descargados%20de%20behance/logo%20pantano.mp4" autoplay muted loop playsinline preload="auto"></video>
+        <button class="rd-sound" aria-label="Activar sonido"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+      </div>
+      <figcaption><b>Logo Pantano</b>Crecimiento de vegetación, su variación y orientación</figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="rd-dash rev"></div>
+
+<section class="rd-proj">
+  <div class="rd-media">
+    <img class="lead" src="img/6.%20Renders/Reloj%20Braun/1.jpg" alt="Reloj Braun" loading="lazy">
+    <div class="subs">
+      <img src="img/6.%20Renders/Reloj%20Braun/2.jpg" alt="Reloj Braun" loading="lazy">
+      <img src="img/6.%20Renders/Reloj%20Braun/3.jpg" alt="Reloj Braun" loading="lazy">
+    </div>
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <div class="rd-info">
+    <h2 class="rd-title">Reloj Braun</h2>
+    <div class="rd-facts">
+      <div class="row"><span class="k">Propósito</span><span class="v">Concurso de renders en objetos cotidianos</span></div>
+      <div class="row"><span class="k">Programas</span><span class="v">Keyshot · Rhinoceros</span></div>
+    </div>
+    <div class="rd-rule"></div>
+    <div class="rd-desc">
+      <p>Experimenté con las propiedades de la luz, generé ruido y polvo atravesados por rayos de luz filtrados por una cortina de rollo, para capturar esas texturas tan características y llamativas que vemos al despertar.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rd-dash rev"></div>
+
+<section class="rd-proj inv">
+  <div class="rd-media">
+    <img class="lead" src="img/6.%20Renders/Cepillo%20dientes/ultimo%20render.114.jpg" alt="Cepillo GUM" loading="lazy">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <div class="rd-info">
+    <h2 class="rd-title">Cepillo GUM</h2>
+    <div class="rd-facts">
+      <div class="row"><span class="k">Propósito</span><span class="v">Concurso de renders en objetos cotidianos</span></div>
+      <div class="row"><span class="k">Programas</span><span class="v">Keyshot · Rhinoceros</span></div>
+    </div>
+    <div class="rd-rule"></div>
+    <div class="rd-desc">
+      <p>Modelé en 3D, armé todos los materiales desde cero, ilustré las gráficas, añadí imperfecciones y di relieve a las etiquetas. La búsqueda fue reproducir cada material con el mayor nivel de detalle posible.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rd-dash"></div>
+
+<section class="rd-proj">
+  <div class="rd-media">
+    <img class="lead" src="img/6.%20Renders/Interior%20living/render%20interiorismo%202.jpg" alt="Interiorismo" loading="lazy">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <div class="rd-info">
+    <h2 class="rd-title">Interiorismo</h2>
+    <div class="rd-facts">
+      <div class="row"><span class="k">Propósito</span><span class="v">Exploración de herramientas</span></div>
+      <div class="row"><span class="k">Programas</span><span class="v">Blender</span></div>
+    </div>
+    <div class="rd-rule"></div>
+    <div class="rd-desc">
+      <ul class="rd-list">
+        <li>Modelado completo de la escena utilizando recursos propios y externos.</li>
+        <li>Desarrollo de materiales mediante nodos, ajustando variables para optimizar el texturizado.</li>
+        <li>Generación de vegetación con paquetes y plugins especializados.</li>
+        <li>Dirección de escena, luz y propiedades del lente de cámara.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="rd-dash rev"></div>
+
+<section class="rd-proj inv">
+  <div class="rd-media">
+    <img class="lead" src="img/6.%20Renders/Exterior/render%20interiorismo%201.jpg" alt="Render arquitectónico" loading="lazy">
+    <span class="corner tl"></span><span class="corner tr"></span>
+    <span class="corner bl"></span><span class="corner br"></span>
+  </div>
+  <div class="rd-info">
+    <h2 class="rd-title">Render arquitectónico</h2>
+    <div class="rd-facts">
+      <div class="row"><span class="k">Propósito</span><span class="v">Explorar técnicas y herramientas</span></div>
+      <div class="row"><span class="k">Programas</span><span class="v">Blender</span></div>
+    </div>
+    <div class="rd-rule"></div>
+    <div class="rd-desc">
+      <ul class="rd-list">
+        <li>Simulación física de las cortinas, definiendo su caída, arrugas y movimiento por efecto del viento.</li>
+        <li>Simulación física del inflado de los almohadones, aplicando gravedad y acentuando manualmente las arrugas mediante pinceles.</li>
+        <li>Intervención manual de los pelos de la alfombra para lograr un aspecto más natural.</li>
+        <li>Desarrollo de materiales mediante nodos, controlando la posición, profundidad y repetición de las texturas.</li>
+        <li>Modelado de jarrones a partir de mallas (mesh).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<a href="experiencia.html" class="rd-back">← Volver a Experiencia</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<div class="rd-zoom" id="rdZoom">
+  <button class="zc" aria-label="Cerrar">✕</button>
+  <button class="zp" aria-label="Anterior">‹</button>
+  <img id="rdZoomImg" src="" alt="">
+  <button class="zn" aria-label="Siguiente">›</button>
+  <span class="zct" id="rdZoomCount"></span>
+</div>
+
+<script>
+/* hero: renders y animaciones alternados */
+const HERO=[
+ {t:'vid', src:"img/6.%20Renders/descargados%20de%20behance/redimensionados%20para%20header/voronoi%20redimencionado.mp4"},
+ {t:'vid', src:"img/6.%20Renders/descargados%20de%20behance/redimensionados%20para%20header/sillas%20redimensionado.mp4"},
+ {t:'vid', src:"img/6.%20Renders/descargados%20de%20behance/redimensionados%20para%20header/pantano%20flores%20redimensionado.mp4"},
+ {t:'img', src:"img/6.%20Renders/Exterior/render%20interiorismo%201.jpg"},
+ {t:'img', src:"img/6.%20Renders/Interior%20living/render%20interiorismo%202.jpg"},
+ {t:'img', src:"img/6.%20Renders/Reloj%20Braun/1.jpg"},
+ {t:'img', src:"img/6.%20Renders/Cepillo%20dientes/ultimo%20render.114.jpg", fit:true}
+];
+(function(){
+  const hero=document.getElementById('rdHero'), dots=document.getElementById('rdDots');
+  const frag=document.createDocumentFragment();
+  HERO.forEach((it,i)=>{
+    const d=document.createElement('div');
+    d.className='slide'+(it.t==='vid'?' vid':'')+(it.fit?' fit':'')+(i===0?' on':'');
+    d.innerHTML = it.t==='vid'
+      ? '<video src="'+it.src+'" muted loop playsinline preload="metadata"></video>'
+      : '<img src="'+it.src+'" alt="">';
+    frag.appendChild(d);
+    const s=document.createElement('span'); if(i===0)s.className='on'; dots.appendChild(s);
+  });
+  hero.insertBefore(frag,hero.firstChild);
+  const sl=hero.querySelectorAll('.slide'), mk=dots.querySelectorAll('span');
+  let i=0,iv=null;
+  /* sólo reproduce la animación visible; las demás quedan en pausa */
+  function play(n){
+    sl.forEach((s,k)=>{
+      const v=s.querySelector('video');
+      if(!v)return;
+      if(k===n){v.currentTime=0;v.play().catch(()=>{});}else{v.pause();}
+    });
+  }
+  function go(n){
+    sl[i].classList.remove('on');mk[i].classList.remove('on');
+    i=(n+sl.length)%sl.length;
+    sl[i].classList.add('on');mk[i].classList.add('on');
+    play(i);
+  }
+  function start(){clearInterval(iv);iv=setInterval(()=>go(i+1),4200);}
+  play(0); start();
+  hero.addEventListener('click',e=>{if(e.target.closest('a,button'))return;go(i+1);start();});
+  mk.forEach((s,n)=>s.addEventListener('click',e=>{e.stopPropagation();go(n);start();}));
+})();
+
+/* zoom sobre todas las imágenes de proyecto */
+const IMGS=[...document.querySelectorAll('.rd-media img')];
+const zb=document.getElementById('rdZoom'), zim=document.getElementById('rdZoomImg'), zct=document.getElementById('rdZoomCount');
+let zi=0;
+function paintZ(){zim.src=IMGS[zi].src;zct.textContent=(zi+1)+' / '+IMGS.length;}
+function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
+function stepZ(n){zi=(zi+n+IMGS.length)%IMGS.length;paintZ();}
+IMGS.forEach((im,i)=>im.addEventListener('click',()=>openZ(i)));
+zb.querySelector('.zc').addEventListener('click',closeZ);
+zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
+zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
+zb.addEventListener('click',e=>{if(e.target===zb)closeZ();});
+document.addEventListener('keydown',e=>{
+  if(!zb.classList.contains('on'))return;
+  if(e.key==='Escape')closeZ();
+  if(e.key==='ArrowRight')stepZ(1);
+  if(e.key==='ArrowLeft')stepZ(-1);
+});
+
+/* animaciones: se reproducen solas al entrar en pantalla */
+(function(){
+  const vids=[...document.querySelectorAll('.rd-vid video')];
+  if(!vids.length)return;
+  const vio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting)e.target.play().catch(()=>{});
+    else e.target.pause();
+  }),{threshold:.3});
+  vids.forEach(v=>vio.observe(v));
+  function paintBtn(fig){
+    const v=fig.querySelector('video'), b=fig.querySelector('.rd-sound');
+    fig.classList.toggle('audio-on',!v.muted);
+    b.querySelector('.ic').textContent=v.muted?'🔇':'🔊';
+    b.querySelector('.tx').textContent=v.muted?'Activar sonido':'Desactivar sonido';
+    b.setAttribute('aria-label',v.muted?'Activar sonido':'Silenciar');
+  }
+
+  document.querySelectorAll('.rd-vid').forEach(fig=>{
+    const v=fig.querySelector('video');
+    fig.querySelector('.rd-sound').addEventListener('click',e=>{
+      e.stopPropagation();
+      const encender = v.muted;
+      /* sólo un video con sonido a la vez */
+      document.querySelectorAll('.rd-vid').forEach(o=>{
+        if(o!==fig){ o.querySelector('video').muted=true; paintBtn(o); }
+      });
+      v.muted = !encender;
+      v.volume = 1;
+      paintBtn(fig);
+      if(!v.muted){
+        /* Al reproducir en silencio, el navegador puede no haber inicializado
+           la pista de audio. Un salto mínimo obliga a rearmar la reproducción
+           con sonido incluido. */
+        const t=v.currentTime;
+        v.currentTime = t > 0.15 ? t - 0.1 : 0;
+        v.play().catch(()=>{});
+      }
+    });
+  });
+})();
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

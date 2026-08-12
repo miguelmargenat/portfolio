@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto — Miguel Margenat</title>
+<meta name="description" content="Contacto de Miguel Margenat, diseñador industrial.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Contacto — Miguel Margenat">
+<meta property="og:description" content="Escribime por LinkedIn, WhatsApp o correo.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/contacto.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contacto — Miguel Margenat">
+<meta name="twitter:description" content="Escribime por LinkedIn, WhatsApp o correo.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink">Portfolio</a>
+    <a href="contacto.html" class="navlink active">Contacto</a>
+  </div>
+</nav>
+
+<header class="pagehead" style="padding-bottom:0">
+  <div class="bp-grid" data-parallax="0.1"></div>
+</header>
+
+<!-- Formulario a la izquierda y los datos al costado, para que se pueda
+     escribir sin salir de la página. -->
+<section class="ct-wrap">
+  <span class="ct-kick reveal">Contacto</span>
+
+  <div class="ct-grid reveal">
+    <form class="ct-form" id="ctForm" novalidate>
+      <div class="ct-campo">
+        <label class="ct-label" for="ctNombre">Nombre</label>
+        <input type="text" id="ctNombre" name="nombre" placeholder="Cómo te llamás" required>
+      </div>
+      <div class="ct-campo">
+        <label class="ct-label" for="ctMail">Correo</label>
+        <!-- se llama "email" a propósito: Formspree lo usa como remitente,
+             así se puede responder el mensaje directo desde el correo -->
+        <input type="email" id="ctMail" name="email" placeholder="tu@correo.com" required>
+      </div>
+      <div class="ct-campo">
+        <label class="ct-label" for="ctMsg">Mensaje</label>
+        <textarea id="ctMsg" name="mensaje" placeholder="Contame el proyecto…" required></textarea>
+      </div>
+      <!-- trampa para robots: es invisible y ninguna persona la completa.
+           Si viene con texto, Formspree descarta el mensaje. -->
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+             aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+      <button type="submit" class="ct-enviar">Enviar mensaje</button>
+      <p class="ct-aviso" id="ctAviso"></p>
+    </form>
+
+    <aside class="ct-side">
+      <div>
+        <span class="ct-label">Escribime directo</span>
+        <a class="ct-mail" href="mailto:miguelmargenat@gmail.com">miguelmargenat@gmail.com</a>
+      </div>
+      <div>
+        <span class="ct-label">WhatsApp</span>
+        <a class="ct-value" href="https://wa.me/5491128920255" target="_blank" rel="noopener">+54 11 2892 0255</a>
+      </div>
+      <div>
+        <span class="ct-label">LinkedIn</span>
+        <a class="ct-value" href="https://linkedin.com/in/miguel-margenat" target="_blank" rel="noopener">/miguel-margenat</a>
+      </div>
+      <div>
+        <span class="ct-label">Ubicación</span>
+        <span class="ct-value">Buenos Aires, Argentina</span>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <span>Diseñador industrial · Desarrollo de producto</span>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="script.js"></script>
+<script src="ui.js"></script>
+<script>
+/* Envío del formulario, por Formspree.
+   El sitio es HTML y JavaScript a secas, sin bundler, así que no hace falta
+   ninguna librería: alcanza con mandar los datos por fetch y leer la
+   respuesta. Así el formulario queda con los mensajes y la validación de
+   la página, en vez de los que trae el servicio.
+
+   Si algún día hay que cambiar de cuenta, se cambia solo esta línea.      */
+const ENVIO='https://formspree.io/f/xoeavwnw';
+
+(function(){
+  const f=document.getElementById('ctForm');
+  const aviso=document.getElementById('ctAviso');
+  const boton=f?f.querySelector('.ct-enviar'):null;
+  if(!f)return;
+
+  const decir=(t,ok)=>{aviso.textContent=t;aviso.classList.toggle('ok',!!ok);};
+
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const nombre =f.nombre.value.trim();
+    const correo =f.email.value.trim();
+    const mensaje=f.mensaje.value.trim();
+
+    if(!nombre||!correo||!mensaje){decir('Completá los tres campos.');return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)){decir('Revisá el correo.');return;}
+
+    /* mientras se manda, el botón no se puede volver a apretar */
+    boton.disabled=true;
+    const textoBoton=boton.textContent;
+    boton.textContent='Enviando…';
+    decir('');
+
+    try{
+      const datos=new FormData(f);
+      /* así el asunto del mail que te llega ya dice quién escribió */
+      datos.append('_subject','Contacto desde el portfolio — '+nombre);
+
+      const r=await fetch(ENVIO,{
+        method:'POST',
+        headers:{'Accept':'application/json'},
+        body:datos
+      });
+
+      if(r.ok){
+        f.reset();
+        decir('¡Listo! Te respondo a la brevedad.',true);
+      }else{
+        /* Formspree explica el motivo cuando algo no cierra */
+        let motivo='';
+        try{
+          const j=await r.json();
+          if(j.errors&&j.errors.length)motivo=j.errors.map(x=>x.message).join('. ');
+        }catch(_){}
+        decir(motivo||'No se pudo enviar. Escribime a miguelmargenat@gmail.com');
+      }
+    }catch(_){
+      /* sin internet, o el servicio no responde */
+      decir('No se pudo enviar. Escribime a miguelmargenat@gmail.com');
+    }finally{
+      boton.disabled=false;
+      boton.textContent=textoBoton;
+    }
+  });
+})();
+</script>
+</body>
+</html>

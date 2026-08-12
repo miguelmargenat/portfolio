@@ -1,0 +1,254 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SportAce — Migue.stl</title>
+<meta name="description" content="Manubrio, ruedas y poste de asiento de carbono para gravel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="SportAce — Componentes">
+<meta property="og:description" content="Manubrio, ruedas y poste de asiento de carbono para gravel.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/sportace.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SportAce — Componentes">
+<meta name="twitter:description" content="Manubrio, ruedas y poste de asiento de carbono para gravel.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ===== SPORTACE ===== */
+
+/* fondo: grilla técnica */
+.sa-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.sa-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* Header: el logotipo completo, sin título.
+   El archivo es muy apaisado (7:1) y viene en gris medio, así que se aclara
+   para que lea bien sobre el fondo oscuro. */
+.sa-head{padding:160px 5vw 50px;display:flex;justify-content:center}
+.sa-head img{display:block;width:min(760px,88%);height:auto;
+  filter:brightness(1.75) contrast(1.05);
+  opacity:0;transform:translateY(14px);animation:saIn 1s .15s var(--ease) forwards}
+@keyframes saIn{to{opacity:1;transform:none}}
+
+/* descripción de apertura */
+.sa-intro{padding:44px 5vw 10px}
+.sa-introbox{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);
+  border-radius:0 10px 10px 0;padding:32px clamp(22px,3.4vw,46px);width:100%}
+.sa-introbox p{font-size:clamp(16px,1.6vw,21px);line-height:1.75;color:var(--fg);
+  font-weight:300;margin:0}
+.sa-introbox p + p{margin-top:20px;font-size:clamp(15px,1.3vw,18px);color:var(--fg-soft)}
+
+/* ===== los tres componentes, uno al lado del otro =====
+   Poco margen y poco aire entre columnas: la idea es que las fotos manden. */
+.sa-tres{padding:30px 2.4vw 10px;display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
+/* scroll-margin: al llegar desde un enlace, el componente no queda tapado
+   por la barra de arriba */
+/* La regla global de <section> (styles.css) mete 5vw de padding a cada lado.
+   Acá cada columna es un <section>, así que eso dejaba ~190px de aire muerto
+   entre tarjetas y achicaba las fotos. Se anula solo el padding horizontal. */
+.sa-prod{display:flex;flex-direction:column;min-width:0;scroll-margin-top:96px;
+  padding-left:0;padding-right:0}
+/* al llegar desde un enlace de Indómita, se marca cuál es */
+.sa-prod.destacado .sa-main{border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(232,85,58,.22)}
+.sa-main{position:relative;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden;aspect-ratio:5/4}
+.sa-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  padding:6px;opacity:0;transition:opacity .5s var(--ease)}
+.sa-main img.on{opacity:1}
+
+/* Cinta de miniaturas: ocupa todo el ancho de la columna y va sola.
+   Se frena al pasar el mouse para poder elegir una. */
+.sa-row{overflow:hidden;margin-top:8px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.sa-track{display:flex;gap:7px;width:max-content;animation:saPar 26s linear infinite}
+.sa-row:hover .sa-track{animation-play-state:paused}
+@keyframes saPar{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.sa-track .th{flex:0 0 auto;width:108px;height:82px;background:var(--bg-2);
+  border:1px solid var(--line);border-radius:6px;overflow:hidden;cursor:pointer;
+  padding:0;opacity:.66;transition:opacity .3s,border-color .3s}
+.sa-track .th img{width:100%;height:100%;object-fit:contain;display:block;padding:3px}
+.sa-track .th:hover{opacity:1}
+.sa-track .th.on{opacity:1;border-color:var(--accent)}
+
+/* texto debajo de cada componente */
+.sa-bar{margin-top:10px;background:var(--bg-2);border:1px solid var(--line);
+  border-left:2px solid var(--accent);border-radius:0 10px 10px 0;
+  padding:20px clamp(16px,1.4vw,22px);flex:1}
+.sa-kick{display:block;font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.sa-name{font-family:var(--disp);font-size:clamp(17px,1.5vw,21px);font-weight:700;
+  letter-spacing:-.6px;line-height:1.15;margin-bottom:12px}
+.sa-desc{font-size:13px;line-height:1.7;color:var(--fg-soft);margin:0}
+.sa-desc strong{color:var(--fg);font-weight:600}
+
+/* separadores punteados */
+.fx-dash{height:1px;margin:0 5vw;background-image:linear-gradient(90deg,rgba(245,242,234,.28) 50%,transparent 50%);background-size:12px 1px;animation:fxDash 3.2s linear infinite}
+.fx-dash.rev{background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);animation-duration:4.6s;animation-direction:reverse}
+@keyframes fxDash{to{background-position:60px 0}}
+
+.sa-back{display:inline-flex;align-items:center;gap:10px;margin:60px 5vw 90px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.sa-back:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:900px){
+  .sa-head{padding:126px 6vw 34px}
+  .sa-head img{width:92%}
+  .sa-intro{padding:30px 6vw 6px}
+  .sa-introbox{padding:24px 20px}
+  /* en celular vuelven a apilarse, uno debajo del otro */
+  .sa-tres{padding:32px 6vw 8px;grid-template-columns:1fr;gap:34px}
+  .sa-main{aspect-ratio:4/3}
+  .sa-track .th{width:92px;height:70px}
+  .sa-bar{padding:22px 20px}
+  .sa-name{font-size:20px}
+  .sa-desc{font-size:14px}
+  .sa-back{margin:44px 6vw 64px}
+}
+</style>
+</head>
+<body>
+
+<div class="sa-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<header class="sa-head">
+  <img src="img/3.%20Volta/5.%20Sportace/sportace%20logos/logos%20sportace_Mesa%20de%20trabajo%201.png"
+       alt="SportAce — Engineered Performance">
+</header>
+
+<div class="fx-dash"></div>
+
+<section class="sa-intro">
+  <div class="sa-introbox">
+    <p>SportAce es la marca de componentes desarrollada para acompañar y elevar la propuesta de producto de Volta.</p>
+    <p>Su enfoque está puesto en transmitir una lógica de ingeniería aplicada al rendimiento, tanto desde la selección de componentes como desde su diseño y comunicación.</p>
+  </div>
+</section>
+
+<div id="saProds"></div>
+
+<div class="fx-dash rev"></div>
+
+<a href="experiencia.html" class="sa-back">← Volver a Portfolio</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+const BASE="img/3.%20Volta/5.%20Sportace/Componentes/";
+
+/* Cada producto: carpeta, fotos y su barra de texto.
+   Los textos son provisorios, para reemplazar por los definitivos. */
+const PRODUCTOS=[
+  {
+    kick:"Manubrio", ancla:"manubrio",
+    name:"XPlora Control",
+    desc:"Manubrio de carbono desarrollado específicamente para gravel. Con un stem integrado con un ángulo agresivo, orientado a mejorar la aerodinámica, y una apertura de 13° en los extremos que aporta mayor control."
+      +"<br><br>Incorpora <strong>micrographics</strong>, un recurso gráfico que cuenta las especificaciones técnicas en el área más visible para el ciclista durante el uso.",
+    dir:BASE+"1%20-%20Manubrio%20gravel%20HB025/Fotos%20editadas%20para%20web/",
+    fotos:["2","4","5","7","8","10","11","12"]
+  },
+  {
+    kick:"Ruedas", ancla:"ruedas",
+    name:"XPlora Trace",
+    desc:"Ruedas de carbono, diseñadas para los estándares y tendencias dentro de la disciplina del gravel. Cuenta con un ancho de llanta que aprovecha las mejores cubiertas del mercado."
+      +"<br><br>Lleva unas mazas con sistema ratchet, que transfiere mejor la potencia, tiene un mantenimiento sencillo, mayor durabilidad y un sonido muy característico que a todos los ciclistas nos gusta escuchar al pedalear. Tiene <strong>micrographics</strong> que cuentan las propiedades técnicas del producto en la zona de la válvula.",
+    dir:BASE+"2%20-%20ruedas%20gravel/Fotos%20editadas%20para%20web/",
+    fotos:["0","1","2","4","5","6","7","8","9"]
+  },
+  {
+    kick:"Poste de asiento", ancla:"poste",
+    name:"XPlora Core Shift",
+    desc:"Poste de asiento de carbono diseñado para completar la identidad de la línea XPlora y reducir el peso total de la bicicleta manteniendo la rigidez."
+      +"<br><br>Las gráficas incorporadas cumplen una doble función: refuerzan el lenguaje visual del producto y guían al usuario en su correcto ajuste.",
+    dir:BASE+"3%20-%20seatpost/Fotos%20editadas%20para%20web/",
+    fotos:["1","2","3","4","5","6","7","8","9"]
+  }
+];
+
+const cont=document.getElementById('saProds');
+
+/* Los tres componentes van uno al lado del otro, cada uno con su visor,
+   sus miniaturas y su texto. Así entran los tres de un pantallazo en vez de
+   ocupar una pantalla entera cada uno. */
+cont.className='sa-tres';
+cont.innerHTML=PRODUCTOS.map((p,n)=>{
+  const srcs=p.fotos.map(f=>p.dir+f+".jpg");
+  const visor=srcs.map((s,i)=>
+    '<img src="'+s+'" alt="'+p.name+'"'+(i===0?' class="on"':'')+'>').join('');
+  /* la lista se duplica para que el desfile no tenga corte */
+  const minis=srcs.concat(srcs).map((s,i)=>
+    '<button class="th'+(i===0?' on':'')+'" data-i="'+(i%srcs.length)+'">'
+    +'<img src="'+s+'" alt="'+p.name+'" loading="lazy"></button>').join('');
+  return '<section class="sa-prod" data-p="'+n+'" id="'+p.ancla+'">'
+    +'<div class="sa-main">'+visor+'</div>'
+    +'<div class="sa-row"><div class="sa-track">'+minis+'</div></div>'
+    +'<div class="sa-bar">'
+      +'<span class="sa-kick">'+p.kick+'</span><div class="sa-name">'+p.name+'</div>'
+      +'<p class="sa-desc">'+p.desc+'</p>'
+    +'</div></section>';
+}).join('');
+
+/* al elegir una miniatura cambia el visor de ese producto.
+   La cinta lleva la lista duplicada, así que se marcan todas las copias. */
+cont.querySelectorAll('.sa-prod').forEach(prod=>{
+  const imgs=prod.querySelectorAll('.sa-main img');
+  const ths=prod.querySelectorAll('.th');
+  ths.forEach(b=>b.addEventListener('click',()=>{
+    const i=+b.dataset.i;
+    imgs.forEach((im,k)=>im.classList.toggle('on',k===i));
+    ths.forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
+  }));
+});
+
+/* Si se llega desde un enlace de Indómita (…/sportace.html#ruedas),
+   se resalta el componente un momento para que se vea a cuál se vino. */
+(function(){
+  const id=location.hash.slice(1);
+  if(!id)return;
+  const el=document.getElementById(id);
+  if(!el)return;
+  requestAnimationFrame(()=>{
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+    el.classList.add('destacado');
+    setTimeout(()=>el.classList.remove('destacado'),2600);
+  });
+})();
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

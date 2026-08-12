@@ -1,0 +1,279 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Whipper — Migue.stl</title>
+<meta name="description" content="Stunt street bike.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Whipper · Street bike — Volta">
+<meta property="og:description" content="Stunt street bike.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/whipper.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Whipper · Street bike — Volta">
+<meta name="twitter:description" content="Stunt street bike.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ===== WHIPPER · stunt street bike ===== */
+
+.wh-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.wh-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* sin header: la página arranca directo con el producto */
+.wh-top{padding:132px 5vw 0}
+
+/* rótulo de sección */
+.wh-lbl{display:flex;align-items:baseline;gap:16px;margin:0 0 16px;
+  border-bottom:1px solid var(--line);padding-bottom:12px}
+.wh-lbl .t{font-family:var(--disp);font-size:clamp(20px,2.4vw,32px);font-weight:700;letter-spacing:-1px;color:var(--fg)}
+.wh-lbl .t em{font-style:normal;color:var(--accent)}
+.wh-lbl .k{font-family:var(--mono);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--accent)}
+.wh-lbl .c{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:1.6px;color:var(--fg-soft)}
+
+/* ===== cierre: texto a la izquierda, pieza gráfica a la derecha =====
+   La imagen conserva su proporción, sin estirarse a lo ancho. */
+.wh-cierre{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:14px;align-items:stretch}
+.wh-banner{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background:var(--bg-2);display:flex;align-items:center;justify-content:center;padding:10px}
+.wh-banner img{display:block;max-width:100%;max-height:100%;height:auto;object-fit:contain}
+
+/* ===== visor a la izquierda + cintas verticales a la derecha ===== */
+/* El visor es cuadrado, igual que las fotos de producto (1024 × 1024):
+   así la imagen lo llena por completo y no quedan franjas a los costados. */
+.wh-blk{display:grid;grid-template-columns:var(--alto) minmax(0,1fr);gap:14px;
+  align-items:stretch;--alto:clamp(340px,64vh,640px)}
+
+/* Las fotos de producto vienen sobre blanco, así que van en un panel claro
+   en lugar de recortarse contra el fondo oscuro. */
+.wh-view{position:relative;background:#f4f2ee;border:1px solid var(--line);border-radius:10px;
+  overflow:hidden;height:var(--alto);cursor:zoom-in}
+.wh-view img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
+  opacity:0;transition:opacity .7s var(--ease)}
+.wh-view img.on{opacity:1}
+
+/* tres columnas, tres fotos visibles en cada una */
+.wh-gal{display:flex;gap:10px;overflow:hidden;height:var(--alto)}
+.wh-col{flex:1;min-width:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent)}
+.wh-track{display:flex;flex-direction:column;gap:10px;height:max-content;
+  animation:whParV 44s linear infinite}
+.wh-col.rev .wh-track{animation-direction:reverse;animation-duration:54s}
+.wh-col:hover .wh-track{animation-play-state:paused}
+@keyframes whParV{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.wh-track button{width:100%;height:calc((var(--alto) - 20px) / 3);background:#f4f2ee;
+  border:1px solid var(--line);border-radius:7px;overflow:hidden;cursor:pointer;padding:0;
+  flex-shrink:0;opacity:.78;transition:opacity .3s,border-color .3s}
+/* "cover" en las miniaturas: llenan la celda y desaparecen las franjas
+   vacías que dejaba cada foto con su propio margen */
+.wh-track button img{width:100%;height:100%;object-fit:cover;display:block}
+.wh-track button:hover{opacity:1}
+.wh-track button.on{opacity:1;border-color:var(--accent)}
+
+/* ===== barra de texto ===== */
+.wh-bar{background:var(--bg-2);border:1px solid var(--line);
+  border-left:2px solid var(--accent);border-radius:0 10px 10px 0;
+  padding:28px clamp(20px,2.6vw,34px);
+  display:flex;flex-direction:column;justify-content:center}
+.wh-kick{display:block;font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.wh-name{font-family:var(--disp);font-size:clamp(19px,2.1vw,27px);font-weight:700;
+  letter-spacing:-.8px;line-height:1.15}
+.wh-desc{font-size:14.5px;line-height:1.75;color:var(--fg-soft);margin:14px 0 0;max-width:70ch}
+.wh-desc strong{color:var(--fg);font-weight:600}
+/* lista de tareas del proyecto */
+.wh-lista{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+.wh-lista li{position:relative;padding-left:20px;font-size:14px;line-height:1.65;color:var(--fg-soft)}
+.wh-lista li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--accent)}
+.wh-lista strong{color:var(--fg);font-weight:600}
+
+/* zoom */
+.wh-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.wh-zoom.on{opacity:1;visibility:visible}
+.wh-zoom img{max-width:88vw;max-height:86vh;object-fit:contain;border-radius:6px;background:#f4f2ee}
+.wh-zoom button{position:absolute;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;border-radius:50%;transition:border-color .3s,background .3s}
+.wh-zoom .zc{top:22px;right:4vw;width:46px;height:46px;font-size:18px}
+.wh-zoom .zp,.wh-zoom .zn{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:24px}
+.wh-zoom .zp{left:3vw}.wh-zoom .zn{right:3vw}
+.wh-zoom button:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.wh-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+
+.wh-back{display:inline-flex;align-items:center;gap:10px;margin:48px 5vw 90px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.wh-back:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:900px){
+  .wh-top{padding:112px 6vw 0}
+  /* en pantalla angosta el visor arriba, cuadrado, y dos columnas debajo */
+  .wh-blk{grid-template-columns:1fr;gap:10px;--alto:clamp(230px,36vh,320px)}
+  .wh-view{aspect-ratio:1/1;height:auto}
+  .wh-gal{gap:8px}
+  .wh-gal .wh-col:nth-child(n+3){display:none}
+  .wh-cierre{grid-template-columns:1fr;gap:10px}
+  .wh-banner{padding:8px}
+  .wh-bar{grid-template-columns:1fr;gap:14px;padding:22px 20px}
+  .wh-back{margin:34px 6vw 64px}
+}
+</style>
+</head>
+<body>
+
+<div class="wh-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<section class="wh-top">
+  <div class="wh-lbl">
+    <span class="t"><em>Whipper</em>, stunt street bike</span>
+    <span class="c" id="whCant"></span>
+  </div>
+
+  <div class="wh-blk">
+    <div class="wh-view" id="whView"></div>
+    <div class="wh-gal" id="whGal"></div>
+  </div>
+
+  <div class="wh-cierre">
+    <div class="wh-bar">
+      <div class="wh-name">Participé en el desarrollo dirigiendo el proyecto:</div>
+      <ul class="wh-lista">
+        <li>Investigación de tendencias del mercado y propuesta de la línea de productos.</li>
+        <li>Realización del brief inicial y su tono de comunicación.</li>
+        <li>Elección de los componentes que lleva la bicicleta.</li>
+        <li>Definición de proveedores y estrategia de compra según lotes de producción.</li>
+        <li>Dirección del lenguaje visual del producto, definiendo su look &amp; feel para construir una identidad coherente con la marca.</li>
+        <li>Coordinación de las decisiones estratégicas que permitieron transformar el concepto inicial en un producto listo para producción.</li>
+      </ul>
+    </div>
+    <figure class="wh-banner">
+      <img src="img/3.%20Volta/7.%20whipper/whipper%20todas.jpg" alt="Whipper — línea completa">
+    </figure>
+  </div>
+
+</section>
+
+<div class="wh-zoom" id="whZoom">
+  <button class="zc" aria-label="Cerrar">✕</button>
+  <button class="zp" aria-label="Anterior">‹</button>
+  <img id="whZoomImg" src="" alt="">
+  <button class="zn" aria-label="Siguiente">›</button>
+  <span class="zct" id="whZoomCount"></span>
+</div>
+
+<a href="experiencia.html" class="wh-back">← Volver a Portfolio</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+const W="img/3.%20Volta/7.%20whipper/Negro%20y%20rosa/";
+
+/* único modelo por ahora: negro y rosa */
+const FOTOS=[
+  "1013089-bicicleta-mtb-topmega-whiper-aluminio-r24_-7vel-negro-fucsia-a4e952c41fe9fca31e17855084128409-1024-1024.jpg",
+  "1013089-1-d032b26048d5e0994d17855084122492-1024-1024.jpg",
+  "roja%20detalle.jpg","roja%20detalle%202.jpg","roja%20detalle%203.jpg","roja%20detalle%204.jpg",
+  "roja%20detalle%205.jpg","roja%20detalle%206.jpg","roja%20detalle%207.jpg"
+].map(f=>W+f);
+
+document.getElementById('whCant').textContent=FOTOS.length+' fotos';
+
+/* visor */
+document.getElementById('whView').innerHTML=FOTOS.map((s,i)=>
+  '<img src="'+s+'" alt="Whipper negro y rosa"'+(i===0?' class="on"':'')+'>').join('');
+
+/* Tres columnas verticales. Las fotos se reparten de a una en rueda, así
+   ninguna columna repite la secuencia de la vecina ni muestra la misma foto
+   al mismo tiempo. */
+(function(){
+  const COLS=3;
+  /* cada elemento guarda su posición real en FOTOS: al repartir en rueda,
+     las columnas no son tramos seguidos de la lista */
+  const cols=Array.from({length:COLS},()=>[]);
+  FOTOS.forEach((src,i)=>cols[i%COLS].push({src:src,i:i}));
+
+  const gal=document.getElementById('whGal');
+  const alto=gal.getBoundingClientRect().height||window.innerHeight*.52;
+  const altoCelda=(alto-20)/3+10;                 /* tres fotos visibles */
+  const necesarias=Math.ceil(alto/altoCelda)+2;
+
+  gal.innerHTML=cols.map((col,c)=>{
+    if(!col.length)return '';
+    const veces=Math.max(2,Math.ceil(necesarias/col.length)*2);
+    let seq=[];
+    for(let k=0;k<veces;k++)seq=seq.concat(col);
+    return '<div class="wh-col'+(c%2?' rev':'')+'"><div class="wh-track">'
+      +seq.map(o=>'<button data-i="'+o.i+'">'
+        +'<img src="'+o.src+'" alt="Whipper negro y rosa" loading="lazy"></button>').join('')
+      +'</div></div>';
+  }).join('');
+})();
+
+/* selección */
+const imgs=document.querySelectorAll('#whView img');
+const ths=document.querySelectorAll('#whGal button');
+let actual=0;
+function elegir(i){
+  actual=(i+FOTOS.length)%FOTOS.length;
+  imgs.forEach((im,k)=>im.classList.toggle('on',k===actual));
+  ths.forEach(b=>b.classList.toggle('on',+b.dataset.i===actual));
+}
+ths.forEach(b=>b.addEventListener('click',()=>elegir(+b.dataset.i)));
+document.querySelectorAll('#whGal img').forEach(im=>
+  im.addEventListener('error',()=>im.closest('button').remove()));
+elegir(0);
+
+/* zoom */
+const zb=document.getElementById('whZoom'), zim=document.getElementById('whZoomImg'), zct=document.getElementById('whZoomCount');
+let zi=0;
+function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
+function paintZ(){zim.src=FOTOS[zi];zct.textContent=(zi+1)+' / '+FOTOS.length;}
+function stepZ(n){zi=(zi+n+FOTOS.length)%FOTOS.length;paintZ();}
+document.getElementById('whView').addEventListener('click',()=>openZ(actual));
+zb.querySelector('.zc').addEventListener('click',closeZ);
+zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
+zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
+zb.addEventListener('click',e=>{if(e.target===zb)closeZ();});
+document.addEventListener('keydown',e=>{
+  if(!zb.classList.contains('on'))return;
+  if(e.key==='Escape')closeZ();
+  if(e.key==='ArrowRight')stepZ(1);
+  if(e.key==='ArrowLeft')stepZ(-1);
+});
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

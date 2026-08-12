@@ -1,0 +1,510 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Indumentaria — Migue.stl</title>
+<meta name="description" content="Línea completa de indumentaria de ciclismo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Indumentaria — Volta">
+<meta property="og:description" content="Línea completa de indumentaria de ciclismo.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/indumentaria.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Indumentaria — Volta">
+<meta name="twitter:description" content="Línea completa de indumentaria de ciclismo.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ===== INDUMENTARIA ===== */
+
+.in2-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.in2-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* encabezado y texto */
+.in2-top{padding:132px 5vw 0}
+.in2-lbl{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);
+  padding-bottom:14px;margin-bottom:20px}
+.in2-lbl .t{font-family:var(--disp);font-size:clamp(26px,4vw,52px);font-weight:700;
+  letter-spacing:-1.8px;color:var(--fg)}
+.in2-lbl .c{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:1.6px;color:var(--fg-soft)}
+
+.in2-bar{background:var(--bg-2);border:1px solid var(--line);border-left:2px solid var(--accent);
+  border-radius:0 10px 10px 0;padding:28px clamp(20px,2.6vw,34px)}
+.in2-bar .lead{font-size:clamp(15px,1.5vw,19px);line-height:1.7;color:var(--fg);
+  font-weight:300;margin:0}
+.in2-bar .lead strong{color:var(--fg);font-weight:600}
+.in2-lista{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;gap:11px}
+.in2-lista li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.65;color:var(--fg-soft)}
+.in2-lista li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--accent)}
+
+/* ===== prendas: selector · visor · detalles =====
+   Mismo esquema que la página de Calzado. */
+.iz-stage{padding:38px 5vw 10px}
+.iz-stage + .iz-stage{padding-top:14px}
+/* rótulo del set: femenino, masculino, y los que se sumen */
+.iz-cat{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;
+  border-bottom:1px solid var(--line);padding-bottom:12px;
+  font-family:var(--disp);font-size:clamp(19px,2.2vw,28px);font-weight:700;
+  letter-spacing:-.9px;color:var(--fg)}
+.iz-blk{display:grid;grid-template-columns:132px minmax(0,1fr) minmax(0,.95fr);gap:14px;
+  align-items:stretch;--alto:clamp(420px,64vh,620px)}
+
+/* selector vertical de prendas */
+.iz-sel{display:flex;flex-direction:column;gap:4px;height:var(--alto);min-height:0}
+.iz-sel button{background:none;border:0;border-left:2px solid transparent;cursor:pointer;
+  font-family:inherit;color:var(--fg-soft);padding:6px;flex:1;min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  transition:color .3s,border-color .4s var(--ease),background .35s}
+.iz-sel button:hover{color:var(--fg);background:rgba(245,242,234,.03)}
+.iz-sel button.on{color:var(--fg);border-left-color:var(--accent);background:rgba(232,85,58,.06)}
+/* La miniatura tiene proporción fija 3:2 y recorta la foto en la banda del
+   jersey: entra entero, del cuello al dobladillo, y la cabeza queda afuera.
+   Las 12 fotos son 1080x1920, así que el recorte cae igual en todas.
+   Si se cambian las fotos hay que recalcular el 34%. */
+/* el max-height evita que la miniatura se estire cuando el set tiene pocas
+   prendas y sobra altura en la columna */
+.iz-sel .th{flex:1;min-height:0;aspect-ratio:3/2;max-width:100%;max-height:88px;margin:0 auto;
+  overflow:hidden;border-radius:4px;background:var(--bg-3)}
+.iz-sel .th img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 34%}
+.iz-sel .nm{font-family:var(--mono);font-size:8.5px;letter-spacing:1.2px;text-transform:uppercase;
+  line-height:1.2;text-align:center}
+
+/* visor con el texto encima */
+.iz-vwrap{position:relative;height:var(--alto);overflow:hidden;border-radius:10px;
+  background:var(--bg-2);border:1px solid var(--line);--txth:132px}
+.iz-view{position:absolute;inset:0}
+/* La foto principal se encuadra arriba: entra la cara entera y queda un poco
+   de aire sobre la cabeza. Bajar el 8% sube la foto; subirlo la baja. */
+.iz-view img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:50% 8%;
+  opacity:0;transition:opacity .6s var(--ease)}
+.iz-view img.on{opacity:1}
+.iz-tx{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:20px clamp(18px,2.2vw,28px);
+  background:linear-gradient(180deg,transparent,rgba(12,12,11,.88) 55%)}
+.iz-tx .dc{font-family:var(--mono);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:5px}
+.iz-tx .nm{font-family:var(--disp);font-size:clamp(22px,2.6vw,34px);font-weight:700;
+  letter-spacing:-1.1px;line-height:1;text-shadow:0 4px 22px rgba(0,0,0,.85)}
+.iz-tx .ds{font-size:13px;line-height:1.6;color:var(--fg-soft);margin-top:10px;
+  padding-top:10px;border-top:1px solid rgba(245,242,234,.2);max-width:60ch}
+
+/* dos cintas de detalles: recortes de la prenda elegida */
+.iz-gal{display:flex;gap:10px;height:var(--alto);overflow:hidden}
+.iz-col{flex:1;min-width:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent)}
+.iz-track{display:flex;flex-direction:column;gap:10px;height:max-content;
+  animation:izPar 42s linear infinite}
+.iz-col.rev .iz-track{animation-direction:reverse;animation-duration:52s}
+.iz-col:hover .iz-track{animation-play-state:paused}
+@keyframes izPar{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes izParH{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* cada celda es un recorte distinto de la misma foto */
+.iz-cell{width:100%;height:calc((var(--alto) - 20px) / 3);flex-shrink:0;cursor:zoom-in;
+  border:1px solid var(--line);border-radius:7px;background-color:var(--bg-2);
+  background-image:var(--foto);background-size:240%;background-repeat:no-repeat;
+  transition:border-color .3s,transform .4s var(--ease)}
+/* cuando hay fotos de detalle propias, la celda muestra la foto entera.
+   Vienen sobre fondo blanco de estudio, así que van sobre panel claro. */
+.iz-cell.foto{background-color:#f4f2ee;background-size:cover;background-position:50% 50%}
+.iz-cell:hover{border-color:var(--accent);transform:scale(1.03)}
+.iz-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--fg-soft);margin-top:14px;opacity:.7}
+
+/* ===== placas =====
+   El manga larga y las calzas no vienen como fotos sueltas sino como piezas
+   ya diseñadas: cada JPG trae el fondo, el título, el nombre y sus tres
+   detalles adentro. Por eso no van al esquema selector · visor · cintas —
+   sería un diseño dentro de otro. Se muestran enteras, en grilla.
+   El fondo de las placas es el mismo oscuro con naranja del sitio, así que
+   apoyan sin panel ni marco. */
+.pl-wrap{padding:38px 5vw 10px}
+.pl-wrap + .pl-wrap{padding-top:22px}
+.pl-sub{font-family:var(--mono);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--fg-soft);margin:-6px 0 18px}
+/* --cols se fija por sección para que cada grilla sea una fila completa; el
+   max-width mantiene las placas del mismo ancho aunque las filas tengan
+   distinta cantidad. */
+.pl-grid{display:grid;gap:14px;grid-template-columns:repeat(var(--cols,5),minmax(0,1fr));
+  max-width:calc(var(--cols,5)*340px + (var(--cols,5) - 1)*14px)}
+.pl-grid + .pl-rot{margin-top:26px}
+.pl-rot{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px}
+.pl{margin:0;cursor:zoom-in;border-radius:8px;overflow:hidden;border:1px solid var(--line);
+  background:var(--bg-2);transition:border-color .35s,transform .45s var(--ease)}
+/* contain, no cover: las placas no son todas exactamente 3:4 (van de .74 a
+   .77) y recortarlas comería el título o los detalles del borde. El sobrante
+   queda del color del fondo de la placa, así que no se nota. */
+.pl img{display:block;width:100%;aspect-ratio:3/4;object-fit:contain;background:#0c0c0b}
+.pl figcaption{font-family:var(--mono);font-size:9.5px;letter-spacing:1.4px;text-transform:uppercase;
+  color:var(--fg-soft);padding:10px 12px;border-top:1px solid var(--line);
+  display:flex;justify-content:space-between;gap:8px;transition:color .3s}
+.pl:hover{border-color:var(--accent);transform:translateY(-4px)}
+.pl:hover figcaption{color:var(--fg)}
+
+/* zoom */
+.in2-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.in2-zoom.on{opacity:1;visibility:visible}
+.in2-zoom img{max-width:88vw;max-height:88vh;object-fit:contain;border-radius:6px}
+.in2-zoom button{position:absolute;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;border-radius:50%;transition:border-color .3s,background .3s}
+.in2-zoom .zc{top:22px;right:4vw;width:46px;height:46px;font-size:18px}
+.in2-zoom .zp,.in2-zoom .zn{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:24px}
+.in2-zoom .zp{left:3vw}.in2-zoom .zn{right:3vw}
+.in2-zoom button:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.in2-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+
+.in2-back{display:inline-flex;align-items:center;gap:10px;margin:36px 5vw 90px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.in2-back:hover{border-color:var(--accent);color:var(--accent)}
+
+/* las placas bajan de a escalones para no quedar ilegibles */
+@media(max-width:1180px){.pl-grid{--cols:3!important}}
+@media(max-width:760px){.pl-grid{--cols:2!important}}
+@media(max-width:460px){.pl-grid{--cols:1!important}}
+
+@media(max-width:900px){
+  .pl-wrap{padding:26px 6vw 10px}
+  .in2-top{padding:112px 6vw 0}
+  .in2-bar{padding:22px 20px}
+  /* en celular: selector angosto y visor al lado; los detalles bajan y
+     pasan a correr en horizontal */
+  .iz-stage{padding:26px 6vw 10px}
+  .iz-blk{grid-template-columns:74px minmax(0,1fr);gap:8px;--alto:clamp(330px,52vh,460px)}
+  .iz-sel .nm{font-size:7.5px;letter-spacing:.8px}
+  .iz-vwrap{--txth:112px}
+  .iz-tx{padding:16px}
+  .iz-gal{grid-column:1/-1;flex-direction:column;height:auto;gap:8px;margin-top:10px}
+  .iz-col{flex:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .iz-track{flex-direction:row;width:max-content;height:auto;animation-name:izParH}
+  .iz-cell{width:132px;height:96px}
+  .in2-zoom .zp,.in2-zoom .zn{width:42px;height:42px;font-size:20px}
+  .in2-zoom .zp{left:8px}.in2-zoom .zn{right:8px}
+  .in2-back{margin:24px 6vw 64px}
+}
+</style>
+</head>
+<body>
+
+<div class="in2-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<section class="in2-top">
+  <div class="in2-lbl">
+    <span class="t">Indumentaria</span>
+    <span class="c" id="in2Cant"></span>
+  </div>
+
+  <div class="in2-bar">
+    <p class="lead">Desarrollé la <strong>línea completa de indumentaria</strong> de Volta. Mi rol fue dirigir el proyecto, participando en:</p>
+    <ul class="in2-lista">
+      <li>Investigación de tendencias del mercado y propuesta de la línea de productos.</li>
+      <li>Realización del brief inicial y definición del alcance de toda la línea de productos.</li>
+      <li>Definición y selección de proveedores.</li>
+      <li>Contacto con proveedores chinos para gestionar el desarrollo de muestras y sus iteraciones.</li>
+      <li>Dirección del lenguaje visual del producto junto a un equipo de diseñadores gráficos, definiendo su look &amp; feel para construir una identidad coherente con la marca.</li>
+      <li>Definición de la estrategia de lanzamiento.</li>
+    </ul>
+  </div>
+</section>
+
+<div id="izSets"></div>
+<div id="izPlacas"></div>
+
+<div class="in2-zoom" id="in2Zoom">
+  <button class="zc" aria-label="Cerrar">✕</button>
+  <button class="zp" aria-label="Anterior">‹</button>
+  <img id="in2ZoomImg" src="" alt="">
+  <button class="zn" aria-label="Siguiente">›</button>
+  <span class="zct" id="in2ZoomCount"></span>
+</div>
+
+<a href="experiencia.html" class="in2-back">← Volver a Portfolio</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+const B="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/fotos%20estudio/Jerseys%20sin/";
+const SUB="/news%20editadas%20sin%20lo%20de%20abajo/";
+
+/* Fotos de detalle sobre fondo blanco de estudio. Cada variante femenina tiene
+   su carpeta propia; adentro las fotos son una vuelta de 360° numerada, y las
+   dos últimas son macros del cuello y del dobladillo.
+   El orden elegido va de lo general a lo chico:
+     espalda · frente 3/4 · perfil · espalda 3/4 · macro cuello · macro dobladillo
+   Los jerseys masculinos todavía no tienen estas fotos: sin `det`, la página
+   cae sola en los recortes de la foto principal. */
+const DET=(carpeta,nums)=>nums.map(n=>B+"femenino/"+carpeta+"/"+n+".jpg");
+
+/* Un mismo jersey de manga corta en seis colores por género, más el jersey
+   de manga larga (unisex), que es otro producto y va en su propio set.
+   El nombre de cada prenda es su color.
+   Campos: [nombre, foto principal, descripción, fotos de detalle, banda].
+   La banda dice entre qué alturas de la foto está el jersey (del cuello al
+   dobladillo). Solo hace falta cuando la foto no es vertical 1080x1920: las del
+   manga larga son cuadradas y el recorte fijo del CSS les queda mal. */
+const GRUPOS=[
+  {t:"Femenino", prendas:[
+    ["Amanecer",  "Mesa%20de%20trabajo%201%20copia%203.jpg", "Print de sierras en rosa, fucsia y azul, con el logo cruzando el pecho.",
+      DET("amanecer%20fem",[4,7,2,5,8,10])],
+    ["Embajador", "Mesa%20de%20trabajo%201%20copia%204.jpg", "Jersey del equipo: rayas bordó y naranja con los sponsors en la manga.",
+      DET("embajadores",[4,7,2,5,8,9])],
+    ["Nube",      "Mesa%20de%20trabajo%201.jpg",             "Blanco crudo, liso. Logo al costado en gris.",
+      DET("calzas%20azules%20y%20jersey%20blanco",[4,8,2,5,9,10])],
+    ["Aqua",      "Mesa%20de%20trabajo%201%20copia.jpg",     "Verde agua, liso. Logo al costado en rosa palo.",
+      DET("turquezas",[4,7,2,5,8,9])],
+    ["Coral",     "Mesa%20de%20trabajo%201%20copia%202.jpg", "Coral flúo, liso. Logo al costado en blanco."],
+    ["Negro",     "Mesa%20de%20trabajo%201%20copia%205.jpg", "Negro, liso. Logo al costado en blanco."]
+  ], carpeta:"femenino"},
+  {t:"Masculino", prendas:[
+    ["Atardecer", "Mesa%20de%20trabajo%201%20copia%209.jpg", "Print de sierras en crudo, amarillo y rojo, con el logo cruzando el pecho."],
+    ["Embajador", "Mesa%20de%20trabajo%201%20copia%2010.jpg","Jersey del equipo: rayas bordó y naranja con los sponsors en la manga."],
+    ["Marino",    "Mesa%20de%20trabajo%201%20copia%206.jpg", "Azul, liso. Logo al costado en gris."],
+    ["Negro",     "Mesa%20de%20trabajo%201%20copia%205.jpg", "Negro, liso, con panel lateral de otra textura."],
+    ["Nube",      "Mesa%20de%20trabajo%201%20copia%207.jpg", "Blanco, liso, con paneles de malla a la vista."],
+    ["Naranja",   "Mesa%20de%20trabajo%201%20copia%208.jpg", "Naranja flúo, liso. Logo al costado en claro."]
+  ], carpeta:"masculino"}
+].map(g=>({...g, fotos:g.prendas.map(p=>(g.base||(B+g.carpeta+SUB))+p[1])}));
+
+/* ===== placas =====
+   Manga larga y calzas vienen como piezas ya diseñadas (fondo, título, nombre
+   y tres detalles adentro de cada JPG), así que se muestran enteras.
+   Los nombres son los que figuran en la propia placa: no coinciden con el
+   nombre del archivo (amarillo.jpg es Capucchino, atardecer.jpg es Amanecer). */
+const E="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/fotos%20estudio/";
+const PLACAS=[
+  {t:"Manga larga", sub:"Jersey unisex · 5 colores", cols:5,
+   base:E+"manga%20larga/mangalarga%20editadas/",
+   items:[
+     ["Capucchino",    "amarillo.jpg"],
+     ["Amanecer",      "atardecer.jpg"],
+     ["Azul Petróleo", "azul.jpg"],
+     ["Marrón",        "terracota.jpg"],
+     ["Negro",         "negro.jpg"]
+   ]},
+  {t:"Calzas", sub:"3 de mujer y 3 de hombre", cols:3,
+   base:E+"calzas%20editadas/",
+   filas:[
+     ["Mujer", [
+       ["Negro",    "negra%20femenino.jpg"],
+       ["Violeta",  "purpura%20femenino.jpg"],
+       ["Petróleo", "56007abd-658c-43e1-a77b-3505a6a8379d%20(1).jpg"]
+     ]],
+     ["Hombre", [
+       ["Negro",     "negra%20masculino.jpg"],
+       ["Gris",      "gris%20oscuro%20masculino.jpg"],
+       ["Azul Navy", "marino%20masculino.jpg"]
+     ]]
+   ]}
+];
+
+/* Cada género arma su propio set: selector, visor y cintas de detalle.
+   Los detalles saldrán de su propia carpeta más adelante. */
+const SETS=GRUPOS.map(g=>({
+  gen:g.t,
+  items:g.prendas.map((p,i)=>({
+    nm:p[0],
+    desc:p[2],
+    det:p[3]||null,
+    banda:p[4]||null,
+    src:g.fotos[i]
+  }))
+}));
+
+/* lista plana, en el mismo orden en que se muestran */
+const FOTOS=GRUPOS.reduce((a,g)=>a.concat(g.fotos),[]);
+document.getElementById('in2Cant').textContent=FOTOS.length+' prendas';
+
+/* recortes de la foto elegida, mientras no haya fotos de detalle propias */
+const RECORTES=['50% 16%','34% 34%','64% 30%','44% 52%','58% 60%','40% 74%'];
+
+/* se dibuja un bloque completo por género, uno debajo del otro */
+document.getElementById('izSets').innerHTML=SETS.map((s,n)=>
+  '<section class="iz-stage" data-set="'+n+'">'
+  +'<div class="iz-cat">'+s.gen+'</div>'
+  +'<div class="iz-blk">'
+    +'<div class="iz-sel"></div>'
+    +'<div class="iz-vwrap"><div class="iz-view"></div>'
+      +'<div class="iz-tx"><span class="dc"></span><h2 class="nm"></h2><p class="ds"></p></div></div>'
+    +'<div class="iz-gal"></div>'
+  +'</div>'
+  +'<div class="iz-note">Los detalles son recortes de la prenda elegida · clic para ampliar</div>'
+  +'</section>').join('');
+
+let base=0;
+document.querySelectorAll('.iz-stage').forEach(stage=>{
+  const s=SETS[+stage.dataset.set];
+  const desde=base; base+=s.items.length;
+
+  const sel=stage.querySelector('.iz-sel');
+  const view=stage.querySelector('.iz-view');
+  const gal=stage.querySelector('.iz-gal');
+
+  sel.innerHTML=s.items.map((p,i)=>
+    '<button data-i="'+i+'"'+(i===0?' class="on"':'')+'>'
+    +'<span class="th"><img src="'+p.src+'" alt="'+p.nm+'" loading="lazy"'
+      +(p.banda?' data-b="'+p.banda.join(',')+'"':'')+'></span>'
+    +'<span class="nm">'+p.nm+'</span></button>').join('');
+
+  view.innerHTML=s.items.map((p,i)=>
+    '<img src="'+p.src+'" alt="'+p.nm+'"'+(i===0?' class="on"':'')+'>').join('');
+
+  function elegir(i){
+    const k=(i+s.items.length)%s.items.length;
+    const p=s.items[k];
+    view.querySelectorAll('img').forEach((im,n)=>im.classList.toggle('on',n===k));
+    sel.querySelectorAll('button').forEach((b,n)=>b.classList.toggle('on',n===k));
+    stage.querySelector('.iz-tx .dc').textContent=s.gen;
+    stage.querySelector('.iz-tx .nm').textContent=p.nm;
+    stage.querySelector('.iz-tx .ds').textContent=p.desc;
+
+    /* Dos cintas: fotos de detalle propias si las hay, si no recortes de la
+       foto principal. Se repite un número par de veces o el bucle salta. */
+    const propias=!!(p.det&&p.det.length);
+    const items=propias?p.det.map((s,i)=>({s:s,i:i})):RECORTES;
+    const mitad=Math.ceil(items.length/2);
+    const cols=[items.slice(0,mitad),items.slice(mitad)];
+
+    gal.style.setProperty('--foto','url("'+p.src+'")');
+    gal.innerHTML=cols.map((col,c)=>{
+      let seq=[];
+      for(let r=0;r<4;r++)seq=seq.concat(col);
+      return '<div class="iz-col'+(c?' rev':'')+'"><div class="iz-track">'
+        +seq.map(it=>propias
+            ? '<div class="iz-cell foto" data-d="'+it.i+'" style="background-image:url(\''+it.s+'\')"></div>'
+            : '<div class="iz-cell" style="background-position:'+it+'"></div>').join('')
+        +'</div></div>';
+    }).join('');
+
+    gal.querySelectorAll('.iz-cell').forEach(c=>
+      c.addEventListener('click',()=>propias
+        ? openZ(p.det,+c.dataset.d)     /* recorre los detalles de esta prenda */
+        : openZ(FOTOS,desde+k)));       /* recorre las prendas */
+
+    stage.querySelector('.iz-note').textContent=propias
+      ? 'Detalles de la prenda elegida · clic para ampliar'
+      : 'Los detalles son recortes de la prenda elegida · clic para ampliar';
+  }
+
+  sel.querySelectorAll('button').forEach(b=>
+    b.addEventListener('click',()=>elegir(+b.dataset.i)));
+  elegir(0);
+});
+
+/* zoom */
+/* Dibuja las secciones de placas. Cada grilla es una fila completa: la
+   cantidad de columnas sale de la cantidad de prendas, así no quedan huecos.
+   Las calzas van en dos filas rotuladas, mujer y hombre. */
+(function(){
+  const zoomDe=[];   /* lista plana, en el orden en que se ven, para el visor */
+  const celda=(nm,src,rot)=>{
+    const i=zoomDe.push(src)-1;
+    return '<figure class="pl" data-p="'+i+'">'
+      +'<img src="'+src+'" alt="'+(rot?rot+' ':'')+nm+'" loading="lazy" onerror="this.parentNode.remove()">'
+      +'<figcaption><span>'+nm+'</span>'+(rot?'<span>'+rot+'</span>':'')+'</figcaption></figure>';
+  };
+
+  document.getElementById('izPlacas').innerHTML=PLACAS.map(s=>{
+    let cuerpo;
+    if(s.filas){
+      cuerpo=s.filas.map(([rot,items])=>
+        '<div class="pl-rot">'+rot+'</div>'
+        +'<div class="pl-grid" style="--cols:'+s.cols+'">'
+        +items.map(([nm,f])=>celda(nm,s.base+f,rot)).join('')+'</div>').join('');
+    }else{
+      cuerpo='<div class="pl-grid" style="--cols:'+s.cols+'">'
+        +s.items.map(([nm,f])=>celda(nm,s.base+f)).join('')+'</div>';
+    }
+    return '<section class="pl-wrap">'
+      +'<div class="iz-cat">'+s.t+'</div>'
+      +'<div class="pl-sub">'+s.sub+'</div>'
+      +cuerpo+'</section>';
+  }).join('');
+
+  document.querySelectorAll('.pl').forEach(f=>
+    f.addEventListener('click',()=>openZ(zoomDe,+f.dataset.p)));
+  /* el contador de arriba suma las de manga corta más las placas */
+  document.getElementById('in2Cant').textContent=(FOTOS.length+zoomDe.length)+' prendas';
+  window.PLACAS_FOTOS=zoomDe;
+})();
+
+/* Encuadre calculado de la miniatura.
+   El CSS recorta al 34%, que es el valor bueno para las fotos verticales
+   1080x1920. Para las demás se calcula acá: sabiendo entre qué alturas de la
+   foto está el jersey, se busca el object-position que centra esa banda en la
+   miniatura. Se rehace al cambiar el tamaño de la ventana, así el jersey
+   siempre entra entero y la cabeza siempre queda afuera. */
+function encuadrar(img){
+  const b=img.dataset.b; if(!b)return;
+  const caja=img.parentNode.getBoundingClientRect();
+  if(!caja.height||!img.naturalWidth)return;
+  const visible=(img.naturalWidth/img.naturalHeight)/(caja.width/caja.height);
+  if(visible>=1){img.style.objectPosition='';return;}   /* entra toda la foto */
+  const [d,h]=b.split(',').map(Number);
+  /* Se ancla arriba, no se centra: centrar reparte el sobrante y la cabeza
+     vuelve a entrar. Arranca dos puntos antes del cuello, para no cortarlo. */
+  const inicio=visible>=(h-d) ? d-.02 : d+((h-d)-visible)/2;
+  const p=Math.max(0,Math.min(1,inicio/(1-visible)));
+  img.style.objectPosition='50% '+(p*100).toFixed(1)+'%';
+}
+function encuadrarTodas(){document.querySelectorAll('.iz-sel img[data-b]').forEach(encuadrar);}
+document.querySelectorAll('.iz-sel img[data-b]').forEach(im=>{
+  if(im.complete)encuadrar(im); else im.addEventListener('load',()=>encuadrar(im));
+});
+addEventListener('resize',encuadrarTodas);
+
+/* El visor recorre la lista que se le pasa: las 12 prendas, o los detalles
+   de una prenda cuando esa variante tiene fotos propias. */
+const zb=document.getElementById('in2Zoom'), zim=document.getElementById('in2ZoomImg'), zct=document.getElementById('in2ZoomCount');
+let zLista=FOTOS, zi=0;
+function openZ(lista,i){zLista=lista;zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
+function paintZ(){zim.src=zLista[zi];zct.textContent=(zi+1)+' / '+zLista.length;}
+function stepZ(n){zi=(zi+n+zLista.length)%zLista.length;paintZ();}
+zb.querySelector('.zc').addEventListener('click',closeZ);
+zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
+zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
+zb.addEventListener('click',e=>{if(e.target===zb)closeZ();});
+document.addEventListener('keydown',e=>{
+  if(!zb.classList.contains('on'))return;
+  if(e.key==='Escape')closeZ();
+  if(e.key==='ArrowRight')stepZ(1);
+  if(e.key==='ArrowLeft')stepZ(-1);
+});
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

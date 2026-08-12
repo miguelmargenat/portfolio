@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Línea Ruta — Migue.stl</title>
+<meta name="description" content="Concept de ruta en carbono.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Línea Ruta — Volta">
+<meta property="og:description" content="Concept de ruta en carbono.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/ruta.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Línea Ruta — Volta">
+<meta name="twitter:description" content="Concept de ruta en carbono.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ===== LÍNEA RUTA · concept ===== */
+
+.rt-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.rt-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* encabezado y texto */
+.rt-top{padding:132px 5vw 0}
+.rt-lbl{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);
+  padding-bottom:12px;margin-bottom:20px}
+.rt-lbl .t{font-family:var(--disp);font-size:clamp(20px,2.4vw,32px);font-weight:700;letter-spacing:-1px;color:var(--fg)}
+.rt-lbl .t em{font-style:normal;color:var(--accent)}
+.rt-lbl .c{margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:1.6px;color:var(--fg-soft)}
+
+.rt-bar{background:var(--bg-2);border:1px solid var(--line);border-left:2px solid var(--accent);
+  border-radius:0 10px 10px 0;padding:28px clamp(20px,2.6vw,34px)}
+.rt-bar .k{display:block;font-family:var(--mono);font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.rt-bar p{font-size:clamp(15px,1.5vw,19px);line-height:1.75;color:var(--fg-soft);margin:0;max-width:90ch}
+.rt-bar p + p{margin-top:14px}
+.rt-bar strong{color:var(--fg);font-weight:500}
+
+/* ===== galería de renders, agrupados por categoría =====
+   Los renders vienen sobre un fondo claro de estudio, así que van montados
+   en un panel del mismo tono en vez de recortarse contra el fondo oscuro. */
+.rt-gal{padding:34px 5vw 20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rt-gal .cat{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin-top:16px;
+  font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--fg-soft)}
+.rt-gal .cat::after{content:"";flex:1;height:1px;background:var(--line)}
+.rt-gal .cat:first-child{margin-top:0}
+.rt-gal figure{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;
+  background:#eceae6;cursor:zoom-in;position:relative;
+  transition:border-color .35s,transform .5s var(--ease)}
+.rt-gal figure:hover{border-color:var(--accent);transform:translateY(-4px)}
+.rt-gal img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/3;
+  transition:transform .8s var(--ease)}
+.rt-gal figure:hover img{transform:scale(1.03)}
+.rt-gal .n{position:absolute;top:12px;left:14px;z-index:2;font-family:var(--mono);
+  font-size:10px;letter-spacing:1.8px;color:#3a3a36;opacity:.7}
+
+/* zoom */
+.rt-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.rt-zoom.on{opacity:1;visibility:visible}
+.rt-zoom img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:6px;background:#eceae6}
+.rt-zoom button{position:absolute;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;border-radius:50%;transition:border-color .3s,background .3s}
+.rt-zoom .zc{top:22px;right:4vw;width:46px;height:46px;font-size:18px}
+.rt-zoom .zp,.rt-zoom .zn{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:24px}
+.rt-zoom .zp{left:3vw}.rt-zoom .zn{right:3vw}
+.rt-zoom button:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.rt-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+
+.rt-back{display:inline-flex;align-items:center;gap:10px;margin:36px 5vw 90px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.rt-back:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:900px){
+  .rt-top{padding:112px 6vw 0}
+  .rt-bar{padding:22px 20px}
+  .rt-gal{padding:24px 6vw 14px;grid-template-columns:1fr;gap:10px}
+  .rt-gal .cat{margin-top:12px}
+  .rt-zoom .zp,.rt-zoom .zn{width:42px;height:42px;font-size:20px}
+  .rt-zoom .zp{left:8px}.rt-zoom .zn{right:8px}
+  .rt-back{margin:24px 6vw 64px}
+}
+</style>
+</head>
+<body>
+
+<div class="rt-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<section class="rt-top">
+  <div class="rt-lbl">
+    <span class="t"><em>Línea Ruta</em>, concept</span>
+    <span class="c" id="rtCant"></span>
+  </div>
+
+  <div class="rt-bar">
+    <span class="k">Concept</span>
+    <p>Propuesta de una <strong>línea de ruta de carbono</strong> para la marca: definición de la silueta del cuadro, el esquema gráfico y la selección de componentes, resuelta enteramente en render antes de cualquier muestra física.</p>
+    <p>El ejercicio sirvió para evaluar la identidad visual de la línea y anticipar cómo se vería el producto terminado.</p>
+  </div>
+</section>
+
+<section class="rt-gal" id="rtGal"></section>
+
+<div class="rt-zoom" id="rtZoom">
+  <button class="zc" aria-label="Cerrar">✕</button>
+  <button class="zp" aria-label="Anterior">‹</button>
+  <img id="rtZoomImg" src="" alt="">
+  <button class="zn" aria-label="Siguiente">›</button>
+  <span class="zct" id="rtZoomCount"></span>
+</div>
+
+<a href="experiencia.html" class="rt-back">← Volver a Portfolio</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+const R="img/3.%20Volta/8.%20Ruta%202026/renders/";
+/* el nombre de cada archivo indica su categoría y el orden a mostrar */
+const RENDERS=[
+  "1%20al.jpg","2%20al.jpg",
+  "3%20endurance.jpg","4%20endurance.jpg",
+  "5%20aero.jpg","6%20aero.jpg",
+  "7%20ruedas.jpg"
+].map(f=>R+f);
+
+document.getElementById('rtCant').textContent=RENDERS.length+' renders';
+
+/* Los renders van de a dos, en el orden de la carpeta, con un rótulo que
+   abre cada categoría. Los cortes salen del nombre de los archivos. */
+const CORTES={0:'Aluminio',2:'Endurance',4:'Aero',6:'Ruedas'};
+
+document.getElementById('rtGal').innerHTML=RENDERS.map((src,i)=>
+  (CORTES[i]?'<div class="cat">'+CORTES[i]+'</div>':'')
+  +'<figure data-z="'+i+'">'
+  +'<span class="n">'+String(i+1).padStart(2,'0')+'</span>'
+  +'<img src="'+src+'" alt="Render línea ruta — '+(CORTES[i]||'')+'" loading="lazy">'
+  +'</figure>').join('');
+
+/* zoom */
+const zb=document.getElementById('rtZoom'), zim=document.getElementById('rtZoomImg'), zct=document.getElementById('rtZoomCount');
+let zi=0;
+function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
+function paintZ(){zim.src=RENDERS[zi];zct.textContent=(zi+1)+' / '+RENDERS.length;}
+function stepZ(n){zi=(zi+n+RENDERS.length)%RENDERS.length;paintZ();}
+document.querySelectorAll('#rtGal figure').forEach(f=>{
+  f.addEventListener('click',()=>openZ(+f.dataset.z));
+  f.querySelector('img').addEventListener('error',()=>f.remove());
+});
+zb.querySelector('.zc').addEventListener('click',closeZ);
+zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
+zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
+zb.addEventListener('click',e=>{if(e.target===zb)closeZ();});
+document.addEventListener('keydown',e=>{
+  if(!zb.classList.contains('on'))return;
+  if(e.key==='Escape')closeZ();
+  if(e.key==='ArrowRight')stepZ(1);
+  if(e.key==='ArrowLeft')stepZ(-1);
+});
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

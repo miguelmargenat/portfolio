@@ -1,0 +1,490 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prueba · Calzado Volta — Miguel Margenat</title>
+<meta name="description" content="Línea completa de calzado: ruta, MTB, gravel y urbano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Calzado Volta — Miguel Margenat">
+<meta property="og:description" content="Línea completa de calzado: ruta, MTB, gravel y urbano.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/calzado.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Calzado Volta — Miguel Margenat">
+<meta name="twitter:description" content="Línea completa de calzado: ruta, MTB, gravel y urbano.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ===== PRUEBA · layout de producto ===== */
+
+/* fondo global de la página: grilla técnica + luz cálida */
+.pz-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.pz-bg .grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(245,242,234,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,234,.04) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
+
+/* Mitad de alto que la proporción original de las fotos (3:2 -> 3:1).
+   Con "cover" se recorta por arriba y por abajo en vez de dejar barras. */
+.pz-hero{position:relative;aspect-ratio:3/1;height:auto;min-height:0;overflow:hidden;
+  display:flex;align-items:flex-end;margin:0 5vw;border-radius:8px 8px 0 0}
+.pz-hero .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s var(--ease);will-change:opacity}
+.pz-hero .slide.on{opacity:1}
+.pz-hero .slide img{width:100%;height:100%;object-fit:cover;object-position:50% 55%}
+.pz-hero .veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,11,.45) 0%,rgba(12,12,11,0) 32%,rgba(12,12,11,0) 52%,rgba(12,12,11,.9) 100%)}
+.pz-hero .inner{position:relative;z-index:2;padding:0 clamp(20px,3vw,40px) 26px;width:100%}
+.pz-hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:16px}
+.pz-hero h1{font-family:var(--disp);font-size:clamp(26px,4vw,56px);font-weight:700;letter-spacing:-1.6px;line-height:1}
+.pz-hero h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+.pz-dots{display:flex;gap:6px;margin-top:26px}
+.pz-dots span{width:26px;height:2px;background:rgba(245,242,234,.25);transition:background .4s}
+.pz-dots span.on{background:var(--accent)}
+
+/* barra de texto pegada al header, sin separación */
+.pz-bar{margin:0 5vw;background:var(--bg-2);border:1px solid var(--line);border-top:0;
+  border-radius:0 0 8px 8px;padding:20px clamp(20px,3vw,40px)}
+.pz-bar p{font-size:clamp(15px,1.5vw,18px);line-height:1.7;color:var(--fg-soft);margin:0}
+.pz-bar p strong{color:var(--fg);font-weight:500}
+.pz-facts{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.pz-facts div{background:var(--bg);padding:18px 20px;display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.pz-facts b{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:400}
+.pz-facts span{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--fg);text-align:right}
+@media(max-width:860px){.pz-bar{margin:0 6vw;padding:18px 20px}}
+
+/* ===== línea completa (vertical) + visor + texto sobre la imagen ===== */
+.pz-stage{padding:28px 5vw 34px;position:relative;isolation:isolate}
+.pz-stage .lu-title{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:16px}
+/* Los tres componentes comparten la altura de la pantalla. El visor ocupa un
+   tercio del espacio libre y las cintas se llevan los dos tercios restantes. */
+.pz-blk{display:grid;grid-template-columns:150px minmax(0,1fr) minmax(0,2fr);gap:18px;
+  align-items:stretch;--alto:calc(100vh - 190px)}
+
+/* selector vertical */
+/* la columna se ajusta a la misma altura que el visor y las cintas:
+   los PNG se achican para repartirse ese alto en partes iguales */
+.pz-sel{display:flex;flex-direction:column;gap:4px;min-width:0;
+  height:var(--alto);min-height:0}
+.pz-sel button{background:none;border:0;border-left:2px solid transparent;cursor:pointer;
+  font-family:inherit;color:var(--fg-soft);padding:8px;flex:1;min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  transition:color .3s,border-color .4s var(--ease),background .35s}
+.pz-sel button:hover{color:var(--fg);background:rgba(245,242,234,.03)}
+.pz-sel button.on{color:var(--fg);border-left-color:var(--accent);background:rgba(232,85,58,.06)}
+.pz-sel img{flex:1;min-height:0;width:auto;max-width:calc(92% * var(--s,1));max-height:100%;
+  object-fit:contain;
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,.55));transition:transform .45s var(--ease)}
+.pz-sel button:hover img{transform:translateX(6px)}
+.pz-sel .nm{font-family:var(--disp);font-size:12px;font-weight:600;line-height:1.15;text-align:center}
+.pz-sel .dc{font-family:var(--mono);font-size:8px;letter-spacing:1px;text-transform:uppercase;opacity:.75}
+
+/* visor */
+/* altura acotada a la ventana: así el bloque y las dos cintas de abajo
+   entran juntos en pantalla */
+.pz-vwrap{position:relative;background:var(--bg-2);border:1px solid var(--line);
+  border-radius:10px;overflow:hidden;height:var(--alto);--txth:148px}
+/* La zona de la zapatilla termina donde empieza el texto: así se centra en el
+   espacio que le queda, sin aire de más arriba ni pisar el nombre. */
+.pz-view{position:absolute;inset:0 0 var(--txth,148px) 0;display:flex;align-items:center;justify-content:center}
+.pz-view img{position:absolute;max-width:calc(96% * var(--s,1));max-height:calc(98% * var(--s,1));
+  object-fit:contain;opacity:0;transform:scale(.94) translateY(10px);
+  transition:opacity .55s var(--ease),transform .7s var(--ease);
+  filter:drop-shadow(0 26px 34px rgba(0,0,0,.6))}
+.pz-view img.on{opacity:1;transform:scale(1) translateY(0)}
+
+/* texto sobre la imagen, sin caja */
+.pz-tx{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:18px clamp(20px,2.6vw,32px) 20px}
+.pz-tx .dc{font-family:var(--mono);font-size:10px;letter-spacing:1.8px;text-transform:uppercase;
+  color:var(--accent);display:block;margin-bottom:5px}
+.pz-tx .nm{font-family:var(--disp);font-size:clamp(24px,2.8vw,40px);font-weight:700;
+  letter-spacing:-1.2px;line-height:1;text-shadow:0 4px 26px rgba(0,0,0,.85)}
+.pz-tx .sp{display:flex;flex-wrap:wrap;gap:7px 20px;margin-top:12px;padding-top:11px;
+  border-top:1px solid rgba(245,242,234,.2)}
+.pz-tx .sp i{font-style:normal;font-family:var(--mono);font-size:10px;letter-spacing:.7px;
+  text-transform:uppercase;color:var(--fg-soft);
+  opacity:0;transform:translateY(6px);animation:specIn .5s var(--ease) forwards}
+.pz-tx .sp i b{color:var(--fg);font-weight:500}
+@keyframes specIn{to{opacity:1;transform:none}}
+
+@media(max-width:860px){
+  /* En celular: selector vertical angosto y el visor al lado, ambos con el
+     mismo alto. Las cintas bajan y pasan a correr en horizontal. */
+  .pz-blk{grid-template-columns:74px minmax(0,1fr);gap:8px;
+    --alto:clamp(330px,50vh,440px)}
+  .pz-gal{grid-column:1/-1;flex-direction:column;height:auto;gap:6px;margin-top:12px}
+  .pz-gal .g-row{flex:none;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+  .pz-gal .g-track{flex-direction:row;width:max-content;height:auto;
+    animation-name:paradeH}
+  .pz-gal .g-track img{width:122px;height:82px}
+  .pz-gal .g-row:nth-child(n+3){display:none}
+  .pz-sel .nm{font-size:10px}
+  .pz-sel .dc{display:none}
+  .pz-vwrap{--txth:126px}
+  .pz-tx{padding:14px 16px 16px}
+  .pz-tx .sp{gap:5px 14px;margin-top:8px;padding-top:8px}
+  .pz-tx .sp i{font-size:9px}
+}
+
+/* ===== cintas de fotos: dos columnas verticales, a la derecha del visor ===== */
+.pz-gal{display:flex;gap:10px;overflow:hidden;height:var(--alto)}
+.g-row{flex:1;min-width:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(180deg,transparent,#000 9%,#000 91%,transparent)}
+.g-track{display:flex;flex-direction:column;gap:10px;height:max-content;
+  animation:paradeV 46s linear infinite}
+.g-row.rev .g-track{animation-direction:reverse;animation-duration:58s}
+.g-row:hover .g-track{animation-play-state:paused}
+@keyframes paradeV{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+@keyframes paradeH{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* tres fotos visibles por cinta: el alto de cada una sale de dividir el
+   alto del bloque, descontando las dos separaciones */
+.g-track img{width:100%;height:calc((var(--alto) - 20px) / 3);object-fit:cover;border-radius:5px;
+  background:var(--bg-3);cursor:pointer;flex-shrink:0;
+  transition:transform .4s var(--ease),filter .4s}
+.g-track img:hover{transform:scale(1.05);filter:brightness(1.09)}
+.g-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-soft);margin-top:14px;opacity:.7}
+
+/* ===== elementos gráficos ===== */
+/* 04 · marcas de encuadre */
+.fx-corner{position:absolute;width:18px;height:18px;pointer-events:none;z-index:5;opacity:.5}
+.fx-corner.tl{top:6px;left:6px;border-left:1px solid var(--fg);border-top:1px solid var(--fg)}
+.fx-corner.tr{top:6px;right:6px;border-right:1px solid var(--fg);border-top:1px solid var(--fg)}
+.fx-corner.bl{bottom:6px;left:6px;border-left:1px solid var(--fg);border-bottom:1px solid var(--fg)}
+.fx-corner.br{bottom:6px;right:6px;border-right:1px solid var(--fg);border-bottom:1px solid var(--fg)}
+/* 10 · barrido de luz */
+.fx-sweep{position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden}
+.fx-sweep i{position:absolute;inset:0;display:block;background:linear-gradient(105deg,transparent 42%,rgba(245,242,234,.13) 50%,transparent 58%);transform:translateX(-100%)}
+.fx-sweep.go i{animation:fxSweep 1.15s var(--ease)}
+@keyframes fxSweep{to{transform:translateX(100%)}}
+/* 09 · estela al cambiar */
+.fx-ghost{position:absolute;object-fit:contain;pointer-events:none;z-index:2;opacity:.45;filter:grayscale(.4)}
+.fx-ghost.go{animation:fxGhost .85s var(--ease) forwards}
+@keyframes fxGhost{to{opacity:0;transform:translateX(46px) scale(.94)}}
+/* 05 · ticker vertical */
+.fx-ticker{position:absolute;left:1.2vw;top:0;bottom:0;width:14px;overflow:hidden;display:flex;align-items:center;z-index:4;pointer-events:none;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent)}
+.fx-ticker div{writing-mode:vertical-rl;font-family:var(--mono);font-size:10px;letter-spacing:4px;color:rgba(245,242,234,.28);animation:fxRoll 22s linear infinite;white-space:nowrap}
+@keyframes fxRoll{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+/* 06 · barra de progreso */
+.fx-prog{display:flex;align-items:center;gap:14px;margin-top:16px}
+.fx-prog .bar{flex:1;height:2px;background:rgba(245,242,234,.12);border-radius:2px;overflow:hidden}
+.fx-prog .bar i{display:block;height:100%;background:var(--accent);width:20%;transition:width .5s var(--ease),transform .5s var(--ease)}
+.fx-prog .cnt{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;color:var(--fg-soft)}
+/* 07 · swatches */
+.fx-sw{display:flex;align-items:center;gap:12px;margin-top:16px}
+.fx-sw .lbl{font-family:var(--mono);font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg-soft)}
+.fx-sw .chips{display:flex;gap:6px}
+.fx-sw .chips span{width:18px;height:18px;border-radius:4px;border:1px solid rgba(245,242,234,.22)}
+/* 08 · líneas punteadas */
+.fx-dash{height:1px;margin:0 5vw;background-image:linear-gradient(90deg,rgba(245,242,234,.28) 50%,transparent 50%);background-size:12px 1px;animation:fxDash 3.2s linear infinite}
+.fx-dash.rev{background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);animation-duration:4.6s;animation-direction:reverse}
+@keyframes fxDash{to{background-position:60px 0}}
+@media(max-width:900px){.fx-ticker{display:none}}
+
+/* zoom de imágenes */
+.pz-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.pz-zoom.on{opacity:1;visibility:visible}
+.pz-zoom img{max-width:88vw;max-height:86vh;object-fit:contain;border-radius:4px;transform:scale(.96);transition:transform .35s var(--ease)}
+.pz-zoom.on img{transform:scale(1)}
+.pz-zoom .z-close{position:absolute;top:22px;right:4vw;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-strong);background:none;color:#fff;font-size:18px;cursor:pointer;transition:border-color .3s,transform .3s}
+.pz-zoom .z-close:hover{border-color:var(--accent);transform:rotate(90deg)}
+.pz-zoom .z-nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:1px solid var(--line-strong);background:none;color:#fff;font-size:24px;cursor:pointer;transition:border-color .3s,background .3s}
+.pz-zoom .z-nav:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.pz-zoom .z-prev{left:3vw}
+.pz-zoom .z-next{right:3vw}
+.pz-zoom .z-count{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+@media(max-width:640px){.pz-zoom .z-nav{width:42px;height:42px;font-size:20px}.pz-zoom .z-prev{left:8px}.pz-zoom .z-next{right:8px}}
+
+.pz-back{display:inline-flex;align-items:center;gap:10px;margin:0 5vw 90px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.pz-back:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ===== formato vertical / pantallas angostas ===== */
+@media(orientation:portrait){
+  .pz-bg .grid{-webkit-mask-image:radial-gradient(ellipse 130% 55% at 50% 42%,#000 0%,transparent 92%);
+               mask-image:radial-gradient(ellipse 130% 55% at 50% 42%,#000 0%,transparent 92%)}
+}
+@media(max-width:900px){
+  .pz-hero{margin:0 6vw}
+  .pz-hero .inner{padding:0 20px 20px}
+  .pz-hero h1{letter-spacing:-1.5px}
+  .pz-stage{padding:24px 6vw 34px}
+  .pz-back{margin:0 6vw 64px}
+}
+</style>
+</head>
+<body>
+
+<div class="pz-bg"><div class="grid"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<header class="pz-hero" id="pzHero">
+  <div class="veil"></div>
+  <div class="inner">
+    <h1>Línea de <em>calzado</em></h1>
+    <div class="pz-dots" id="pzDots"></div>
+  </div>
+</header>
+
+<!-- barra pegada al header, como pie de la foto -->
+<section class="pz-bar">
+  <p>Desarrollo integral de la línea de calzado, pensada para distintas disciplinas: ruta, MTB, gravel y urbano.</p>
+</section>
+
+<section class="pz-stage">
+  <div class="lu-title">La línea completa</div>
+  <div class="pz-blk">
+    <div class="pz-sel" id="pzLineup"></div>
+    <div class="pz-vwrap">
+      <div class="pz-view" id="pzView"></div>
+      <div class="pz-tx">
+        <span class="dc" id="pzDisc">Ruta</span>
+        <h2 class="nm" id="pzName">Dualfit</h2>
+        <div class="sp" id="pzSpecs"></div>
+      </div>
+    </div>
+    <div class="pz-gal" id="pzGal"></div>
+  </div>
+  <div class="g-note">Pasá el mouse para frenar · clic para ampliar</div>
+</section>
+
+<div class="fx-dash"></div>
+
+<div class="pz-zoom" id="pzZoom">
+  <button class="z-close" aria-label="Cerrar">✕</button>
+  <button class="z-nav z-prev" aria-label="Anterior">‹</button>
+  <img id="pzZoomImg" src="" alt="">
+  <button class="z-nav z-next" aria-label="Siguiente">›</button>
+  <span class="z-count" id="pzZoomCount"></span>
+</div>
+
+<a href="experiencia.html" class="pz-back">← Volver a Experiencia</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+const HERO = [
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_132047.jpg",
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_132222.jpg",
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_132243.jpg",
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_132433.jpg",
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_132440-2.jpg",
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_132526.jpg",
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_132948.jpg",
+ "img/3.%20Volta/6.%20ZAPATILLAS/Fotos%20con%20modelo/seleccion/header/editadas%20para%20horizontal/@hugoserraphoto_260430_133014.jpg"
+];
+
+/* orden de la línea: Mudfulness, Ultrafit, Dualgrip, Dualfit, Flattrack */
+const M = [
+ {name:"Mudfulness",disc:"Gravel",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7594.png",
+  colors:["#8c1d2c","#141416"],calls:["Boa + abrojo","Suela de goma"],
+  specs:[["Uso","Gravel"],["Cierre","Dual con Boa y abrojo"],["Material","Flyknit + TPU, combinando ventilación y comodidad. Suela de goma"]],
+  dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20GRAVEL%20VOLTA%20MUDFULNESS%20BORD%C3%93-NEGRO/MELI%20-%20ODOO/1012335",
+  pics:[0,2,3,4,5,6,7,8,9,10]},
+ {name:"Ultrafit",disc:"Ruta",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7592.png",
+  colors:["#141416","#d8452a"],calls:["Boa doble","Suela de TPU"],
+  specs:[["Uso","Ruta"],["Cierre","Boa doble"],["Material","Nylon y TPU, suela de TPU con alta resistencia a la abrasión"]],
+  dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20RUTA%20VOLTA%20ULTRAFIT/MELI%20-%20ODOO/1012295",
+  pics:[0,2,3,4,5,6,7,8,9,10,11]},
+ {name:"Dualgrip",disc:"MTB",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7589.png",
+  colors:["#141416"],calls:["Boa + abrojo","Suela de PU"],
+  specs:[["Uso","MTB"],["Cierre","Dual con Boa y abrojo"],["Material","Nylon y TPU, suela de PU de alta densidad para mayor resistencia al desgaste y agarre firme"]],
+  dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20MTB%20VOLTA%20DUALGRIP/MELI%20-%20ODOO/1012315",
+  pics:[0,2,3,4,5,6,7,8,9,10,11]},
+ {name:"Dualfit",disc:"Ruta",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7590.png",
+  colors:["#141416"],calls:["Boa + abrojo","Suela de PU"],
+  specs:[["Uso","Ruta"],["Cierre","Dual con Boa y abrojo"],["Material","Nylon y TPU, suela de PU de alta densidad"]],
+  dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20RUTA%20VOLTA%20DUALFIT%20NEGRO/MELI%20-%20ODOO/1012283",
+  pics:[0,1,2,3,5,6,7,8,9,11]},
+ {name:"Flattrack",disc:"Urbano",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7599.png",scale:.82,
+  colors:["#141416","#c2a06a"],calls:["Abrojo + cordón","Suela de PU"],
+  specs:[["Uso","Urbano"],["Cierre","Abrojo y cordón"],["Material","Phylon + goma, estructura liviana y flexible. Suela de PU de alta densidad"],["Extra","Permite pedalear y también caminar como calzado diario"]],
+  dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20MTB%20VOLTA%20FLATTRACK/MELI%20-%20ODOO/1012346",
+  pics:[0,1,2,4,5,6,7,8,9,10,11,12,13,14,15,16]}
+];
+
+function galleryFor(m){
+  return m.pics.map(n => n===0 ? m.dir+".jpg" : m.dir+"%20("+n+").jpg");
+}
+
+/* hero slideshow */
+(function(){
+  const hero=document.getElementById('pzHero'), dots=document.getElementById('pzDots');
+  const frag=document.createDocumentFragment();
+  HERO.forEach((src,i)=>{
+    const d=document.createElement('div');
+    d.className='slide'+(i===0?' on':'');
+    d.innerHTML='<img src="'+src+'" alt="Calzado Volta">';
+    frag.appendChild(d);
+    const s=document.createElement('span'); if(i===0)s.className='on'; dots.appendChild(s);
+  });
+  hero.insertBefore(frag,hero.firstChild);
+  const slides=hero.querySelectorAll('.slide'), marks=dots.querySelectorAll('span');
+  let i=0, iv=null;
+  const DELAY=3200;
+  function go(n){
+    slides[i].classList.remove('on'); marks[i].classList.remove('on');
+    i=(n+slides.length)%slides.length;
+    slides[i].classList.add('on'); marks[i].classList.add('on');
+  }
+  function start(){ clearInterval(iv); iv=setInterval(()=>go(i+1),DELAY); }
+  start();
+  hero.addEventListener('click',e=>{
+    if(e.target.closest('a,button'))return;
+    go(i+1); start();
+  });
+  hero.style.cursor='pointer';
+  dots.querySelectorAll('span').forEach((s,n)=>{
+    s.style.cursor='pointer';
+    s.addEventListener('click',e=>{e.stopPropagation();go(n);start();});
+  });
+})();
+
+/* La línea completa funciona como selector */
+const sw=document.getElementById('pzLineup');
+sw.innerHTML=M.map((m,i)=>
+  '<button data-i="'+i+'"'+(i===0?' class="on"':'')+'>'
+  +'<img src="'+m.png+'" alt="'+m.name+'" style="--s:'+(m.scale||1)+'" loading="lazy">'
+  +'<span class="nm">'+m.name+'</span><span class="dc">'+m.disc+'</span></button>').join('');
+sw.querySelectorAll('button').forEach(b=>
+  b.addEventListener('click',()=>select(+b.dataset.i)));
+
+/* stage */
+const view=document.getElementById('pzView');
+view.innerHTML=M.map((m,i)=>'<img src="'+m.png+'" alt="'+m.name+'"'+(i===0?' class="on"':'')+' style="--s:'+(m.scale||1)+'" loading="lazy">').join('')
+  +'<span class="fx-corner tl"></span><span class="fx-corner tr"></span><span class="fx-corner bl"></span><span class="fx-corner br"></span>'
+  +'<div class="fx-sweep" id="pzSweep"><i></i></div>';
+
+
+let prevIdx=0;
+function select(idx){
+  const imgs=view.querySelectorAll('img:not(.fx-ghost)');
+  /* 09 · estela del modelo saliente */
+  if(prevIdx!==idx && imgs[prevIdx]){
+    const g=imgs[prevIdx].cloneNode();
+    g.className='fx-ghost go';
+    g.style.maxWidth=getComputedStyle(imgs[prevIdx]).maxWidth;
+    g.style.maxHeight=getComputedStyle(imgs[prevIdx]).maxHeight;
+    view.appendChild(g);
+    setTimeout(()=>g.remove(),900);
+  }
+  prevIdx=idx;
+
+  imgs.forEach((im,i)=>im.classList.toggle('on',i===idx));
+  sw.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on',i===idx));
+  const m=M[idx];
+
+  /* barrido de luz */
+  const sweep=document.getElementById('pzSweep');
+  if(sweep){sweep.classList.remove('go'); void sweep.offsetWidth; sweep.classList.add('go');}
+
+  document.getElementById('pzName').textContent=m.name;
+  document.getElementById('pzDisc').textContent=m.disc;
+  /* specs en línea, bajo el nombre */
+  document.getElementById('pzSpecs').innerHTML=m.specs.map(([k,v],i)=>
+    '<i style="animation-delay:'+(i*70)+'ms">'+k+' <b>'+v+'</b></i>').join('');
+  buildParade(galleryFor(m),m.name);
+}
+
+/* ---- desfile de fotos en columnas verticales alternadas ---- */
+let ZOOM=[];
+function buildParade(list,name){
+  ZOOM=list.slice();
+  const gal=document.getElementById('pzGal');
+
+  /* Tres columnas en escritorio; en pantalla angosta se reducen por CSS.
+     Las fotos se reparten de a una por columna, en rueda: así cada columna
+     tiene su propio subconjunto y ninguna foto puede aparecer en dos cintas
+     al mismo tiempo. */
+  const COLS=3;
+  const rows=Array.from({length:COLS},()=>[]);
+  list.forEach((src,i)=>rows[i%COLS].push(src));
+
+  /* La lista se repite las veces necesarias para que la columna siempre supere
+     el alto del bloque. Con pocas fotos —o si alguna no carga— una sola
+     repetición dejaba un hueco vacío.
+     Las repeticiones son pares para que el desplazamiento del 50% calce. */
+  let necesarias;
+  if(window.innerWidth<=860){
+    /* en celular las cintas corren en horizontal: manda el ancho */
+    necesarias=Math.ceil(window.innerWidth/(122+10))+2;
+  }else{
+    const altoGal=gal.getBoundingClientRect().height||window.innerHeight*.7;
+    const altoCelda=(altoGal-20)/3+10;   /* tres fotos visibles por cinta */
+    necesarias=Math.ceil(altoGal/altoCelda)+2;
+  }
+
+  gal.innerHTML=rows.map((row,r)=>{
+    if(!row.length)return '';
+    const veces=Math.max(2,Math.ceil(necesarias/row.length)*2);
+    let seq=[];
+    for(let k=0;k<veces;k++)seq=seq.concat(row);
+    const cells=seq.map(src=>
+      '<img src="'+src+'" alt="'+name+'" loading="lazy" data-z="'+ZOOM.indexOf(src)+'">').join('');
+    return '<div class="g-row'+(r%2?' rev':'')+'"><div class="g-track">'+cells+'</div></div>';
+  }).join('');
+  gal.querySelectorAll('img').forEach(im=>{
+    im.addEventListener('error',()=>im.remove());
+    im.addEventListener('click',()=>openZoom(+im.dataset.z));
+  });
+}
+
+/* ---- zoom ---- */
+const zBox=document.getElementById('pzZoom'), zImg=document.getElementById('pzZoomImg'), zCount=document.getElementById('pzZoomCount');
+let zi=0;
+function openZoom(i){ zi=i; paint(); zBox.classList.add('on'); document.body.style.overflow='hidden'; }
+function closeZoom(){ zBox.classList.remove('on'); document.body.style.overflow=''; }
+function paint(){ zImg.src=ZOOM[zi]; zCount.textContent=(zi+1)+' / '+ZOOM.length; }
+function stepZoom(n){ zi=(zi+n+ZOOM.length)%ZOOM.length; paint(); }
+zBox.querySelector('.z-close').addEventListener('click',closeZoom);
+zBox.querySelector('.z-prev').addEventListener('click',e=>{e.stopPropagation();stepZoom(-1);});
+zBox.querySelector('.z-next').addEventListener('click',e=>{e.stopPropagation();stepZoom(1);});
+zBox.addEventListener('click',e=>{ if(e.target===zBox)closeZoom(); });
+document.addEventListener('keydown',e=>{
+  if(!zBox.classList.contains('on'))return;
+  if(e.key==='Escape')closeZoom();
+  if(e.key==='ArrowRight')stepZoom(1);
+  if(e.key==='ArrowLeft')stepZoom(-1);
+});
+sw.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>select(+b.dataset.i)));
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('pzZoom').classList.contains('on'))return;
+  const cur=[...sw.querySelectorAll('button')].findIndex(b=>b.classList.contains('on'));
+  if(e.key==='ArrowRight')select((cur+1)%M.length);
+  if(e.key==='ArrowLeft')select((cur-1+M.length)%M.length);
+});
+select(0);
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

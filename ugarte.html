@@ -1,0 +1,402 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vehículos Ugarte — Migue.stl</title>
+<meta name="description" content="Diseño de piezas para la industria automotriz: colectivos y micros.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Vehículos Ugarte — Miguel Margenat">
+<meta property="og:description" content="Diseño de piezas para la industria automotriz: colectivos y micros.">
+<meta property="og:image" content="PENDIENTE_URL/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="PENDIENTE_URL/ugarte.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vehículos Ugarte — Miguel Margenat">
+<meta name="twitter:description" content="Diseño de piezas para la industria automotriz: colectivos y micros.">
+<meta name="twitter:image" content="PENDIENTE_URL/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+:root{--warn:#e8b53a}
+
+/* 07 · fondo de chapa perforada */
+.ug-bg{position:fixed;inset:0;z-index:-3;pointer-events:none}
+.ug-bg .perf{position:absolute;inset:0;
+  background-image:radial-gradient(rgba(245,242,234,.10) 1px,transparent 1px);
+  background-size:11px 11px;
+  -webkit-mask-image:radial-gradient(ellipse 95% 70% at 50% 42%,#000 0%,transparent 88%);
+  mask-image:radial-gradient(ellipse 95% 70% at 50% 42%,#000 0%,transparent 88%)}
+
+/* 01 · franja de seguridad */
+.ug-stripe{height:16px;background:repeating-linear-gradient(45deg,var(--warn) 0 12px,#131311 12px 24px);animation:stripeMove 6s linear infinite;position:relative;z-index:2}
+.ug-stripe.rev{animation-direction:reverse;animation-duration:8s}
+@keyframes stripeMove{to{background-position:68px 0}}
+
+/* hero con fotos */
+.ug-hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;padding:120px 5vw 70px;overflow:hidden;cursor:pointer}
+.ug-hero .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.3s var(--ease);z-index:0}
+.ug-hero .slide.on{opacity:1}
+.ug-hero .slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 7s linear}
+.ug-hero .slide.on img{transform:scale(1.12)}
+.ug-hero .veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(12,12,11,.60) 0%,rgba(12,12,11,.20) 38%,rgba(12,12,11,.93) 100%)}
+.ug-hero > div{position:relative;z-index:2;width:100%}
+.ug-dots{display:flex;gap:5px;margin-top:26px;flex-wrap:wrap}
+.ug-dots span{width:22px;height:2px;background:rgba(245,242,234,.25);transition:background .4s;cursor:pointer}
+.ug-dots span.on{background:var(--warn)}
+
+/* ===== cintas de fotos, al costado del texto =====
+   3 columnas verticales, 4 fotos visibles en cada una. Las fotos se
+   reparten en round-robin para que nunca se repitan en pantalla. */
+/* --ancho lo mide el script: es el ancho real de la columna en px, y de ahí
+   sale el tamaño de cada foto para que entren exactamente cuatro. */
+.ug-gal{--alto:var(--galh,620px);--hueco:10px;--ancho:520px;--vista:3}
+.ug-gal > #ugGal{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:var(--hueco);
+  height:var(--alto)}
+.ug-row{overflow:hidden;border-radius:4px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.ug-track{display:flex;gap:var(--hueco);width:max-content;height:100%;
+  animation:ugParade 44s linear infinite}
+.ug-row.rev .ug-track{animation-direction:reverse;animation-duration:52s}
+.ug-row.slow .ug-track{animation-duration:60s}
+.ug-row:hover .ug-track{animation-play-state:paused}
+@keyframes ugParade{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ug-track img{height:100%;
+  width:calc((var(--ancho) - var(--hueco)*(var(--vista) - 1)) / var(--vista));object-fit:cover;
+  border-radius:4px;background:var(--bg-3);cursor:pointer;flex-shrink:0;
+  transition:transform .4s var(--ease),filter .4s}
+.ug-track img:hover{transform:scale(1.04);filter:brightness(1.1)}
+.ug-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--fg-soft);opacity:.7;margin-top:12px;text-align:right}
+
+/* zoom */
+.ug-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
+.ug-zoom.on{opacity:1;visibility:visible}
+.ug-zoom img{max-width:88vw;max-height:86vh;object-fit:contain;border-radius:4px}
+.ug-zoom button{position:absolute;border:1px solid var(--line-strong);background:none;color:#fff;cursor:pointer;border-radius:50%;transition:border-color .3s,background .3s}
+.ug-zoom .zc{top:22px;right:4vw;width:46px;height:46px;font-size:18px}
+.ug-zoom .zp,.ug-zoom .zn{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:24px}
+.ug-zoom .zp{left:3vw}.ug-zoom .zn{right:3vw}
+.ug-zoom button:hover{border-color:var(--accent);background:rgba(232,85,58,.16)}
+.ug-zoom .zct{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--fg-soft)}
+@media(max-width:640px){.ug-track img{width:170px;height:120px}.ug-zoom .zp,.ug-zoom .zn{width:42px;height:42px;font-size:20px}.ug-zoom .zp{left:8px}.ug-zoom .zn{right:8px}}
+.ug-hero .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:18px}
+.ug-hero h1{font-family:var(--disp);font-size:clamp(42px,9vw,128px);font-weight:700;letter-spacing:-3px;line-height:.9}
+.ug-hero h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+.ug-hero p{margin-top:26px;max-width:520px;font-size:16px;line-height:1.75;color:var(--fg-soft)}
+
+/* 08 · puntos de soldadura sobre materiales */
+.ug-mat{padding:40px 5vw 60px}
+.ug-mat .lbl{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:26px}
+.ug-matgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.ug-matcell{background:var(--bg);padding:26px 22px;display:flex;align-items:center;gap:14px;transition:background .3s}
+.ug-matcell:hover{background:rgba(232,85,58,.05)}
+.ug-matcell .mt{font-size:13px;line-height:1.5;color:var(--fg)}
+.ug-weld{width:9px;height:9px;border-radius:50%;background:var(--accent);flex-shrink:0;box-shadow:0 0 0 0 rgba(232,85,58,.5);animation:weldPulse 2.4s infinite}
+@keyframes weldPulse{0%,100%{box-shadow:0 0 0 0 rgba(232,85,58,.55)}60%{box-shadow:0 0 0 12px rgba(232,85,58,0)}}
+
+/* intro + datos · texto a la izquierda, cintas a la derecha */
+.ug-intro{display:block;padding:50px 5vw 80px}
+@media(min-width:1000px){
+  .ug-intro{display:grid;grid-template-columns:minmax(0,28fr) minmax(0,70fr);
+    gap:clamp(18px,2vw,30px);align-items:start}
+  /* 4 por cinta: las fotos promedian ratio 1.12 y la celda queda en 1.14,
+     así que entran casi sin recorte. Si se cambia, cambiar también VISTA. */
+  .ug-gal{--galh:clamp(440px,64vh,680px);--vista:4}
+}
+.ug-box{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);border-radius:0 8px 8px 0;
+  padding:30px clamp(22px,3.4vw,46px);width:100%;margin-bottom:38px}
+.ug-box p{font-size:clamp(16px,1.5vw,21px);line-height:1.7;color:var(--fg);margin:0;font-weight:300;max-width:90ch}
+.ug-box .yr{font-family:var(--mono);font-size:.72em;letter-spacing:1.6px;color:var(--accent);margin-right:8px;white-space:nowrap}
+.ug-intro p{font-size:clamp(15px,1.5vw,18px);line-height:1.8;color:var(--fg-soft);margin-bottom:14px}
+.ug-intro p strong{color:var(--fg);font-weight:600}
+.ug-facts{display:flex;flex-direction:column;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.ug-facts div{background:var(--bg);padding:17px 20px;display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.ug-facts b{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);font-weight:400}
+.ug-facts span{font-family:var(--disp);font-size:15px;font-weight:600;text-align:right}
+
+/* lista de tareas del puesto */
+.ug-list{margin-top:22px}
+.ug-list .ttl{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:14px}
+.ug-list ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.ug-list li{position:relative;padding-left:20px;font-size:14px;line-height:1.65;color:var(--fg-soft)}
+.ug-list li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:1px;background:var(--accent)}
+
+/* 09 · etapas de planta */
+.ug-stages{padding:0 5vw 90px}
+.ug-stages .lbl{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:26px}
+.ug-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ug-step{border-top:2px solid var(--line);padding:16px 12px 18px;cursor:pointer;background:none;text-align:left;font-family:inherit;transition:border-color .35s,background .35s}
+.ug-step:hover{background:rgba(245,242,234,.03)}
+.ug-step.on{border-top-color:var(--accent);background:rgba(232,85,58,.06)}
+.ug-step .n{font-family:var(--mono);font-size:10px;color:var(--accent)}
+.ug-step .t{font-family:var(--disp);font-size:15px;font-weight:600;color:var(--fg);margin:7px 0 6px}
+.ug-step .d{font-size:12px;line-height:1.6;color:var(--fg-soft)}
+
+/* reels */
+.ug-reels{padding:0 5vw 60px}
+.ug-reels .lbl{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:22px}
+/* pantalla horizontal: filas de 5 videos */
+.ug-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.ug-slot{min-height:440px;background:var(--bg-3);border-radius:6px;position:relative;overflow:hidden}
+.ug-slot::after{content:"cargando…";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--fg-soft)}
+.ug-slot[data-loaded]{min-height:0;background:transparent}
+.ug-slot[data-loaded]::after{display:none}
+.ug-grid .instagram-media{margin:0!important;min-width:0!important;width:100%!important}
+/* Cinco por fila en cualquier monitor. Recién abajo de 1100px bajan a tres,
+   porque ahí cada reel quedaría en menos de 190px y el embed de Instagram se
+   desarma por dentro. */
+@media(max-width:1100px){.ug-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.ug-back{display:inline-flex;align-items:center;gap:10px;margin:0 5vw 80px;font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg);border:1px solid var(--line-strong);border-radius:999px;padding:14px 26px;transition:border-color .3s,color .3s}
+.ug-back:hover{border-color:var(--accent);color:var(--accent)}
+
+@media(max-width:900px){
+  .ug-intro{padding:36px 6vw 60px}
+  .ug-box{padding:24px 20px;margin-bottom:28px}
+  .ug-hero{padding:110px 6vw 60px;min-height:66vh}
+  .ug-gal{--galh:clamp(360px,54vh,520px);margin-top:30px}
+  .ug-reels{padding-left:6vw;padding-right:6vw}
+  .ug-steps,.ug-matgrid{grid-template-columns:repeat(2,1fr)}
+  .ug-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ug-back{margin:0 6vw 60px}
+}
+@media(max-width:560px){
+  .ug-steps,.ug-matgrid{grid-template-columns:1fr}
+  .ug-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="ug-bg"><div class="perf"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<div class="ug-stripe"></div>
+
+<header class="ug-hero" id="ugHero">
+  <div class="veil"></div>
+  <div>
+    <h1>Carrocera <em>Ugarte</em></h1>
+    <div class="ug-dots" id="ugDots"></div>
+  </div>
+</header>
+
+<div class="ug-stripe rev"></div>
+
+<section class="ug-intro">
+  <div class="ug-txt">
+    <div class="ug-box">
+      <p><span class="yr">2021 a 2024:</span> Diseñé para la carrocera Ugarte piezas para la industria automotriz. Colectivos, micros, dispositivos de ensamble y mejora de procesos.</p>
+    </div>
+    <div class="ug-list">
+      <span class="ttl">Diseñé</span>
+      <ul>
+        <li>Piezas del interior del vehículo: escalones, torpedos, frentes y culatas, gargantas de aire, pasamanería y más</li>
+        <li>Matricería y piezas de distintas materialidades: fibra de vidrio, termoformados y chapas metálicas</li>
+        <li>Seguimiento de producción</li>
+        <li>Dispositivos de perfilería de hierro y aluminio</li>
+        <li>Piezas de chapa plegada y por corte láser</li>
+        <li>Optimización de procesos productivos de la planta para economizar las piezas existentes</li>
+        <li>Modelado 3D de ensambles de los vehículos y documentación técnica</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ug-gal">
+    <div id="ugGal"></div>
+    <div class="ug-note">Pasá el mouse para frenar · clic para ampliar</div>
+  </div>
+</section>
+
+<section class="ug-reels">
+  <div class="lbl">La planta en movimiento</div>
+  <div class="ug-grid" id="ugGrid"></div>
+</section>
+
+<div class="ug-zoom" id="ugZoom">
+  <button class="zc" aria-label="Cerrar">✕</button>
+  <button class="zp" aria-label="Anterior">‹</button>
+  <img id="ugZoomImg" src="" alt="">
+  <button class="zn" aria-label="Siguiente">›</button>
+  <span class="zct" id="ugZoomCount"></span>
+</div>
+
+<a href="experiencia.html" class="ug-back">← Volver a Experiencia</a>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script async src="https://www.instagram.com/embed.js"></script>
+<script>
+const REELS=[
+/* destacadas */
+"https://www.instagram.com/reel/ChqCmKyje1N/",
+"https://www.instagram.com/reel/DWbdWK8jMFD/",
+"https://www.instagram.com/reel/DTBcnpED87u/",
+"https://www.instagram.com/p/Da6IYTEDcCx/",
+"https://www.instagram.com/reel/Co-7RoQDOn9/",
+"https://www.instagram.com/p/DGTwXY0PtM5/",
+"https://www.instagram.com/p/CoYVOxHrANr/",
+/* resto */
+"https://www.instagram.com/reel/CXMwS79lWlK/",
+"https://www.instagram.com/p/DWZvaTRESsr/",
+"https://www.instagram.com/reel/DC5P0hNPwPH/",
+"https://www.instagram.com/reel/C1vGXIEvWTn/",
+"https://www.instagram.com/reel/CoDj_qOD6F9/",
+/* al final */
+"https://www.instagram.com/reel/DQZOMNbApLC/",
+"https://www.instagram.com/reel/DK-dsBQPz4R/",
+"https://www.instagram.com/reel/DICtZGMyZER/"];
+
+const P="img/4.%20Ugarte/fotos/Seleccion/";
+const BASE=[
+"nave%20productiva%201.jpg","nave%20productiva%202.jpg","optimizacion%20de%20pisos.jpg",
+"1770412477114.jpg","1763671009060.jpg","1740084998968.jpg","1762825575301.jpg",
+"1752611976174.jpg","1767055877822.jpg","1767055878349.jpg","Ugarte-Planta-9.jpg.webp",
+"sddefault.jpg","images.jpg","02bb25967475e387d2caeb2031737f82.jpg",
+"afa897aba0925d9aaa971887e0fc2089.jpg","60916098d409963e8ebdd2ae6ad1d500.jpg",
+"696988abbd94423044454257b01b8ecf.jpg","2ee32567e738f0143c24957d0a974813.jpg",
+"a362c286c2af931eda39d55db4013613.jpg","8f9114e93e26a91381fdd622c295ef50.jpg",
+"8af2f4e9422d262b00bb3a9fc543d6f7.jpg","e06a038e9b4f90eef3daca1945b61fdd.jpg",
+"a79fdd84f845cb91247d852e9c9d8122.jpg","e2114fbf7bdf8a7e6542205cf17b2e48.jpg",
+"0f27f89b12a0b95c80531802970173d2.jpg","4f14bb0ad8e43e441d2695429865e32c.jpg"
+].map(f=>P+f);
+
+const MODELADO=[
+  "img/4.%20Ugarte/fotos/fotos%20modelado/perfileria.jpg",
+  "img/4.%20Ugarte/fotos/fotos%20modelado/frente.jpg",
+  "img/4.%20Ugarte/fotos/fotos%20modelado/asientos.jpg",
+  "img/4.%20Ugarte/fotos/fotos%20modelado/ca%C3%B1os.jpg"
+];
+
+/* Intercala los modelados de forma pareja entre las fotografías */
+const FOTOS=(function(){
+  const out=BASE.slice();
+  const paso=Math.floor(out.length/(MODELADO.length+1));
+  MODELADO.forEach((m,i)=>out.splice(paso*(i+1)+i,0,m));
+  return out;
+})();
+
+const HP="img/4.%20Ugarte/fotos/header/";
+const HEADER=["1.jpg","2.webp","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg"].map(f=>HP+f);
+
+/* hero con fotos */
+(function(){
+  const hero=document.getElementById('ugHero'), dots=document.getElementById('ugDots');
+  const HERO=HEADER;
+  const frag=document.createDocumentFragment();
+  HERO.forEach((src,i)=>{
+    const d=document.createElement('div');
+    d.className='slide'+(i===0?' on':'');
+    d.innerHTML='<img src="'+src+'" alt="Ugarte Autobuses">';
+    frag.appendChild(d);
+    const s=document.createElement('span'); if(i===0)s.className='on'; dots.appendChild(s);
+  });
+  hero.insertBefore(frag,hero.firstChild);
+  const sl=hero.querySelectorAll('.slide'), mk=dots.querySelectorAll('span');
+  let i=0,iv=null;
+  function go(n){sl[i].classList.remove('on');mk[i].classList.remove('on');i=(n+sl.length)%sl.length;sl[i].classList.add('on');mk[i].classList.add('on');}
+  function start(){clearInterval(iv);iv=setInterval(()=>go(i+1),3600);}
+  start();
+  hero.addEventListener('click',e=>{if(e.target.closest('a,button'))return;go(i+1);start();});
+  mk.forEach((s,n)=>s.addEventListener('click',e=>{e.stopPropagation();go(n);start();}));
+})();
+
+/* Tres cintas horizontales, cuatro fotos a la vista en cada una.
+   El reparto es round-robin: cada foto vive en una sola cinta, así que
+   nunca aparece repetida en pantalla. Se guarda el índice real para el zoom. */
+(function(){
+  const FILAS=3, VISTA=4;   /* tiene que coincidir con --vista del CSS */
+  const gal=document.querySelector('.ug-gal');
+  const filas=Array.from({length:FILAS},()=>[]);
+  FOTOS.forEach((src,i)=>filas[i%FILAS].push({src:src,i:i}));
+
+  document.getElementById('ugGal').innerHTML=filas.map((fila,f)=>{
+    /* se repite la lista lo necesario para cubrir el ancho; siempre un
+       número par de vueltas para que el bucle a -50% no dé saltos */
+    const veces=Math.max(2,Math.ceil((VISTA+1)/fila.length)*2);
+    let cells='';
+    for(let v=0;v<veces;v++){
+      cells+=fila.map(o=>'<img src="'+o.src+'" alt="Ugarte" loading="lazy" data-z="'+o.i+'">').join('');
+    }
+    const clase=f===1?' rev':(f===2?' slow':'');
+    return '<div class="ug-row'+clase+'"><div class="ug-track">'+cells+'</div></div>';
+  }).join('');
+
+  document.querySelectorAll('.ug-track img').forEach(im=>{
+    im.addEventListener('error',()=>im.remove());
+    im.addEventListener('click',()=>openZ(+im.dataset.z));
+  });
+
+  /* el ancho de cada foto sale del ancho real de la columna */
+  function medir(){
+    const w=gal.getBoundingClientRect().width;
+    if(w)gal.style.setProperty('--ancho',w+'px');
+  }
+  medir();
+  if(window.ResizeObserver)new ResizeObserver(medir).observe(gal);
+  else window.addEventListener('resize',medir);
+})();
+
+/* zoom */
+const zb=document.getElementById('ugZoom'), zim=document.getElementById('ugZoomImg'), zct=document.getElementById('ugZoomCount');
+let zi=0;
+function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
+function paintZ(){zim.src=FOTOS[zi];zct.textContent=(zi+1)+' / '+FOTOS.length;}
+function stepZ(n){zi=(zi+n+FOTOS.length)%FOTOS.length;paintZ();}
+zb.querySelector('.zc').addEventListener('click',closeZ);
+zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
+zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
+zb.addEventListener('click',e=>{if(e.target===zb)closeZ();});
+document.addEventListener('keydown',e=>{
+  if(!zb.classList.contains('on'))return;
+  if(e.key==='Escape')closeZ();
+  if(e.key==='ArrowRight')stepZ(1);
+  if(e.key==='ArrowLeft')stepZ(-1);
+});
+
+/* reels con carga progresiva */
+const grid=document.getElementById('ugGrid');
+grid.innerHTML=REELS.map(u=>'<div class="ug-slot" data-url="'+u+'"></div>').join('');
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const s=e.target;
+  if(!s.dataset.loaded){
+    s.dataset.loaded='1';
+    s.innerHTML='<blockquote class="instagram-media" data-instgrm-permalink="'+s.dataset.url+'" data-instgrm-version="14" style="width:100%!important;min-width:0!important;margin:0"></blockquote>';
+    if(window.instgrm&&window.instgrm.Embeds)window.instgrm.Embeds.process();
+  }
+  io.unobserve(s);
+}),{rootMargin:'500px 0px',threshold:.01});
+grid.querySelectorAll('.ug-slot').forEach(s=>io.observe(s));
+
+/* menu mobile */
+const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+</script>
+<script src="ui.js"></script>
+</body>
+</html>
