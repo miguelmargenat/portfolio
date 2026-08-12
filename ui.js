@@ -52,7 +52,7 @@
     if(!enlace||document.querySelector('.navsub'))return;
 
     const PROYECTOS=[
-      ['Volta','experiencia.html#volta'],
+      ['Volta','volta.html'],
       ['Vehículos Ugarte','ugarte.html'],
       ['Impresión 3D','impresion-3d.html'],
       ['Renders','renders.html']

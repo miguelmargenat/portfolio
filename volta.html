@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bicicletas e indumentaria — Migue.stl</title>
+<meta name="description" content="Líder del Departamento de Producto en López Hermanos: Volta, Topmega y SportAce. Bicicletas, indumentaria y accesorios.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Archivo:ital,wght@0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="favicon-180.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Vista previa al compartir el link (WhatsApp, LinkedIn, etc.) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Miguel Margenat">
+<meta property="og:locale" content="es_AR">
+<meta property="og:title" content="Bicicletas e indumentaria — Miguel Margenat">
+<meta property="og:description" content="Líder del Departamento de Producto en López Hermanos: Volta, Topmega y SportAce.">
+<meta property="og:image" content="https://miguelmargenat.com.ar/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://miguelmargenat.com.ar/volta.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bicicletas e indumentaria — Miguel Margenat">
+<meta name="twitter:description" content="Líder del Departamento de Producto en López Hermanos: Volta, Topmega y SportAce.">
+<meta name="twitter:image" content="https://miguelmargenat.com.ar/og.jpg">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* Esta ficha vivía en el overlay de experiencia.html y ahora es una página,
+   para entrar y salir igual que Ugarte, Impresión 3D y Renders.
+
+   El contenedor conserva las clases .overlay.has-subs A PROPÓSITO: todo el
+   diseño de la ficha (el orden de los bloques, las barras de guiones, la
+   tipografía de los títulos, la grilla de fichas) ya está resuelto en
+   styles.css colgando de esos selectores. Copiarlo acá sería duplicar ~60
+   líneas y abrir la puerta a que las dos versiones se desfasen.
+   Lo único que hace falta es sacarle el comportamiento de panel flotante:
+   que no sea fijo, ni invisible, ni esté corrido a la derecha. */
+.overlay.vt-pagina{position:static;transform:none;visibility:visible;
+  overflow:visible;z-index:auto;background:none}
+/* el panel arrancaba pegado a la barra; como página respira un poco más */
+.overlay.vt-pagina .po-inner{padding-top:clamp(96px,11vh,132px)}
+</style>
+</head>
+<body>
+
+<!-- Fondo: el mismo plano técnico que el índice del portfolio -->
+<div class="xp-bg" aria-hidden="true"><div class="sk"></div></div>
+
+<nav>
+  <a href="index.html" class="brand">Migue<span>.</span>stl</a>
+  <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+  <div class="links">
+    <a href="index.html" class="navlink">Inicio</a>
+    <a href="experiencia.html" class="navlink active">Portfolio</a>
+    <a href="contacto.html" class="navlink">Contacto</a>
+  </div>
+</nav>
+
+<div class="overlay has-subs vt-pagina">
+  <div class="po-inner">
+
+    <div class="po-body">
+      <p class="rolehead"><strong>Líder del Departamento de Producto</strong><span class="rolebrands">Volta · Topmega · SportAce</span><span class="rolewhere">López Hermanos — 2024 / 2026</span></p>
+      <div class="roleblock">
+        <div class="rolegrid">
+          <div class="rolecol">
+            <div class="rolecard">
+              <h5>Desarrollo y gestión</h5>
+              <ul>
+                <li>Desarrollo de producto de punta a punta, desde la idea hasta la puesta en mercado</li>
+                <li>Coordinación de equipos multidisciplinarios: diseño, compras, marketing y operaciones</li>
+                <li>Planificación y seguimiento de proyectos de desarrollo</li>
+                <li>Dirección de diseño industrial y gráfico para definir el look and feel</li>
+                <li>Selección de componentes para cada bicicleta y su line-up</li>
+              </ul>
+            </div>
+            <div class="rolecard">
+              <h5>Investigación y mercado</h5>
+              <ul>
+                <li>Análisis de tendencias y tecnologías a nivel global</li>
+                <li>Investigación de usuario y comprensión de necesidades del mercado</li>
+              </ul>
+            </div>
+          </div>
+          <div class="rolecol">
+            <div class="rolecard">
+              <h5>Organización y planificación</h5>
+              <ul>
+                <li>Propuestas de producto alineadas a distintos segmentos y escalabilidad de precios</li>
+                <li>Definición de líneas de producto, arquitectura de SKUs y nomenclaturas</li>
+                <li>Armado de previsión de compras y su demanda</li>
+              </ul>
+            </div>
+            <div class="rolecard">
+              <h5>Gestión</h5>
+              <ul>
+                <li>Criterio técnico y productivo aplicado al diseño</li>
+                <li>Comunicación con proveedores internacionales para producción y abastecimiento</li>
+                <li>Negociación con proveedores</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <figure class="rolefoto"><img src="img/3.%20Volta/foto%20pinto%20entrevista.jpg" alt="Miguel Margenat en una entrevista" loading="lazy"></figure>
+      </div>
+    </div>
+
+    <div class="po-sectitle on">Desarrollos realizados</div>
+
+    <!-- Las 6 fichas. Antes eran <button> y el clic lo manejaba el JS; acá son
+         enlaces de verdad, así que andan con el botón del medio, con Ctrl+clic
+         y se ven al pasar el mouse.
+         Clash y Ruta están ocultas: ver el comentario en experiencia.html. -->
+    <div class="po-embed sub-grid">
+
+      <a class="sub-tile" href="calzado.html">
+        <span class="st-img seq">
+          <img src="img/3.%20Volta/6.%20ZAPATILLAS/portada%20secuencia/@hugoserraphoto_260430_132222.jpg" alt="Calzado" loading="lazy" class="on" onerror="this.remove()">
+          <img src="img/3.%20Volta/6.%20ZAPATILLAS/portada%20secuencia/@hugoserraphoto_260430_132440-2.jpg" alt="Calzado" loading="lazy" onerror="this.remove()">
+        </span>
+        <span class="st-fade"></span>
+        <span class="st-info"><span class="st-t">Calzado</span></span>
+        <span class="st-cue">↗</span>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+      </a>
+
+      <a class="sub-tile" href="gravel.html">
+        <span class="st-img seq">
+          <img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/secuencia%20portada/3%20editadas.jpg" alt="Línea gravel Indómita y Tirrena" loading="lazy" class="on" onerror="this.remove()">
+          <img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/secuencia%20portada/4%20editadas.jpg" alt="Línea gravel Indómita y Tirrena" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/secuencia%20portada/5%20editadas.jpg" alt="Línea gravel Indómita y Tirrena" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/secuencia%20portada/tirrena%20roja.jpg" alt="Línea gravel Indómita y Tirrena" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/secuencia%20portada/tirrena%20gris.jpg" alt="Línea gravel Indómita y Tirrena" loading="lazy" onerror="this.remove()">
+        </span>
+        <span class="st-fade"></span>
+        <span class="st-info"><span class="st-t">Línea gravel<br>Indómita y Tirrena</span></span>
+        <span class="st-cue">↗</span>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+      </a>
+
+      <a class="sub-tile" href="campeones.html">
+        <span class="st-img seq">
+          <img src="img/3.%20Volta/4.5%20campeones/fotografias/secuencia%20portada/1.jpg" alt="Campeones" loading="lazy" class="on" onerror="this.remove()">
+          <img src="img/3.%20Volta/4.5%20campeones/fotografias/secuencia%20portada/2.jpg" alt="Campeones" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/4.5%20campeones/fotografias/secuencia%20portada/3.jpg" alt="Campeones" loading="lazy" onerror="this.remove()">
+        </span>
+        <span class="st-fade"></span>
+        <span class="st-info"><span class="st-t">Campeones</span></span>
+        <span class="st-cue">↗</span>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+      </a>
+
+      <a class="sub-tile" href="whipper.html">
+        <span class="st-img seq claro">
+          <img src="img/3.%20Volta/7.%20whipper/Negro%20y%20rosa/1013089-bicicleta-mtb-topmega-whiper-aluminio-r24_-7vel-negro-fucsia-a4e952c41fe9fca31e17855084128409-1024-1024.jpg" alt="Whipper · Street bike" loading="lazy" class="on" onerror="this.remove()">
+          <img src="img/3.%20Volta/7.%20whipper/Negro%20y%20rosa/1013089-1-d032b26048d5e0994d17855084122492-1024-1024.jpg" alt="Whipper · Street bike" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/7.%20whipper/Negro%20y%20rosa/roja%20detalle%202.jpg" alt="Whipper · Street bike" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/7.%20whipper/Negro%20y%20rosa/roja%20detalle%205.jpg" alt="Whipper · Street bike" loading="lazy" onerror="this.remove()">
+        </span>
+        <span class="st-fade"></span>
+        <span class="st-info"><span class="st-t">Whipper · Street bike</span></span>
+        <span class="st-cue">↗</span>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+      </a>
+
+      <a class="sub-tile" href="sportace.html">
+        <span class="st-img seq">
+          <img src="img/3.%20Volta/5.%20Sportace/Componentes/Secuencia/IMG_8394.JPG" alt="SportAce" loading="lazy" class="on" onerror="this.remove()">
+          <img src="img/3.%20Volta/5.%20Sportace/Componentes/Secuencia/IMG_8398.JPG" alt="SportAce" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/5.%20Sportace/Componentes/Secuencia/IMG_8405.JPG" alt="SportAce" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/5.%20Sportace/Componentes/Secuencia/420%20(6).JPG" alt="SportAce" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/5.%20Sportace/Componentes/Secuencia/SP01%20(8).JPG" alt="SportAce" loading="lazy" onerror="this.remove()">
+        </span>
+        <span class="st-fade"></span>
+        <span class="st-info"><span class="st-t">SportAce</span></span>
+        <span class="st-cue">↗</span>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+      </a>
+
+      <!-- las dos últimas son placas de calza: el cuerpo está a la derecha,
+           así que el recorte se ancla ahí y no corta la prenda -->
+      <a class="sub-tile" href="indumentaria.html">
+        <span class="st-img seq">
+          <img src="img/3.%20Volta/3.%20indumentaria/portada%20secuencia/01.jpg" alt="Indumentaria" loading="lazy" class="on" onerror="this.remove()">
+          <img src="img/3.%20Volta/3.%20indumentaria/portada%20secuencia/02.jpg" alt="Indumentaria" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/3.%20indumentaria/portada%20secuencia/03.jpg" alt="Indumentaria" loading="lazy" onerror="this.remove()">
+          <img src="img/3.%20Volta/3.%20indumentaria/portada%20secuencia/04.jpg" alt="Indumentaria" loading="lazy" style="object-position:100% 50%" onerror="this.remove()">
+          <img src="img/3.%20Volta/3.%20indumentaria/portada%20secuencia/004.jpg" alt="Indumentaria" loading="lazy" style="object-position:100% 50%" onerror="this.remove()">
+        </span>
+        <span class="st-fade"></span>
+        <span class="st-info"><span class="st-t">Indumentaria</span></span>
+        <span class="st-cue">↗</span>
+        <span class="corner tl"></span><span class="corner tr"></span>
+        <span class="corner bl"></span><span class="corner br"></span>
+      </a>
+
+    </div>
+
+    <div class="rolevids po-vids">
+      <h4 class="secttl">Videos y entrevistas</h4>
+      <div class="rolevid">
+        <div class="ytf" data-yt="IAwQINmBKYk"></div>
+        <div class="ytf" data-yt="GH4j-Yn6gjg"></div>
+      </div>
+      <div class="rolevid-h">
+        <div class="ytf" data-yt="iQFssNg8a-g"></div>
+        <div class="ytf" data-yt="GVqazYoycSw"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="mini">
+  <span>Buenos Aires, Argentina</span>
+  <a href="contacto.html">Contacto ↗</a>
+  <span>© 2026 Miguel Margenat</span>
+</footer>
+
+<script>
+/* Las tres cosas que antes hacía script.js cuando armaba el panel.
+   Esta página no carga script.js (ninguna página de proyecto lo hace):
+   sólo ui.js, igual que ugarte.html y las demás. */
+
+/* 1 · las portadas con secuencia rotan todas a la vez, cada 3,6 s */
+(function(){
+  const seqs=[...document.querySelectorAll('.st-img.seq')]
+    .map(box=>({imgs:[...box.querySelectorAll('img')],i:0}))
+    .filter(s=>s.imgs.length>1);
+  if(!seqs.length)return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  setInterval(()=>{
+    seqs.forEach(s=>{
+      s.imgs[s.i].classList.remove('on');
+      s.i=(s.i+1)%s.imgs.length;
+      s.imgs[s.i].classList.add('on');
+    });
+  },3600);
+})();
+
+/* 2 · YouTube. Fuera de file:// el video arranca solo, muteado y en loop,
+       cuando entra en pantalla; el botón lo abre en YouTube con sonido.
+       Con file:// los embeds fallan (error 143), así que va la miniatura. */
+(function(){
+  const local=location.protocol==='file:';
+  const cajas=[...document.querySelectorAll('.ytf')];
+  if(!cajas.length)return;
+
+  if(!local){
+    const vio=new IntersectionObserver(es=>es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const box=e.target, id=box.dataset.yt;
+      if(id&&!box.dataset.ready){
+        box.dataset.ready='1';
+        box.classList.add('playing');
+        box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id
+          +'?autoplay=1&mute=1&loop=1&playlist='+id+'&controls=0&modestbranding=1&rel=0&playsinline=1" '
+          +'title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'
+          +'<button class="yt-open" aria-label="Ver en YouTube">Ver con sonido ↗</button>';
+        box.querySelector('.yt-open').addEventListener('click',ev=>{
+          ev.stopPropagation();
+          window.open('https://www.youtube.com/watch?v='+id,'_blank','noopener');
+        });
+      }
+      vio.unobserve(box);
+    }),{threshold:.25});
+    cajas.forEach(b=>vio.observe(b));
+    return;
+  }
+
+  cajas.forEach(box=>{
+    const id=box.dataset.yt;
+    if(!id||box.dataset.ready)return;
+    box.dataset.ready='1';
+    const candidatas=['maxresdefault.jpg','sddefault.jpg','hqdefault.jpg']
+      .map(f=>'https://i.ytimg.com/vi/'+id+'/'+f);
+    const img=document.createElement('img'); img.alt='';
+    const btn=document.createElement('button');
+    btn.className='yt-play'; btn.setAttribute('aria-label','Reproducir video'); btn.textContent='▶';
+    box.append(img,btn);
+    let c=0;
+    img.addEventListener('error',()=>{
+      if(++c<candidatas.length) img.src=candidatas[c];
+      else img.style.display='none';
+    });
+    img.src=candidatas[0];
+    box.addEventListener('click',()=>{
+      window.open('https://www.youtube.com/watch?v='+id,'_blank','noopener');
+    });
+  });
+})();
+
+/* 3 · menú de celular, igual que en el resto de las páginas de proyecto */
+(function(){
+  const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
+  if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
+})();
+</script>
+<script src="ui.js"></script>
+</body>
+</html>

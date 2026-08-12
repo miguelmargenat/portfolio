@@ -666,9 +666,14 @@ header.pagehead p{margin-top:28px;max-width:540px;font-size:16px;color:var(--fg-
 }
 .overlay.has-subs .po-tools{order:8}
 .overlay.has-subs .po-gallery{order:9}
-/* baja hasta debajo de la barra: en 24px se le montaba a los enlaces del nav,
-   que ahora queda visible mientras la ficha está abierta */
-.po-close{position:fixed;top:88px;right:5vw;z-index:90;background:none;border:1px solid var(--line-strong);color:var(--fg);width:46px;height:46px;border-radius:50%;font-size:18px;cursor:pointer;transition:border-color .3s,transform .3s}
+/* OCULTA a pedido de Miguel (12/8/2026). Con la barra de arriba visible el ✕
+   sobraba: de la ficha se sale con Escape o tocando "Portfolio", igual que en
+   el resto de los proyectos.
+   Se esconde por CSS y NO se borra del HTML a propósito: script.js hace
+   closeBtn.addEventListener(...) sin chequear, así que si el elemento
+   desaparece se rompe todo el script de la página. Para que vuelva, sacar el
+   display:none. */
+.po-close{display:none;position:fixed;top:88px;right:5vw;z-index:90;background:none;border:1px solid var(--line-strong);color:var(--fg);width:46px;height:46px;border-radius:50%;font-size:18px;cursor:pointer;transition:border-color .3s,transform .3s}
 .po-close:hover{border-color:var(--accent);transform:rotate(90deg)}
 .po-icon{width:88px;height:88px;stroke:var(--accent);fill:none;stroke-width:1.1;margin-bottom:30px}
 .po-title{font-family:var(--disp);font-size:clamp(19px,3vw,34px);font-weight:700;letter-spacing:-.8px;line-height:1.15}

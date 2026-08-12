@@ -54,6 +54,22 @@
   font-weight:300;margin:0}
 .sa-introbox p + p{margin-top:20px;font-size:clamp(15px,1.3vw,18px);color:var(--fg-soft)}
 
+/* el rol y las tareas, debajo de la caja de apertura.
+   Las tareas son 10: en dos columnas quedan 5 y 5, sin hueco al final. */
+.sa-rol{padding:34px clamp(22px,3.4vw,46px) 0}
+.sa-rol .sa-rol-in{font-size:clamp(15px,1.3vw,18px);line-height:1.75;
+  color:var(--fg);font-weight:300;margin:0 0 22px;max-width:74ch}
+.sa-rol ul{margin:0;padding:0;list-style:none;columns:2;column-gap:clamp(24px,3.4vw,52px)}
+/* El navegador reparte por ALTURA, no por cantidad: quedan 6 y 4, con las dos
+   columnas casi a la par (211 y 167px). Se probó forzar 5 y 5 con
+   li:nth-child(5){break-after:column} y sale peor: 156 contra 223, porque las
+   tareas 6 y 8 son de dos renglones. Se deja balancear al navegador. */
+.sa-rol li{break-inside:avoid;position:relative;padding-left:16px;margin:0 0 11px;
+  font-size:14px;line-height:1.6;color:var(--fg-soft)}
+.sa-rol li::before{content:"";position:absolute;left:0;top:10px;
+  width:7px;height:1px;background:var(--accent)}
+@media(max-width:820px){.sa-rol ul{columns:1}}
+
 /* ===== los tres componentes, uno al lado del otro =====
    Poco margen y poco aire entre columnas: la idea es que las fotos manden. */
 .sa-tres{padding:30px 2.4vw 10px;display:grid;
@@ -147,8 +163,24 @@
 
 <section class="sa-intro">
   <div class="sa-introbox">
-    <p>SportAce es la marca de componentes desarrollada para acompañar y elevar la propuesta de producto de Volta.</p>
-    <p>Su enfoque está puesto en transmitir una lógica de ingeniería aplicada al rendimiento, tanto desde la selección de componentes como desde su diseño y comunicación.</p>
+    <p>Desarrollé piezas y componentes que acompañan a las bicicletas, tanto para mejorar sus características técnicas como la percepción de la marca al llevar productos donde hasta el más mínimo detalle está pensado para el usuario.</p>
+    <p>El enfoque de esta marca está puesto en transmitir una lógica de ingeniería aplicada al rendimiento, tanto desde la selección de componentes como desde su diseño y comunicación.</p>
+  </div>
+
+  <div class="sa-rol">
+    <p class="sa-rol-in">Mi rol consistía en desarrollar nuevos productos que se utilicen tanto en las bicis como para la venta. Para realizar esto mis tareas consistían en:</p>
+    <ul>
+      <li>Investigar las tendencias del mercado global.</li>
+      <li>Proponer mejoras a los productos existentes.</li>
+      <li>Desarrollar nuevas líneas de productos.</li>
+      <li>Investigar con qué proveedores de China trabajar cada componente.</li>
+      <li>Interactuar con proveedores chinos para realizar los diseños.</li>
+      <li>Liderar grupos multidisciplinarios para el diseño íntegro de cada componente, decidiendo las características funcionales, técnicas, su look and feel y empaque.</li>
+      <li>Armar presentaciones formales a los dirigentes de la empresa sobre los desarrollos a realizar.</li>
+      <li>Hacer muestras y dar seguimiento a las modificaciones, realizar avances paso a paso para lograr el producto final.</li>
+      <li>Planificar el lanzamiento de los productos desarrollados.</li>
+      <li>Presentar los productos al grupo comercial de la empresa y dar capacitaciones técnicas de cada desarrollo.</li>
+    </ul>
   </div>
 </section>
 
