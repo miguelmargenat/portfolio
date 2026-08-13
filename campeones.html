@@ -48,9 +48,9 @@
   display:flex;justify-content:center}
 .cp-vwrap video{display:block;width:100%;height:auto;object-fit:contain}
 
-/* la pieza del Obelisco cierra el encabezado, a todo el ancho */
-.cp-keywrap{position:relative;border:1px solid var(--line);border-radius:8px;overflow:hidden;cursor:zoom-in;
-  margin-top:34px}
+/* la pieza del Obelisco cierra la caja de texto, al ancho de la columna */
+.cp-keywrap{position:relative;border:1px solid var(--line);border-radius:6px;overflow:hidden;cursor:zoom-in;
+  margin-top:26px}
 .cp-keywrap img{display:block;width:100%;height:auto}
 
 /* texto + video */
@@ -62,17 +62,21 @@
    cierre a la misma altura. */
 @media(min-width:901px){
   .cp-intro{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr);
-    gap:0 30px;align-items:start;
+    gap:0 30px;align-items:stretch;
     --alto:min(clamp(460px,72vh,780px), 44vw)}
-  .cp-video{grid-column:1;grid-row:1}
-  /* la caja del texto llega hasta donde termina el video, así los dos cierran
-     al mismo nivel. El texto ocupa cerca de la mitad, así que va centrado y el
-     aire queda repartido arriba y abajo en vez de caer todo abajo.
-     min-height y no height: si algún día el texto crece, la caja lo sigue. */
+  /* Ahora el alto de la fila lo manda la caja de texto, porque abajo de los
+     párrafos lleva la foto del Obelisco. --alto quedó como piso: si el texto
+     fuera corto, el bloque no se achica más que eso. */
   .cp-txt{grid-column:2;grid-row:1;min-height:var(--alto);
     display:flex;flex-direction:column;justify-content:center}
-  .cp-vwrap{max-height:var(--alto)}
-  .cp-vwrap video{max-height:var(--alto);width:auto;max-width:100%}
+  /* el video estira hasta cerrar al mismo nivel que el texto. El alto lo da
+     flex:1 y el ancho sale de la proporción real del archivo (1080x1920), así
+     no le quedan franjas negras al costado. El video va absoluto para que su
+     alto natural no empuje la fila: si aportara alto, la fila la mandaría él
+     (871px) en vez del texto. */
+  .cp-video{grid-column:1;grid-row:1;display:flex;flex-direction:column;align-items:flex-start;min-height:0}
+  .cp-vwrap{flex:1;min-height:0;width:auto;max-width:100%;aspect-ratio:1080/1920}
+  .cp-vwrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
   /* las cintas cruzan las dos columnas */
   .cp-gal{grid-column:1 / -1;grid-row:2;padding:30px 0 0;min-width:0}
   /* 3:2 es la proporción exacta de las fotos (6960x4640): así entran enteras.
@@ -84,7 +88,7 @@
   border-radius:0 8px 8px 0;padding:34px clamp(22px,3.4vw,46px);width:100%}
 .cp-txt p{font-size:clamp(16px,1.6vw,21px);line-height:1.75;color:var(--fg-soft);margin-bottom:18px;max-width:none}
 .cp-txt p:first-child{color:var(--fg);font-weight:300}
-.cp-txt p:last-child{margin-bottom:0}
+.cp-txt p:last-of-type{margin-bottom:0}
 .cp-txt p strong{color:var(--fg);font-weight:600}
 .cp-sound{position:absolute;left:50%;top:14px;transform:translateX(-50%);z-index:3;
   display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;cursor:pointer;
@@ -148,7 +152,6 @@
   .cp-vwrap{max-height:78vh}
   .cp-vwrap video{max-height:78vh;width:auto;max-width:100%}
   .cp-gal{margin-top:24px;padding:0}
-  .cp-keywrap{margin-top:26px}
   .cp-back{margin:0 6vw 64px}
 }
 @media(max-width:640px){
@@ -175,9 +178,6 @@
 <header class="cp-head">
   <span class="eyebrow">Volta · López Hermanos</span>
   <h1>Campeones</h1>
-  <div class="cp-keywrap" id="cpKey">
-    <img src="img/3.%20Volta/4.5%20campeones/fotografias/web-02.jpg" alt="La bici Campeones en el Obelisco">
-  </div>
 </header>
 
 <div class="fx-dash"></div>
@@ -186,6 +186,9 @@
   <div class="cp-txt">
     <p>El desafío nunca fue solamente lanzar una bicicleta con una gráfica inspirada en el Mundial. La conversación siempre iba más por otro lado: cómo transmitir ese orgullo colectivo y esa emoción que todos vivimos de una manera tan argentina.</p>
     <p>Ahí es donde el diseño de producto se pone interesante, cuando también puede ayudar a construir una <strong>identidad emocional y cultural</strong>, no solo algo funcional. En conjunto con el estudio Pileta logramos convertir toda esa intención en una identidad clara y con mucho carácter.</p>
+    <div class="cp-keywrap" id="cpKey">
+      <img src="img/3.%20Volta/4.5%20campeones/fotografias/web-02.jpg" alt="La bici Campeones en el Obelisco">
+    </div>
   </div>
   <div class="cp-video">
     <div class="cp-vwrap">
