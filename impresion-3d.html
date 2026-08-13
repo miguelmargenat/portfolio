@@ -27,38 +27,74 @@
 <meta name="twitter:image" content="https://miguelmargenat.com.ar/og.jpg">
 <link rel="stylesheet" href="styles.css">
 <style>
-/* fondo: trama paramétrica que respira (anillos, como las piezas impresas) */
+/* Fondo: trama paramétrica de anillos, como las capas de las piezas impresas.
+   Va QUIETA y atenuada. Antes respiraba con un scale infinito, y sumada a las
+   dos franjas de capas, a las dos cintas y a los reels, la página tenía cinco
+   cosas moviéndose a la vez. */
 .lf-bg{position:fixed;inset:0;z-index:-3;pointer-events:none;overflow:hidden}
-.lf-bg .rings{position:absolute;inset:-25%;
+.lf-bg .rings{position:absolute;inset:-25%;opacity:.5;
   background-image:repeating-radial-gradient(circle at 50% 45%,rgba(245,242,234,.05) 0 1px,transparent 1px 46px);
-  animation:lfBreath 26s ease-in-out infinite alternate;
   -webkit-mask-image:radial-gradient(ellipse 90% 78% at 50% 42%,#000 0%,transparent 86%);
   mask-image:radial-gradient(ellipse 90% 78% at 50% 42%,#000 0%,transparent 86%)}
-@keyframes lfBreath{to{transform:scale(1.14)}}
 
-/* franja de capas de impresión con barrido del cabezal */
-.lf-strata{position:relative;height:18px;overflow:hidden;z-index:2;
-  background:repeating-linear-gradient(180deg,rgba(245,242,234,.14) 0 1px,transparent 1px 3px);
-  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.lf-strata::after{content:"";position:absolute;top:0;bottom:0;width:190px;left:-190px;
-  background:linear-gradient(90deg,transparent,rgba(232,85,58,.55),transparent);
-  animation:lfHead 7s linear infinite}
-.lf-strata.slow::after{animation-duration:11s;animation-direction:reverse}
-@keyframes lfHead{to{left:100%}}
+/* Las dos franjas de capas con el cabezal naranja barriendo (.lf-strata) se
+   sacaron enteras a pedido de Miguel: eran la luz que más se movía y competían
+   con las fotos. No quedó CSS ni HTML de eso. */
 
-/* encabezado sólo de texto */
-.lf-head{padding:150px 5vw 40px;position:relative}
+/* Portada: mosaico de fotos verticales.
+   No hay ninguna foto apaisada en el proyecto —son todas 9:16, 4:5 y
+   cuadradas—, así que en vez de forzar una foto ancha y recortarla, la portada
+   se arma con cinco columnas verticales: cada columna tiene la misma
+   proporción que las fotos y no se recorta casi nada. */
+.lf-head{position:relative;padding:150px 5vw 56px;min-height:64vh;
+  display:flex;align-items:flex-end;overflow:hidden}
+.lf-mos{position:absolute;inset:0;z-index:0;display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.lf-mos .col{position:relative;overflow:hidden;background:var(--bg-2)}
+/* dos capas por columna que se van turnando: son 10 imágenes en pantalla,
+   no las 14 del listado, así la portada no carga de más */
+/* El cruce va corto a propósito: como las cinco columnas cambian a la vez,
+   con un fundido largo toda la portada queda un rato en doble exposición. */
+.lf-mos img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .6s var(--ease)}
+.lf-mos img.on{opacity:1}
+.lf-veil{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(12,12,11,.66) 0%,rgba(12,12,11,.32) 42%,rgba(12,12,11,.95) 100%)}
+.lf-head .inner{position:relative;z-index:2;width:100%}
 .lf-head .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:18px}
 .lf-head h1{font-family:var(--disp);font-size:clamp(30px,4.6vw,64px);font-weight:700;letter-spacing:-1.6px;line-height:1;white-space:nowrap}
 .lf-head h1 em{font-style:italic;font-weight:300;color:var(--accent)}
 
-/* secuencia de fotos, al costado del texto */
+/* ===== el texto del proyecto + la foto que rota al costado =====
+   Son los dos párrafos de siempre. Se probó partirlos en un díptico de dos
+   etapas (Pantano → Lunfardo) y Miguel lo descartó: prefiere el texto corrido.
+   Lo que quedó del díptico es el envoltorio — marco completo y esquinas
+   redondeadas — en vez del panel con sólo la barra naranja al costado. */
+/* stretch: la foto copia el alto del texto, sea el que sea.
+   Acá sí se puede estirar (en Ugarte no): las fotos van con `contain`, así que
+   una caja más alta no recorta nada, sólo cambia cuánto aire queda al costado.
+   Y no hay bucle de medidas porque el alto de la fila lo fija el texto: las
+   diapositivas son `position:absolute`, así que la columna de la foto no
+   aporta alto propio. */
+.lf-texto{display:grid;grid-template-columns:1.3fr .9fr;gap:34px;
+  padding:40px 5vw;align-items:stretch}
+.lf-caja{background:var(--bg-2);border:1px solid var(--line);
+  border-left:2px solid var(--accent);border-radius:0 12px 12px 0;
+  padding:36px clamp(24px,3.4vw,52px)}
+.lf-caja p{font-size:clamp(16px,1.45vw,20px);line-height:1.75;color:var(--fg);
+  margin:0;font-weight:300;max-width:82ch}
+.lf-caja p + p{margin-top:22px;font-size:clamp(15px,1.24vw,17.5px);color:var(--fg-soft)}
+.lf-caja strong{color:var(--fg);font-weight:600}
+
+/* La foto que rota al costado del texto. Usa el mismo listado HERO que el
+   mosaico de la portada, pero con su propio ritmo y su propio índice.
+   Va con "contain": la foto se ve entera, sin recorte. */
 .lf-side{display:flex;flex-direction:column;gap:16px}
-.lf-shots{position:relative;aspect-ratio:1/1;border:1px solid var(--line);border-radius:8px;
+/* flex:1 y no aspect-ratio: el alto lo manda la columna de texto.
+   min-height es sólo un piso, por si el texto alguna vez queda muy corto. */
+.lf-shots{position:relative;flex:1;min-height:300px;border:1px solid var(--line);border-radius:8px;
   overflow:hidden;background:var(--bg-2);cursor:pointer}
 .lf-shots .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s var(--ease)}
 .lf-shots .slide.on{opacity:1}
-/* "contain": la foto se ve entera, sin recorte */
 .lf-shots .slide img{position:absolute;inset:0;width:100%;height:100%;
   object-fit:contain;object-position:center}
 .lf-dots{position:absolute;left:16px;bottom:14px;z-index:3;display:flex;gap:5px;flex-wrap:wrap}
@@ -70,22 +106,18 @@
 .lf-gal.top{padding:56px 5vw 0}
 .lf-gal.bottom{padding:0 5vw 20px}
 .lf-row{overflow:hidden;margin-bottom:10px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.lf-track{display:flex;gap:10px;width:max-content;animation:lfParade 52s linear infinite}
-.lf-row.rev .lf-track{animation-direction:reverse;animation-duration:64s}
+/* Ritmo de fondo: las cintas acompañan, no llaman. Antes iban a 52 y 64s. */
+.lf-track{display:flex;gap:10px;width:max-content;animation:lfParade 120s linear infinite}
+.lf-row.rev .lf-track{animation-direction:reverse;animation-duration:140s}
 .lf-row:hover .lf-track{animation-play-state:paused}
 @keyframes lfParade{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .lf-track img{width:250px;height:170px;object-fit:cover;border-radius:4px;background:var(--bg-3);cursor:pointer;flex-shrink:0;transition:transform .4s var(--ease),filter .4s}
 .lf-track img:hover{transform:scale(1.04);filter:brightness(1.1)}
 .lf-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-soft);margin-top:12px;opacity:.7}
 
-/* intro + lista */
-.lf-intro{display:grid;grid-template-columns:1.3fr .9fr;gap:34px;
-  padding:34px 5vw 34px;align-items:start}
-.lf-box{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);border-radius:0 8px 8px 0;
-  padding:34px clamp(22px,3.4vw,46px);width:100%;margin-bottom:0}
-.lf-box p{font-size:clamp(16px,1.5vw,21px);line-height:1.7;color:var(--fg);margin:0;font-weight:300;max-width:90ch}
-.lf-box p + p{margin-top:20px;font-size:clamp(15px,1.28vw,18px);color:var(--fg-soft)}
-.lf-box .yr{font-family:var(--mono);font-size:.72em;letter-spacing:1.6px;color:var(--accent);margin-right:8px;white-space:nowrap}
+/* El bloque .lf-intro (texto corrido + visor cuadrado al costado) lo reemplazó
+   el díptico .lf-etapas de más arriba. El visor no se perdió: sus 14 fotos son
+   las que ahora rotan en las columnas de la portada. */
 
 /* zoom */
 .lf-zoom{position:fixed;inset:0;z-index:9500;background:rgba(8,8,7,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s;backdrop-filter:blur(4px)}
@@ -113,12 +145,16 @@
 @media(max-width:1400px){.lf-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:1100px){.lf-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:900px){
-  .lf-head{padding:120px 6vw 28px}
-  /* en vertical las fotos van primero, antes del texto */
-  .lf-intro{grid-template-columns:1fr;gap:22px;padding:26px 6vw 26px}
+  .lf-head{padding:120px 6vw 40px;min-height:56vh}
+  /* tres columnas en vez de cinco: con cinco, cada una quedaba en ~70px */
+  .lf-mos{grid-template-columns:repeat(3,1fr)}
+  .lf-mos .col:nth-child(n+4){display:none}
+  /* apilado: la foto SIEMPRE arriba del texto, y con proporción propia
+     (acá no hay nada al costado con qué emparejar el alto) */
+  .lf-texto{grid-template-columns:1fr;gap:22px;padding:30px 6vw}
   .lf-side{order:-1}
-  .lf-shots{aspect-ratio:4/3}
-  .lf-box{padding:24px 20px;margin-bottom:0}
+  .lf-shots{flex:none;aspect-ratio:4/3;min-height:0}
+  .lf-caja{padding:26px 22px}
   .lf-reels{padding-left:6vw;padding-right:6vw}
   .lf-gal.top{padding:40px 6vw 0}
   .lf-gal.bottom{padding:0 6vw 16px}
@@ -150,22 +186,22 @@
   </div>
 </nav>
 
-<div class="lf-strata"></div>
-
 <header class="lf-head">
-  <span class="eyebrow">Pantano · Lunfardo</span>
-  <h1>Impresión <em>3D</em></h1>
+  <div class="lf-mos" id="lfMos"></div>
+  <div class="lf-veil"></div>
+  <div class="inner">
+    <span class="eyebrow">Pantano · Lunfardo</span>
+    <h1>Impresión <em>3D</em></h1>
+  </div>
 </header>
-
-<div class="lf-strata slow"></div>
 
 <section class="lf-gal top">
   <div id="lfGalA"></div>
 </section>
 
-<section class="lf-intro">
-  <div class="lf-box">
-    <p>En el 2020 cofundé Pantano, una marca de diseño enfocada en desarrollar productos innovadores para comercializarlos en tiendas de toda Argentina. Con el tiempo, ese proyecto evolucionó hasta convertirse en Lunfardo, una marca dedicada a la comercialización global de licencias de archivos para impresión 3D.</p>
+<section class="lf-texto">
+  <div class="lf-caja">
+    <p>En el 2020 cofundé <strong>Pantano</strong>, una marca de diseño enfocada en desarrollar productos innovadores para comercializarlos en tiendas de toda Argentina. Con el tiempo, ese proyecto evolucionó hasta convertirse en <strong>Lunfardo</strong>, una marca dedicada a la comercialización global de licencias de archivos para impresión 3D.</p>
     <p>Durante la etapa de Pantano estuve a cargo de la gestión integral de la marca como el desarrollo de la identidad, el diseño de los productos y la gestión del e-commerce. Con la transformación hacia Lunfardo, mi trabajo pasó a centrarse exclusivamente en la dirección del catálogo de productos, en la producción de fotografía y video para comunicar cada nuevo lanzamiento.</p>
   </div>
   <aside class="lf-side">
@@ -240,6 +276,9 @@ const FOTOS=[
 "final1-107.jpg","final1-108.jpg"
 ].map(f=>P+f);
 
+/* el visor recorre el carrete: las únicas fotos ampliables son las cintas */
+const ZOOM=FOTOS;
+
 const REELS=[
 "https://www.instagram.com/p/DC8SJ_tvctQ/","https://www.instagram.com/p/DLWR82Qt-UR/",
 "https://www.instagram.com/p/DLJaA9sNRF8/","https://www.instagram.com/p/DKn7rgWJy-M/",
@@ -255,26 +294,75 @@ const REELS=[
 "https://www.instagram.com/p/C96bWTmt2Za/","https://www.instagram.com/p/C-Mb_m1tsLK/",
 "https://www.instagram.com/p/C9WZDkDtC2h/","https://www.instagram.com/p/C7LIwMQOjZX/"];
 
-/* secuencia de fotos al costado del texto */
+/* Portada: mosaico de 5 columnas verticales.
+   Cada columna tiene dos capas que se turnan, así que en pantalla hay 10
+   imágenes y no las 14 del listado. Cambia UNA columna por vez, cada 3,4s:
+   la portada se renueva sin que se mueva todo junto.
+   Las 14 fotos son las mismas que antes rotaban en el visor cuadrado. */
 (function(){
-  const hero=document.getElementById('lfShots'), dots=document.getElementById('lfDots');
+  const mos=document.getElementById('lfMos');
+  if(!mos)return;
+  const COLS=5;
+  mos.innerHTML='<div class="col"><img alt="Impresión 3D — Pantano y Lunfardo"><img alt=""></div>'.repeat(COLS);
+
+  const cols=[...mos.querySelectorAll('.col')].map((el,k)=>({
+    capas:[...el.querySelectorAll('img')],
+    activa:0,
+    /* arranca cada columna en una foto distinta y bien separada del listado */
+    i:(k*3)%HERO.length
+  }));
+
+  function pintar(c,inicial){
+    const o=HERO[c.i%HERO.length];
+    const destino=inicial?c.capas[0]:c.capas[1-c.activa];
+    destino.src=o.src;
+    destino.style.objectPosition=o.pos;
+    if(inicial){destino.classList.add('on');return;}
+    destino.classList.add('on');
+    c.capas[c.activa].classList.remove('on');
+    c.activa=1-c.activa;
+  }
+
+  cols.forEach(c=>pintar(c,true));
+
+  /* Cambian las cinco juntas cada 3s.
+     Cada columna avanza +COLS y no +1: como arrancan en 0,3,6,9,12 y a todas
+     se les suma lo mismo, las cinco posiciones siguen siendo distintas vuelta
+     tras vuelta y nunca se repite una foto entre columnas vecinas. */
+  setInterval(()=>{
+    cols.forEach(c=>{c.i+=COLS;pintar(c,false);});
+  },3000);
+})();
+
+/* La foto que rota al costado del texto. Comparte el listado HERO con el
+   mosaico, pero lleva su propio índice y su propio ritmo (3,6s), así que
+   las dos cosas no van sincronizadas. Clic en la foto o en un guioncito. */
+(function(){
+  const caja=document.getElementById('lfShots'), dots=document.getElementById('lfDots');
+  if(!caja||!dots)return;
   const frag=document.createDocumentFragment();
   HERO.forEach((o,i)=>{
     const d=document.createElement('div');
     d.className='slide'+(i===0?' on':'');
-    d.innerHTML='<img src="'+o.src+'" alt="Impresión 3D — Pantano y Lunfardo">';
+    d.innerHTML='<img src="'+o.src+'" alt="Impresión 3D — Pantano y Lunfardo" loading="lazy">';
     frag.appendChild(d);
     const s=document.createElement('span'); if(i===0)s.className='on'; dots.appendChild(s);
   });
-  hero.insertBefore(frag,hero.firstChild);
-  const sl=hero.querySelectorAll('.slide'), mk=dots.querySelectorAll('span');
+  caja.insertBefore(frag,caja.firstChild);
+
+  const sl=caja.querySelectorAll('.slide'), mk=dots.querySelectorAll('span');
   let i=0,iv=null;
-  function go(n){sl[i].classList.remove('on');mk[i].classList.remove('on');i=(n+sl.length)%sl.length;sl[i].classList.add('on');mk[i].classList.add('on');}
+  function go(n){
+    sl[i].classList.remove('on'); mk[i].classList.remove('on');
+    i=(n+sl.length)%sl.length;
+    sl[i].classList.add('on'); mk[i].classList.add('on');
+  }
   function start(){clearInterval(iv);iv=setInterval(()=>go(i+1),3600);}
   start();
-  hero.addEventListener('click',e=>{if(e.target.closest('a,button'))return;go(i+1);start();});
+  caja.addEventListener('click',e=>{if(e.target.closest('a,button'))return;go(i+1);start();});
   mk.forEach((s,n)=>s.addEventListener('click',e=>{e.stopPropagation();go(n);start();}));
 })();
+
 
 /* galería desfile en dos filas */
 (function(){
@@ -299,8 +387,8 @@ const zb=document.getElementById('lfZoom'), zim=document.getElementById('lfZoomI
 let zi=0;
 function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
 function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
-function paintZ(){zim.src=FOTOS[zi];zct.textContent=(zi+1)+' / '+FOTOS.length;}
-function stepZ(n){zi=(zi+n+FOTOS.length)%FOTOS.length;paintZ();}
+function paintZ(){zim.src=ZOOM[zi];zct.textContent=(zi+1)+' / '+ZOOM.length;}
+function stepZ(n){zi=(zi+n+ZOOM.length)%ZOOM.length;paintZ();}
 zb.querySelector('.zc').addEventListener('click',closeZ);
 zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
 zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});
