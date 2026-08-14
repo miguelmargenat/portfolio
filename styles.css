@@ -105,10 +105,29 @@ nav .navright{display:flex;align-items:center;gap:34px}
 @media(max-width:780px){
   .navtoggle{display:flex}
   nav{mix-blend-mode:normal}
-  nav .links{position:fixed;inset:0;background:var(--bg);flex-direction:column;justify-content:center;align-items:flex-start;padding:0 8vw;gap:24px;font-size:30px;font-family:var(--disp);transform:translateX(100%);transition:transform .6s var(--ease);overflow-y:auto}
+  /* El panel NO puede ir con inset:0. En el inicio la nav lleva
+     backdrop-filter (ver nav.haslang más abajo), y un filtro convierte al
+     elemento en el marco de referencia de todo lo que tenga adentro con
+     position:fixed. Con inset:0 el menú quedaba encerrado en los 75px de
+     alto de la barra: se veía sólo "Portfolio" pegado arriba y los otros dos
+     links caían fuera de la pantalla. Anclado arriba a la izquierda y medido
+     en unidades de pantalla, el filtro deja de importar.
+     dvh va después de vh a propósito: es el alto real sin la barra del
+     navegador, y los que no lo entienden se quedan con vh. */
+  nav .links{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;
+    background:var(--bg);flex-direction:column;justify-content:center;align-items:flex-start;
+    padding:0 8vw;gap:24px;font-size:30px;font-family:var(--disp);
+    transform:translateX(100%);transition:transform .6s var(--ease);overflow-y:auto}
   nav .links.open{transform:translateX(0)}
+  /* con el menú abierto el panel es opaco: si la marca y los links siguen en
+     difference se mezclan con las fotos de atrás y no se leen. La nav ya
+     tiene fondo propio, así que en celular no hace falta el blend. */
+  nav.haslang .brand,nav.haslang .links{mix-blend-mode:normal}
+  /* las banderas son hermanas del panel y van después en el HTML, así que
+     quedaban encima del menú abierto, sobre el título */
+  nav .links.open ~ .lang{opacity:0;pointer-events:none}
   nav .navright{gap:0}
-  .lang{margin-right:18px}
+  .lang{margin-right:18px;transition:opacity .3s}
 
   /* Portfolio y su desplegable */
   .navgroup{display:grid;grid-template-columns:1fr auto;align-items:center;
@@ -463,6 +482,9 @@ section{padding:150px 5vw;position:relative}
   .hm-proy:hover .exp-tile,.hm-proy .exp-tile:hover{flex:none}
   .exp-tile .tinfo{padding:20px 16px}
   .exp-tile .tname{font-size:15px}
+  /* en celular las portadas van sólo con el nombre: el número tapaba foto y
+     la flecha ↗ la dibuja iOS como emoji azul, que se come el naranja */
+  .exp-tile .tnum,.exp-tile .tname .ar{display:none}
 }
 
 /* ---------- page header (experiencia / contacto) ---------- */

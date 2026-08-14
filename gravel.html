@@ -243,16 +243,25 @@
 .in-rowlbl:first-child{margin-top:0}
 /* En escritorio las cuatro cintas van una al lado de la otra y corren hacia
    arriba. El alto lo fija --altoCinta para que cierren con la bici del medio.
-   Van con #inGal adelante para ganarle a las reglas horizontales de más abajo. */
-#inGal{display:flex;gap:6px;height:var(--altoCinta,620px)}
-#inGal .in-row{flex:1;min-width:0;overflow:hidden;margin:0;
-  -webkit-mask-image:linear-gradient(180deg,transparent,#000 7%,#000 93%,transparent);
-  mask-image:linear-gradient(180deg,transparent,#000 7%,#000 93%,transparent)}
-#inGal .in-track{flex-direction:column;width:auto;height:max-content;
-  animation-name:inParadeV;animation-duration:52s}
-#inGal .in-row.rev .in-track{animation-name:inParadeV;animation-duration:66s}
+   Van con #inGal adelante para ganarle a las reglas horizontales de más abajo.
+
+   OJO: este bloque tiene que ir adentro de su propio @media. Las reglas de
+   celular también empiezan con #inGal, así que tienen la misma prioridad, y
+   como éstas vienen después en el archivo le ganaban igual: en el celular las
+   cintas se dibujaban en vertical, con el alto fijo de 620px y la pista
+   midiendo 486. Esos 134px de diferencia eran el vacío que quedaba abajo de
+   cada columna. */
+@media(min-width:901px){
+  #inGal{display:flex;gap:6px;height:var(--altoCinta,620px)}
+  #inGal .in-row{flex:1;min-width:0;overflow:hidden;margin:0;
+    -webkit-mask-image:linear-gradient(180deg,transparent,#000 7%,#000 93%,transparent);
+    mask-image:linear-gradient(180deg,transparent,#000 7%,#000 93%,transparent)}
+  #inGal .in-track{flex-direction:column;width:auto;height:max-content;
+    animation-name:inParadeV;animation-duration:52s}
+  #inGal .in-row.rev .in-track{animation-name:inParadeV;animation-duration:66s}
+  #inGal .in-track .cel{width:100%;height:auto;aspect-ratio:3/2}
+}
 @keyframes inParadeV{from{transform:translateY(0)}to{transform:translateY(-50%)}}
-#inGal .in-track .cel{width:100%;height:auto;aspect-ratio:3/2}
 .in-track{display:flex;gap:10px;width:max-content;animation:inParade 60s linear infinite}
 .in-row.rev .in-track{animation-direction:reverse;animation-duration:74s}
 .in-row:hover .in-track{animation-play-state:paused}
