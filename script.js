@@ -6,6 +6,9 @@
   const hasST   = hasGSAP && typeof window.ScrollTrigger !== 'undefined';
   const hasLenis= typeof window.Lenis !== 'undefined';
   const reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* idioma de la página: las de en/ llevan <html lang="en"> */
+  const EN = document.documentElement.lang === 'en';
+  const T = (es, en) => EN ? en : es;
 
   /* ---------------- PRELOADER ---------------- */
   const pre = document.querySelector('.preloader');
@@ -59,7 +62,7 @@
     const grow=(txt)=>{cur.classList.add('big');label.textContent=txt||'';};
     const shrink=()=>{cur.classList.remove('big');label.textContent='';};
     document.querySelectorAll('a,button,.card,.exp-tile').forEach(el=>{
-      const t=el.dataset.cursor|| (el.classList.contains('card')||el.classList.contains('exp-tile')?'Ver':'');
+      const t=el.dataset.cursor|| (el.classList.contains('card')||el.classList.contains('exp-tile')?T('Ver','View'):'');
       el.addEventListener('mouseenter',()=>grow(t));
       el.addEventListener('mouseleave',shrink);
     });
@@ -217,7 +220,7 @@
           box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id
             +'?autoplay=1&mute=1&loop=1&playlist='+id+'&controls=0&modestbranding=1&rel=0&playsinline=1" '
             +'title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>'
-            +'<button class="yt-open" aria-label="Ver en YouTube">Ver con sonido ↗</button>';
+            +'<button class="yt-open" aria-label="'+T('Ver en YouTube','Watch on YouTube')+'">'+T('Ver con sonido ↗','Watch with sound ↗')+'</button>';
           box.querySelector('.yt-open').addEventListener('click',ev=>{
             ev.stopPropagation();
             window.open('https://www.youtube.com/watch?v='+id,'_blank','noopener');
@@ -242,7 +245,7 @@
       const img=document.createElement('img');
       img.alt='';
       const btn=document.createElement('button');
-      btn.className='yt-play'; btn.setAttribute('aria-label','Reproducir video'); btn.textContent='▶';
+      btn.className='yt-play'; btn.setAttribute('aria-label',T('Reproducir video','Play video')); btn.textContent='▶';
       box.append(img,btn);
       let c=0;
       img.addEventListener('error',()=>{
@@ -364,19 +367,19 @@
       if(window.instgrm&&window.instgrm.Embeds){window.instgrm.Embeds.process();}
     }
     function renderModels(s,idx){
-      const carousel='<div class="car-head"><span class="car-hint">Elegí un modelo para ver sus fotos y ficha</span></div>'
+      const carousel='<div class="car-head"><span class="car-hint">'+T('Elegí un modelo para ver sus fotos y ficha','Choose a model to see its photos and specs')+'</span></div>'
         +'<div class="car-track">'+s.models.map((x,i)=>
             '<button class="car-item'+(i===idx?' on':'')+'" data-m="'+i+'">'
              +'<span class="car-img"><img src="'+(x.png||x.images[0])+'" alt="'+x.name+'" loading="lazy"></span>'
              +'<span class="car-name">'+x.name+'</span>'
              +'<span class="car-disc">'+x.disc+'</span>'
-             +'<span class="car-cta">Ver fotos ↗</span>'
+             +'<span class="car-cta">'+T('Ver fotos ↗','See photos ↗')+'</span>'
             +'</button>').join('')+'</div>';
       if(idx<0) return '<div class="mdl-wrap">'+carousel+'</div>';
       const m=s.models[idx];
       return '<div class="mdl-wrap">'+carousel
         +'<div class="mdl-detail">'
-          +'<div class="mdl-head"><span class="mdl-name">Zapatilla '+m.disc+' Volta '+m.name+'</span><button class="mdl-close" aria-label="Cerrar modelo">✕</button></div>'
+          +'<div class="mdl-head"><span class="mdl-name">'+T('Zapatilla '+m.disc+' Volta '+m.name, 'Volta '+m.name+' '+m.disc+' shoe')+'</span><button class="mdl-close" aria-label="'+T('Cerrar modelo','Close model')+'">✕</button></div>'
           +'<div class="mdl-specs">'+m.specs.map(sp=>'<div class="mdl-row"><span class="mk">'+sp.k+'</span><span class="mv">'+sp.v+'</span></div>').join('')+'</div>'
           +'<div class="mdl-gal">'+m.images.map(src=>'<img src="'+src+'" alt="'+m.name+'" loading="lazy">').join('')+'</div>'
         +'</div></div>';
@@ -421,7 +424,7 @@
             : (s.hero?'<div class="sd-hero"><img src="'+s.hero+'" alt="'+s.title+'" loading="lazy"></div>':''))
         +'<h3>'+s.title+'</h3>'
         +'<div class="sd-meta">'
-          +[['Propósito',s.purpose],['Programas',s.software],['Duración',s.time]]
+          +[[T('Propósito','Purpose'),s.purpose],[T('Programas','Software'),s.software],[T('Duración','Duration'),s.time]]
              .filter(([,v])=>v&&String(v).trim())
              .map(([k,v])=>'<span><b>'+k+'</b>'+v+'</span>').join('')
         +'</div>'
@@ -430,7 +433,7 @@
         +(s.models?'<div class="mdl-holder">'+renderModels(s,-1)+'</div>':'')
         +(s.video?'<div class="sd-video"><video src="'+s.video+'" controls loop playsinline preload="metadata"'+(s.thumb?' poster="'+s.thumb+'"':'')+'></video></div>':'')
         +(s.embed?'<div class="sd-embed"'+(s.video?' hidden':'')+'><iframe src="'+s.embed+'" allowfullscreen frameborder="0" allow="clipboard-write; fullscreen" loading="lazy"></iframe></div>':'')
-        +(s.link?'<a class="sd-link" href="'+s.link+'" target="_blank" rel="noopener">Ver en Behance ↗</a>':'')
+        +(s.link?'<a class="sd-link" href="'+s.link+'" target="_blank" rel="noopener">'+T('Ver en Behance ↗','View on Behance ↗')+'</a>':'')
         +'<div class="sd-imgs">'+((s.images||[]).map(src=>'<img src="'+src+'" alt="'+s.title+'" loading="lazy">').join(''))+'</div>'
         +'</div>';
       if(s.models)bindModels(s);
@@ -549,7 +552,7 @@
           overlay.classList.remove('has-subs');
           overlay.classList.add('reels');
           embedEl.className='po-embed embed-grid';
-          embedEl.innerHTML=list.map((u,i)=>'<div class="ig-cell"><div class="ig-slot" data-url="'+u+'"></div><button class="ig-expand" data-i="'+i+'" aria-label="Ampliar video">⤢</button></div>').join('');
+          embedEl.innerHTML=list.map((u,i)=>'<div class="ig-cell"><div class="ig-slot" data-url="'+u+'"></div><button class="ig-expand" data-i="'+i+'" aria-label="'+T('Ampliar video','Expand video')+'">⤢</button></div>').join('');
           embedEl.querySelectorAll('.ig-expand').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openReel(+b.dataset.i);}));
           setupLazyEmbeds();
           if(galleryEl)galleryEl.style.display='none';

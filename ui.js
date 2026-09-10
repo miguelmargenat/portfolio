@@ -7,6 +7,9 @@
    ============================================================ */
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* las páginas de en/ llevan <html lang="en"> y un <base href="../">,
+     así que sus enlaces a otras páginas van con el prefijo en/ */
+  const EN = document.documentElement.lang === 'en';
 
   /* ---------- barra de progreso ---------- */
   const barra=document.createElement('div');
@@ -19,7 +22,7 @@
   const subir=document.createElement('button');
   subir.className='totop';
   subir.type='button';
-  subir.setAttribute('aria-label','Volver arriba');
+  subir.setAttribute('aria-label',EN?'Back to top':'Volver arriba');
   subir.textContent='↑';
   document.body.appendChild(subir);
   subir.addEventListener('click',()=>{
@@ -51,10 +54,11 @@
     const enlace=document.querySelector('nav .links a[href$="experiencia.html"]');
     if(!enlace||document.querySelector('.navsub'))return;
 
+    const PREFIJO=EN?'en/':'';
     const PROYECTOS=[
       ['Volta','volta.html'],
-      ['Vehículos Ugarte','ugarte.html'],
-      ['Impresión 3D','impresion-3d.html'],
+      [EN?'Ugarte Vehicles':'Vehículos Ugarte','ugarte.html'],
+      [EN?'3D Printing':'Impresión 3D','impresion-3d.html'],
       ['Renders','renders.html']
     ];
 
@@ -67,14 +71,14 @@
     const flecha=document.createElement('button');
     flecha.className='navmas';
     flecha.type='button';
-    flecha.setAttribute('aria-label','Ver los proyectos');
+    flecha.setAttribute('aria-label',EN?'Show projects':'Ver los proyectos');
     flecha.setAttribute('aria-expanded','false');
     flecha.textContent='+';
     caja.appendChild(flecha);
 
     const sub=document.createElement('div');
     sub.className='navsub';
-    sub.innerHTML=PROYECTOS.map(([t,h])=>'<a href="'+h+'">'+t+'</a>').join('');
+    sub.innerHTML=PROYECTOS.map(([t,h])=>'<a href="'+PREFIJO+h+'">'+t+'</a>').join('');
     caja.appendChild(sub);
 
     flecha.addEventListener('click',e=>{
