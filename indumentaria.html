@@ -55,14 +55,20 @@
 .in2-lista li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.65;color:var(--fg-soft)}
 .in2-lista li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--accent)}
 
-/* reels de Instagram, debajo del texto: 4 por fila, 2 en tablet, 1 en celular */
+/* videos de la campaña, debajo del texto: 4 por fila, 2 en tablet, 1 en celular.
+   Los 4 archivos son 720x1280 (9:16). Arrancan solos y mudos al entrar en
+   pantalla, igual que el de Campeones. */
 .in2-reels{padding:34px 5vw 6px}
 .in2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.in2-slot{min-height:440px;background:var(--bg-3);border-radius:6px;position:relative;overflow:hidden}
-.in2-slot::after{content:"cargando…";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--fg-soft)}
-.in2-slot[data-loaded]{min-height:0;background:transparent}
-.in2-slot[data-loaded]::after{display:none}
-.in2-grid .instagram-media{margin:0!important;min-width:0!important;width:100%!important}
+.in2-vid{position:relative;aspect-ratio:9/16;border:1px solid var(--line);border-radius:8px;
+  overflow:hidden;background:#000}
+.in2-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.in2-snd{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:3;
+  display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;cursor:pointer;
+  font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;white-space:nowrap;
+  background:rgba(12,12,11,.72);border:1px solid var(--line-strong);color:#fff;backdrop-filter:blur(5px);
+  transition:border-color .3s,background .3s}
+.in2-snd:hover{border-color:var(--accent);background:rgba(232,85,58,.8)}
 @media(max-width:900px){.in2-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.in2-grid{grid-template-columns:1fr}}
 
@@ -256,7 +262,24 @@
 </section>
 
 <section class="in2-reels">
-  <div class="in2-grid" id="in2Reels"></div>
+  <div class="in2-grid" id="in2Reels">
+    <div class="in2-vid">
+      <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.mp4"></video>
+      <button class="in2-snd"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+    </div>
+    <div class="in2-vid">
+      <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/2-pro-team.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/2-pro-team.mp4"></video>
+      <button class="in2-snd"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+    </div>
+    <div class="in2-vid">
+      <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/3-ya-disponible.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/3-ya-disponible.mp4"></video>
+      <button class="in2-snd"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+    </div>
+    <div class="in2-vid">
+      <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/4-muy-pronto.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/4-muy-pronto.mp4"></video>
+      <button class="in2-snd"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+    </div>
+  </div>
 </section>
 
 <div id="izSets"></div>
@@ -531,29 +554,33 @@ document.addEventListener('keydown',e=>{
 const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
 if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
 </script>
-<script async src="https://www.instagram.com/embed.js"></script>
 <script>
-/* reels con carga progresiva (mismo esquema que Ugarte) */
+/* videos: arrancan solos y mudos al entrar en pantalla (como Campeones).
+   Activar el sonido de uno silencia a los demás. */
 (function(){
-  const REELS=[
-    "https://www.instagram.com/reel/DdXG18FpyAv/",
-    "https://www.instagram.com/reel/DdZjQUOiP4-/",
-    "https://www.instagram.com/reel/Dc_aPqNgusV/",
-    "https://www.instagram.com/reel/Dc6Lhm9Dwae/"
-  ];
-  const grid=document.getElementById('in2Reels');
-  grid.innerHTML=REELS.map(u=>'<div class="in2-slot" data-url="'+u+'"></div>').join('');
-  const io=new IntersectionObserver(es=>es.forEach(e=>{
-    if(!e.isIntersecting)return;
-    const s=e.target;
-    if(!s.dataset.loaded){
-      s.dataset.loaded='1';
-      s.innerHTML='<blockquote class="instagram-media" data-instgrm-permalink="'+s.dataset.url+'" data-instgrm-version="14" style="width:100%!important;min-width:0!important;margin:0"></blockquote>';
-      if(window.instgrm&&window.instgrm.Embeds)window.instgrm.Embeds.process();
-    }
-    io.unobserve(s);
-  }),{rootMargin:'500px 0px',threshold:.01});
-  grid.querySelectorAll('.in2-slot').forEach(s=>io.observe(s));
+  const cajas=[...document.querySelectorAll('#in2Reels .in2-vid')];
+  const vids=cajas.map(c=>c.querySelector('video'));
+  function paint(){
+    cajas.forEach((c,i)=>{
+      const b=c.querySelector('.in2-snd'), m=vids[i].muted;
+      b.querySelector('.ic').textContent = m ? '🔇' : '🔊';
+      b.querySelector('.tx').textContent = m ? 'Activar sonido' : 'Desactivar sonido';
+    });
+  }
+  const vio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting) e.target.play().catch(()=>{}); else e.target.pause();
+  }),{threshold:.3});
+  cajas.forEach((c,i)=>{
+    const v=vids[i];
+    vio.observe(v);
+    c.querySelector('.in2-snd').addEventListener('click',()=>{
+      const prender=v.muted;
+      vids.forEach(o=>{ if(o!==v) o.muted=true; });
+      v.muted=!prender; if(prender){ v.volume=1; v.play().catch(()=>{}); }
+      paint();
+    });
+  });
+  paint();
 })();
 </script>
 <script src="ui.js"></script>
