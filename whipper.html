@@ -41,6 +41,22 @@
 /* sin header: la página arranca directo con el producto */
 .wh-top{padding:132px 5vw 0}
 
+/* arriba de todo: video de campaña a la izquierda y, a la derecha, el texto
+   de lo que hice en el proyecto. El video es vertical (720x1280): manda el
+   alto y el ancho sale de la proporción; la caja de texto se estira a ese
+   mismo alto. Arranca solo y mudo, como Campeones. */
+.wh-intro{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:stretch;
+  margin-bottom:28px}
+.wh-video{position:relative;height:clamp(420px,72vh,720px);aspect-ratio:9/16;max-width:100%;
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#000}
+.wh-video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.wh-snd{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:3;
+  display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;cursor:pointer;
+  font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;white-space:nowrap;
+  background:rgba(12,12,11,.72);border:1px solid var(--line-strong);color:#fff;backdrop-filter:blur(5px);
+  transition:border-color .3s,background .3s}
+.wh-snd:hover{border-color:var(--accent);background:rgba(232,85,58,.8)}
+
 /* rótulo de sección */
 .wh-lbl{display:flex;align-items:baseline;gap:16px;margin:0 0 16px;
   border-bottom:1px solid var(--line);padding-bottom:12px}
@@ -60,10 +76,10 @@
 .wh-colores button.on{color:var(--fg);border-color:var(--accent);background:rgba(232,85,58,.08)}
 .wh-colores .pt{width:14px;height:14px;border-radius:50%;border:1px solid rgba(245,242,234,.35);flex-shrink:0}
 
-/* ===== cierre: texto a la izquierda, pieza gráfica a la derecha =====
-   La imagen conserva su proporción, sin estirarse a lo ancho. */
-.wh-cierre{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:14px;align-items:stretch}
+/* ===== cierre: la pieza gráfica de la línea completa, a todo el ancho =====
+   (el texto subió al lado del video). La imagen es apaisada (1254x508) y
+   conserva su proporción. */
+.wh-cierre{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr)}
 .wh-banner{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;
   background:var(--bg-2);display:flex;align-items:center;justify-content:center;padding:10px}
 .wh-banner img{display:block;max-width:100%;max-height:100%;height:auto;object-fit:contain}
@@ -78,6 +94,9 @@
    un panel blanco. Blanco y no #f4f2ee porque las de los colores Blanca y Verde
    son 16:9: con "contain" les queda aire arriba y abajo, y así se funde con el
    fondo de la foto y no se nota la franja. */
+/* fundido al rotar de color (lo pone y lo saca el JS) */
+.wh-view,.wh-gal{transition:opacity .25s ease}
+.wh-blk.fade .wh-view,.wh-blk.fade .wh-gal{opacity:0}
 .wh-view{position:relative;background:#fff;border:1px solid var(--line);border-radius:10px;
   overflow:hidden;height:var(--alto);cursor:zoom-in}
 .wh-view img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;
@@ -136,6 +155,9 @@
 
 @media(max-width:900px){
   .wh-top{padding:112px 6vw 0}
+  /* video arriba, centrado, y el texto debajo */
+  .wh-intro{grid-template-columns:1fr;gap:10px}
+  .wh-video{margin:0 auto}
   /* los colores bajan a su propia línea, debajo del título */
   .wh-lbl{flex-wrap:wrap;row-gap:12px}
   .wh-colores{order:3;width:100%;margin-left:0}
@@ -173,6 +195,24 @@
 </nav>
 
 <section class="wh-top">
+  <div class="wh-intro">
+    <div class="wh-video">
+      <video id="whVideo" muted loop playsinline preload="metadata" poster="img/3.%20Volta/7.%20whipper/video-whipper.jpg" src="img/3.%20Volta/7.%20whipper/video-whipper.mp4"></video>
+      <button class="wh-snd" id="whSnd"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
+    </div>
+    <div class="wh-bar">
+      <div class="wh-name">Participé en el desarrollo dirigiendo el proyecto:</div>
+      <ul class="wh-lista">
+        <li>Investigación de tendencias del mercado y propuesta de la línea de productos.</li>
+        <li>Realización del brief inicial y su tono de comunicación.</li>
+        <li>Elección de los componentes que lleva la bicicleta.</li>
+        <li>Definición de proveedores y estrategia de compra según lotes de producción.</li>
+        <li>Dirección del lenguaje visual del producto, definiendo su look &amp; feel para construir una identidad coherente con la marca.</li>
+        <li>Coordinación de las decisiones estratégicas que permitieron transformar el concepto inicial en un producto listo para producción.</li>
+      </ul>
+    </div>
+  </div>
+
   <div class="wh-lbl">
     <span class="t"><em>Whipper</em>, stunt street bike</span>
     <div class="wh-colores" id="whColores"></div>
@@ -185,17 +225,6 @@
   </div>
 
   <div class="wh-cierre">
-    <div class="wh-bar">
-      <div class="wh-name">Participé en el desarrollo dirigiendo el proyecto:</div>
-      <ul class="wh-lista">
-        <li>Investigación de tendencias del mercado y propuesta de la línea de productos.</li>
-        <li>Realización del brief inicial y su tono de comunicación.</li>
-        <li>Elección de los componentes que lleva la bicicleta.</li>
-        <li>Definición de proveedores y estrategia de compra según lotes de producción.</li>
-        <li>Dirección del lenguaje visual del producto, definiendo su look &amp; feel para construir una identidad coherente con la marca.</li>
-        <li>Coordinación de las decisiones estratégicas que permitieron transformar el concepto inicial en un producto listo para producción.</li>
-      </ul>
-    </div>
     <figure class="wh-banner">
       <img src="img/3.%20Volta/7.%20whipper/whipper%20todas.jpg" alt="Whipper — línea completa">
     </figure>
@@ -297,8 +326,29 @@ function mostrar(k){
     im.addEventListener('error',()=>im.closest('button').remove()));
   elegir(0);
 }
-selC.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>mostrar(+b.dataset.c)));
 mostrar(0);
+
+/* Los colores rotan solos cada 4 s, con un fundido corto del visor y las
+   columnas. Se frena con el mouse encima de las fotos, con el zoom abierto o
+   fuera de pantalla, y se apaga del todo cuando alguien elige un color o una
+   foto a mano: si está mirando algo en particular, no se lo cambiamos. */
+let colorAct=0, auto=true, enPantalla=true;
+const blk=document.querySelector('.wh-blk');
+/* precarga de las fotos de los otros colores, para que el cambio no quede en blanco */
+COLORES.forEach(c=>c.fotos.slice(0,6).forEach(f=>{ new Image().src=W+c.dir+f; }));
+function cambiar(k){
+  blk.classList.add('fade');
+  setTimeout(()=>{ colorAct=k; mostrar(k); blk.classList.remove('fade'); },250);
+}
+selC.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
+  auto=false; colorAct=+b.dataset.c; mostrar(colorAct);
+}));
+blk.addEventListener('click',e=>{ if(e.target.closest('#whGal button'))auto=false; });
+new IntersectionObserver(es=>{ enPantalla=es[0].isIntersecting; },{threshold:.2}).observe(blk);
+setInterval(()=>{
+  if(!auto||!enPantalla||document.hidden||blk.matches(':hover')||zb.classList.contains('on'))return;
+  cambiar((colorAct+1)%COLORES.length);
+},4000);
 
 /* zoom */
 const zb=document.getElementById('whZoom'), zim=document.getElementById('whZoomImg'), zct=document.getElementById('whZoomCount');
@@ -318,6 +368,20 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')stepZ(1);
   if(e.key==='ArrowLeft')stepZ(-1);
 });
+
+/* video: arranca solo al entrar en pantalla, muteado (como Campeones) */
+(function(){
+  const v=document.getElementById('whVideo'), b=document.getElementById('whSnd');
+  new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting) v.play().catch(()=>{}); else v.pause();
+  }),{threshold:.3}).observe(v);
+  function paint(){
+    b.querySelector('.ic').textContent = v.muted ? '🔇' : '🔊';
+    b.querySelector('.tx').textContent = v.muted ? 'Activar sonido' : 'Desactivar sonido';
+  }
+  b.addEventListener('click',()=>{ v.muted=!v.muted; if(!v.muted)v.volume=1; v.play().catch(()=>{}); paint(); });
+  paint();
+})();
 
 /* menu mobile */
 const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .links');
