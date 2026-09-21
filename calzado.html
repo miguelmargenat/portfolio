@@ -232,6 +232,12 @@
   .pz-stage{padding:24px 6vw 34px}
   .pz-back{margin:0 6vw 64px}
 }
+/* En celular, a 3:1 el header medía ~110px y el título quedaba debajo del
+   menú (que mide 75px y va encima). A 3:2, la proporción real de las fotos,
+   el título baja y la foto se ve entera. */
+@media(max-width:600px){
+  .pz-hero{aspect-ratio:3/2}
+}
 </style>
 </head>
 <body>
@@ -327,27 +333,27 @@ const HERO = [
 
 /* orden de la línea: Mudfulness, Ultrafit, Dualgrip, Dualfit, Flattrack */
 const M = [
- {name:"Mudfulness",disc:"Gravel",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7594.png",
+ {name:"Mudfulness",disc:"Gravel",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7594.webp",
   colors:["#8c1d2c","#141416"],calls:["Boa + abrojo","Suela de goma"],
   specs:[["Uso","Gravel"],["Cierre","Dual con Boa y abrojo"],["Material","Flyknit + TPU, combinando ventilación y comodidad. Suela de goma"]],
   dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20GRAVEL%20VOLTA%20MUDFULNESS%20BORD%C3%93-NEGRO/MELI%20-%20ODOO/1012335",
   pics:[0,2,3,4,5,6,7,8,9,10]},
- {name:"Ultrafit",disc:"Ruta",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7592.png",
+ {name:"Ultrafit",disc:"Ruta",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7592.webp",
   colors:["#141416","#d8452a"],calls:["Boa doble","Suela de TPU"],
   specs:[["Uso","Ruta"],["Cierre","Boa doble"],["Material","Nylon y TPU, suela de TPU con alta resistencia a la abrasión"]],
   dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20RUTA%20VOLTA%20ULTRAFIT/MELI%20-%20ODOO/1012295",
   pics:[0,2,3,4,5,6,7,8,9,10,11]},
- {name:"Dualgrip",disc:"MTB",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7589.png",
+ {name:"Dualgrip",disc:"MTB",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7589.webp",
   colors:["#141416"],calls:["Boa + abrojo","Suela de PU"],
   specs:[["Uso","MTB"],["Cierre","Dual con Boa y abrojo"],["Material","Nylon y TPU, suela de PU de alta densidad para mayor resistencia al desgaste y agarre firme"]],
   dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20MTB%20VOLTA%20DUALGRIP/MELI%20-%20ODOO/1012315",
   pics:[0,2,3,4,5,6,7,8,9,10,11]},
- {name:"Dualfit",disc:"Ruta",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7590.png",
+ {name:"Dualfit",disc:"Ruta",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7590.webp",
   colors:["#141416"],calls:["Boa + abrojo","Suela de PU"],
   specs:[["Uso","Ruta"],["Cierre","Dual con Boa y abrojo"],["Material","Nylon y TPU, suela de PU de alta densidad"]],
   dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20RUTA%20VOLTA%20DUALFIT%20NEGRO/MELI%20-%20ODOO/1012283",
   pics:[0,1,2,3,5,6,7,8,9,11]},
- {name:"Flattrack",disc:"Urbano",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7599.png",scale:.82,
+ {name:"Flattrack",disc:"Urbano",png:"img/3.%20Volta/6.%20ZAPATILLAS/zapas%20ph/IMG_7599.webp",scale:.82,
   colors:["#141416","#c2a06a"],calls:["Abrojo + cordón","Suela de PU"],
   specs:[["Uso","Urbano"],["Cierre","Abrojo y cordón"],["Material","Phylon + goma, estructura liviana y flexible. Suela de PU de alta densidad"],["Extra","Permite pedalear y también caminar como calzado diario"]],
   dir:"img/3.%20Volta/6.%20ZAPATILLAS/ZAPATILLA%20MTB%20VOLTA%20FLATTRACK/MELI%20-%20ODOO/1012346",
