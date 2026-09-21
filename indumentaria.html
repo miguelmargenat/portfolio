@@ -55,11 +55,10 @@
 .in2-lista li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.65;color:var(--fg-soft)}
 .in2-lista li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--accent)}
 
-/* videos de la campaña, debajo del texto: 4 por fila, 2 en tablet, 1 en celular.
+/* videos de la campaña, entre el título y el texto: 4 por fila, 2 en tablet, 1 en celular.
    Los 4 archivos son 720x1280 (9:16). Arrancan solos y mudos al entrar en
    pantalla, igual que el de Campeones. */
-.in2-reels{padding:34px 5vw 6px}
-.in2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.in2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
 .in2-vid{position:relative;aspect-ratio:9/16;border:1px solid var(--line);border-radius:8px;
   overflow:hidden;background:#000}
 .in2-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -245,23 +244,6 @@
     <span class="c" id="in2Cant"></span>
   </div>
 
-  <div class="in2-bar">
-    <p class="lead">Desarrollé la <strong>línea completa de indumentaria y calzado</strong> de Volta. Mi rol fue dirigir el proyecto, participando en:</p>
-    <ul class="in2-lista">
-      <li>Investigación de tendencias del mercado y propuesta de la línea de productos.</li>
-      <li>Realización del brief inicial y definición del alcance de toda la línea de productos.</li>
-      <li>Selección y gestión de proveedores.</li>
-      <li>Contacto con proveedores chinos para gestionar el desarrollo de muestras y sus iteraciones.</li>
-      <li>Seguimiento de muestras, modificaciones y avances hasta llegar al producto final.</li>
-      <li>Coordinación con los distintos equipos involucrados en el desarrollo para llevar adelante el proyecto de manera integral.</li>
-      <li>Dirección del lenguaje visual del producto junto a un equipo de diseñadores gráficos, definiendo su look &amp; feel para construir una identidad coherente con la marca.</li>
-      <li>Presentación y validación de los avances y desarrollos con la dirección de la empresa.</li>
-      <li>Planificación de la estrategia de lanzamiento.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="in2-reels">
   <div class="in2-grid" id="in2Reels">
     <div class="in2-vid">
       <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.mp4"></video>
@@ -279,6 +261,21 @@
       <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/4-muy-pronto.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/4-muy-pronto.mp4"></video>
       <button class="in2-snd"><span class="ic">🔇</span><span class="tx">Activar sonido</span></button>
     </div>
+  </div>
+
+  <div class="in2-bar">
+    <p class="lead">Desarrollé la <strong>línea completa de indumentaria y calzado</strong> de Volta. Mi rol fue dirigir el proyecto, participando en:</p>
+    <ul class="in2-lista">
+      <li>Investigación de tendencias del mercado y propuesta de la línea de productos.</li>
+      <li>Realización del brief inicial y definición del alcance de toda la línea de productos.</li>
+      <li>Selección y gestión de proveedores.</li>
+      <li>Contacto con proveedores chinos para gestionar el desarrollo de muestras y sus iteraciones.</li>
+      <li>Seguimiento de muestras, modificaciones y avances hasta llegar al producto final.</li>
+      <li>Coordinación con los distintos equipos involucrados en el desarrollo para llevar adelante el proyecto de manera integral.</li>
+      <li>Dirección del lenguaje visual del producto junto a un equipo de diseñadores gráficos, definiendo su look &amp; feel para construir una identidad coherente con la marca.</li>
+      <li>Presentación y validación de los avances y desarrollos con la dirección de la empresa.</li>
+      <li>Planificación de la estrategia de lanzamiento.</li>
+    </ul>
   </div>
 </section>
 

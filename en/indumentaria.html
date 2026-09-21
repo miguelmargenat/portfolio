@@ -56,11 +56,10 @@
 .in2-lista li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.65;color:var(--fg-soft)}
 .in2-lista li::before{content:"";position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--accent)}
 
-/* videos de la campaña, debajo del texto: 4 por fila, 2 en tablet, 1 en celular.
+/* videos de la campaña, entre el título y el texto: 4 por fila, 2 en tablet, 1 en celular.
    Los 4 archivos son 720x1280 (9:16). Arrancan solos y mudos al entrar en
    pantalla, igual que el de Campeones. */
-.in2-reels{padding:34px 5vw 6px}
-.in2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.in2-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:20px}
 .in2-vid{position:relative;aspect-ratio:9/16;border:1px solid var(--line);border-radius:8px;
   overflow:hidden;background:#000}
 .in2-vid video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
@@ -246,23 +245,6 @@
     <span class="c" id="in2Cant"></span>
   </div>
 
-  <div class="in2-bar">
-    <p class="lead">I developed Volta's <strong>complete apparel and footwear line</strong>. My role was to lead the project, which involved:</p>
-    <ul class="in2-lista">
-      <li>Researching market trends and proposing the product line.</li>
-      <li>Writing the initial brief and defining the scope of the entire product line.</li>
-      <li>Selecting and managing suppliers.</li>
-      <li>Liaising with Chinese suppliers to manage sample development and its iterations.</li>
-      <li>Following up on samples, changes and progress through to the final product.</li>
-      <li>Coordinating the different teams involved in development to deliver the project end to end.</li>
-      <li>Directing the product's visual language with a team of graphic designers, defining its look &amp; feel to build an identity consistent with the brand.</li>
-      <li>Presenting progress and developments to company management for approval.</li>
-      <li>Planning the launch strategy.</li>
-    </ul>
-  </div>
-</section>
-
-<section class="in2-reels">
   <div class="in2-grid" id="in2Reels">
     <div class="in2-vid">
       <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.mp4"></video>
@@ -280,6 +262,21 @@
       <video muted loop playsinline preload="metadata" poster="img/3.%20Volta/3.%20indumentaria/videos/4-muy-pronto.jpg" src="img/3.%20Volta/3.%20indumentaria/videos/4-muy-pronto.mp4"></video>
       <button class="in2-snd"><span class="ic">🔇</span><span class="tx">Turn on sound</span></button>
     </div>
+  </div>
+
+  <div class="in2-bar">
+    <p class="lead">I developed Volta's <strong>complete apparel and footwear line</strong>. My role was to lead the project, which involved:</p>
+    <ul class="in2-lista">
+      <li>Researching market trends and proposing the product line.</li>
+      <li>Writing the initial brief and defining the scope of the entire product line.</li>
+      <li>Selecting and managing suppliers.</li>
+      <li>Liaising with Chinese suppliers to manage sample development and its iterations.</li>
+      <li>Following up on samples, changes and progress through to the final product.</li>
+      <li>Coordinating the different teams involved in development to deliver the project end to end.</li>
+      <li>Directing the product's visual language with a team of graphic designers, defining its look &amp; feel to build an identity consistent with the brand.</li>
+      <li>Presenting progress and developments to company management for approval.</li>
+      <li>Planning the launch strategy.</li>
+    </ul>
   </div>
 </section>
 
