@@ -1,0 +1,9 @@
+{
+  "name": "portfolio-miguel-margenat",
+  "private": true,
+  "description": "Sitio estático. La única dependencia es para la función de la encuesta (netlify/functions).",
+  "type": "module",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}
