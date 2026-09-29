@@ -1,10 +1,11 @@
 // Votos de la encuesta del torneo Pokémon (/encuestas-pokemon).
 // GET  /api/encuesta-pokemon  -> { voters: [{ pid, nick, votes }], ideas: [{ key, pid, name, text, createdAt }] }
-// POST /api/encuesta-pokemon  <- { id, nick, votes }
+// POST /api/encuesta-pokemon  <- { id, nick, votes, prev? }   (voto, guardado por nombre)
 //                             <- { kind: "idea", id, name, text }     (propuesta)
 //                             <- { kind: "idea-delete", id, key }     (borrar la propia)
-// Cada navegador manda un id privado al azar; se guarda y se muestra sólo su
-// hash (pid), así nadie puede pisar el voto de otro sin conocer su id.
+// Los votos se guardan por nombre (ver keyOf). Cada navegador manda además un
+// id privado al azar: su hash (pid) marca las propuestas propias, que sólo ese
+// navegador puede borrar.
 import { getStore } from "@netlify/blobs";
 import { createHash } from "node:crypto";
 
@@ -22,13 +23,39 @@ const json = (body, status = 200) =>
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" },
   });
 
+// Misma regla que en encuestas-pokemon/index.html: mantenerlas iguales.
+const slug = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "")
+  .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40);
+const keyOf = (n) => { const s = slug(n); return s ? "n-" + s : null; };
+
+// Los primeros votos se guardaron por navegador (clave = hash). Se pasan una
+// sola vez a clave por nombre; `legacy` guarda la clave vieja para que ese
+// navegador reconozca su voto sin volver a escribir el nombre.
+async function migrateToNames(store, blobs) {
+  const old = blobs.filter((b) => !b.key.startsWith("n-"));
+  if (!old.length) return blobs;
+  for (const b of old) {
+    const rec = await store.get(b.key, { type: "json" });
+    const key = rec && keyOf(rec.nick);
+    if (key) {
+      const current = await store.get(key, { type: "json" });
+      if (!current || (current.updatedAt || 0) < (rec.updatedAt || 0)) {
+        await store.setJSON(key, { ...rec, pid: key, legacy: b.key });
+      }
+    }
+    await store.delete(b.key);
+  }
+  return (await store.list()).blobs;
+}
+
 export default async (req) => {
   const store = getStore({ name: "encuesta-pokemon", consistency: "strong" });
 
   const ideasStore = getStore({ name: "encuesta-pokemon-ideas", consistency: "strong" });
 
   if (req.method === "GET") {
-    const [{ blobs }, { blobs: ideaBlobs }] = await Promise.all([store.list(), ideasStore.list()]);
+    const [{ blobs: voteBlobs }, { blobs: ideaBlobs }] = await Promise.all([store.list(), ideasStore.list()]);
+    const blobs = await migrateToNames(store, voteBlobs);
     const [voters, ideas] = await Promise.all([
       Promise.all(blobs.map((b) => store.get(b.key, { type: "json" }))),
       Promise.all(ideaBlobs.map((b) => ideasStore.get(b.key, { type: "json" }))),
@@ -76,21 +103,28 @@ export default async (req) => {
       if (CHOICES.has(v)) votes[d] = v;
     }
 
-    const pid = createHash("sha256").update(id).digest("hex").slice(0, 16);
+    // Los votos se guardan por NOMBRE: el mismo nombre (sin importar mayúsculas
+    // ni acentos) siempre edita el mismo voto, desde cualquier dispositivo.
+    const key = keyOf(nick);
+    if (!key) return json({ error: "Escribí un nombre con letras o números" }, 400);
 
-    if (!nick && !Object.keys(votes).length) {
-      await store.delete(pid);
-      return json({ ok: true, pid });
+    // Cambio de nombre: se borra el voto guardado con el nombre anterior.
+    const prevKey = keyOf(clean(body?.prev, 24));
+    if (prevKey && prevKey !== key) await store.delete(prevKey);
+
+    if (!Object.keys(votes).length) {
+      await store.delete(key);
+      return json({ ok: true, pid: key });
     }
 
-    const existing = await store.get(pid);
+    const existing = await store.get(key);
     if (existing === null) {
       const { blobs } = await store.list();
       if (blobs.length >= MAX_VOTERS) return json({ error: "La encuesta está llena" }, 429);
     }
 
-    await store.setJSON(pid, { pid, nick, votes, updatedAt: Date.now() });
-    return json({ ok: true, pid });
+    await store.setJSON(key, { pid: key, nick, votes, updatedAt: Date.now() });
+    return json({ ok: true, pid: key });
   }
 
   return json({ error: "Método no permitido" }, 405);

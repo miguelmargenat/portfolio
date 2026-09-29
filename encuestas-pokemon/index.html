@@ -274,7 +274,7 @@ button{font:inherit;color:inherit}
 
   <div class="me" id="meBox">
     <span class="av" id="meAv"></span>
-    <input id="nick" maxlength="24" autocomplete="nickname" placeholder="Tu nombre" aria-label="Tu nombre">
+    <input id="nick" maxlength="24" autocomplete="nickname" placeholder="Tu nombre (siempre el mismo)" aria-label="Tu nombre">
     <span class="catch" id="catch" aria-hidden="true"></span>
     <span class="ok wait" id="status">NOMBRE</span>
   </div>
@@ -770,11 +770,49 @@ window.FX = (() => {
     if(myAvatar && !mine.nick.trim()){const i=el('img'); i.src=myAvatar; i.alt=''; meAv.append(i);} else meAv.textContent=nm.slice(0,1);
   }
 
-  function hasName(){ return !!(mine.nick.trim()||profileName); }
+  // Votes are remembered by NAME: typing a name that already voted loads those
+  // votes so they can be changed, from any phone or computer. The same slug rule
+  // lives in netlify/functions/encuesta-pokemon.mjs; keep them identical.
+  const slug=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40);
+  const keyOf=n=>{ const s=slug(n); return s?'n-'+s:null; };
+  let myPid=null, prevNick='';
+  function hasName(){ return !!myId; }
+  function shakeName(){ meBox.classList.remove('shake'); void meBox.offsetWidth; meBox.classList.add('shake'); nick.focus(); }
+  function rememberName(n){ try{ localStorage.setItem('encuesta-pokemon-nombre',n); }catch(_){} }
+
+  // Confirm the typed name: load that person's votes if they already voted.
+  function claimName(){
+    const n=nick.value.trim().slice(0,24);
+    if(!n){ return false; }
+    const k=keyOf(n);
+    if(!k){ setStatus('USÁ LETRAS','err'); return false; }
+    if(k===myId){ if(n!==mine.nick){ mine.nick=n; rememberName(n); if(Object.keys(mine.votes).length) save(0); render(); } return true; }
+    const had=myId && Object.keys(mine.votes).length;
+    if(voters[k]){
+      // this name already voted: bring back its votes
+      if(had) prevNick=mine.nick;           // leave the old name empty
+      mine={nick:voters[k].nick||n,votes:{...voters[k].votes}};
+      nick.value=mine.nick;
+      myId=k; rememberName(mine.nick);
+      if(had) save(0);
+      setStatus('VOTOS CARGADOS ✓');
+    }else{
+      if(had) prevNick=mine.nick;           // renaming: move the votes to the new name
+      mine={nick:n,votes:had?{...mine.votes}:{}};
+      myId=k; rememberName(n);
+      if(had) save(0); else setStatus('LISTO ✓');
+    }
+    if(!ideaName.value.trim()) ideaName.value=mine.nick;
+    render();
+    return true;
+  }
+  nick.addEventListener('change',claimName);
+  nick.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); claimName(); nick.blur(); } });
+
   function vote(dateId,v,btn){
-    if(mode==='demo'){ meBox.classList.remove('shake'); void meBox.offsetWidth; meBox.classList.add('shake'); return; }
     if(mode!=='live') return;
-    if(!hasName()){ meBox.classList.remove('shake'); void meBox.offsetWidth; meBox.classList.add('shake'); nick.focus(); return; }
+    if(!myId && !claimName()){ shakeName(); return; }
+    if(nick.value.trim() && keyOf(nick.value)!==myId) claimName();
     if(mine.votes[dateId]===v){ delete mine.votes[dateId]; window.FX&&FX.unvote(); } else { mine.votes[dateId]=v; window.FX&&FX.vote(v,btn); }
     save(0); render();
   }
@@ -782,25 +820,28 @@ window.FX = (() => {
     if(mode!=='live'||!myId) return;
     pending=true; setStatus('···','wait'); clearTimeout(timer);
     timer=setTimeout(()=>{
-      const body={nick:mine.nick.trim().slice(0,24),votes:{...mine.votes},updatedAt:Date.now()};
-      chain=chain.then(()=>fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:secret,nick:body.nick,votes:body.votes})}))
-        .then(r=>{ if(!r.ok) throw new Error(r.status); pending=false; setStatus('LISTO ✓'); window.FX&&FX.saved(); })
+      const payload={id:secret,nick:mine.nick.trim().slice(0,24),votes:{...mine.votes}};
+      if(prevNick && keyOf(prevNick)!==myId) payload.prev=prevNick;
+      prevNick='';
+      chain=chain.then(()=>fetch(API,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}))
+        .then(r=>{ if(!r.ok) throw new Error(r.status); pending=false; setStatus('LISTO ✓'); window.FX&&FX.saved(); load(); })
         .catch(()=>{ pending=false; setStatus('NO SE GUARDÓ','err'); });
     },delay);
   }
-  nick.addEventListener('input',()=>{ mine.nick=nick.value; if(mode==='live'){ if(mine.nick.trim()||Object.keys(mine.votes).length) save(700); render(); } });
 
   // Votes live in a Netlify Function (netlify/functions/encuesta-pokemon.mjs).
-  // Each browser keeps a private random id; the server only ever shows a hash of it.
   async function start(){
     try{ secret=localStorage.getItem('encuesta-pokemon-id')||''; }catch(_){}
     if(!/^[a-z0-9]{24}$/.test(secret)){
       secret=[...crypto.getRandomValues(new Uint8Array(12))].map(b=>b.toString(16).padStart(2,'0')).join('');
       try{ localStorage.setItem('encuesta-pokemon-id',secret); }catch(_){}
     }
+    // myPid identifies this browser's own proposals (and votes saved before names were used)
     const h=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(secret));
-    myId=[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);
-    mode='live'; setStatus('NOMBRE','wait');
+    myPid=[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,16);
+    let saved=''; try{ saved=localStorage.getItem('encuesta-pokemon-nombre')||''; }catch(_){}
+    if(saved){ nick.value=saved; mine.nick=saved; myId=keyOf(saved); }
+    mode='live'; setStatus(myId?'LISTO ✓':'NOMBRE', myId?'':'wait');
     render();
     load(); setInterval(()=>{ if(document.visibilityState==='visible') load(); },4000);
     document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') load(); });
@@ -811,12 +852,17 @@ window.FX = (() => {
     try{
       const r=await fetch(API,{cache:'no-store'}); if(!r.ok) throw new Error(r.status);
       const data=await r.json(), next={};
-      (data.voters||[]).forEach(v=>{ if(v&&v.pid) next[v.pid]={nick:String(v.nick||''),votes:{...(v.votes||{})}}; });
+      (data.voters||[]).forEach(v=>{ if(v&&v.pid) next[v.pid]={nick:String(v.nick||''),votes:{...(v.votes||{})},legacy:v.legacy||null}; });
       voters=next;
       renderIdeas(data.ideas||[]);
       $('#live').classList.remove('off');
-      if(!pending&&next[myId]){ mine={nick:next[myId].nick,votes:{...next[myId].votes}}; if(document.activeElement!==nick) nick.value=mine.nick; }
-      if(!pending) setStatus(hasName()?'LISTO ✓':'NOMBRE', hasName()?'':'wait');
+      // votes saved from this browser before names were used: recognize them once
+      if(!myId && document.activeElement!==nick){
+        const old=Object.entries(next).find(([,v])=>v.legacy===myPid);
+        if(old){ myId=old[0]; mine={nick:old[1].nick,votes:{...old[1].votes}}; nick.value=mine.nick; rememberName(mine.nick); }
+      }
+      if(!pending&&myId&&next[myId]){ mine={nick:next[myId].nick,votes:{...next[myId].votes}}; if(document.activeElement!==nick) nick.value=mine.nick; }
+      if(!pending&&statusEl.textContent!=='VOTOS CARGADOS ✓') setStatus(hasName()?'LISTO ✓':'NOMBRE', hasName()?'':'wait');
       if(!ideaName.value && mine.nick.trim() && document.activeElement!==ideaName) ideaName.value=mine.nick.trim();
       await render(); settled=true;
     }catch(_){
@@ -836,11 +882,11 @@ window.FX = (() => {
     const box=$('#ideaList');
     if(!list.length){ box.replaceChildren(el('div','rempty','Todavía no hay propuestas. ¡Tirá la primera!')); seenIdeas=new Set(); return; }
     box.replaceChildren(...list.map(i=>{
-      const card=el('article','idea'+(i.pid===myId?' mine':'')+(seenIdeas&&!seenIdeas.has(i.key)?' fresh':''));
+      const card=el('article','idea'+(i.pid===myPid?' mine':'')+(seenIdeas&&!seenIdeas.has(i.key)?' fresh':''));
       const av=el('span','av',(i.name||'?').slice(0,1)); av.style.setProperty('--c',hashColor(i.pid||i.key));
       const top=el('div','top'); top.append(el('span','who',i.name));
       const tm=el('time',null,ago(i.createdAt)); tm.dataset.t=i.createdAt; tm.dateTime=new Date(i.createdAt).toISOString(); top.append(tm);
-      if(i.pid===myId){ const del=el('button','del','Borrar'); del.type='button'; del.addEventListener('click',()=>deleteIdea(i.key,del)); top.append(del); }
+      if(i.pid===myPid){ const del=el('button','del','Borrar'); del.type='button'; del.addEventListener('click',()=>deleteIdea(i.key,del)); top.append(del); }
       card.append(av,top,el('p',null,i.text));
       return card;
     }));
