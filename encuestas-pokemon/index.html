@@ -136,6 +136,35 @@ button{font:inherit;color:inherit}
 .head .n{font-family:var(--display);font-size:46px;line-height:.9}
 .head .d{font-family:var(--display);font-size:15px;color:var(--muted);letter-spacing:.14em}
 .head .d.sun{color:#ff8a7a}
+.head.conevt{align-items:stretch;gap:12px}
+.head .dn{display:flex;flex-direction:column;align-items:flex-start;gap:2px;flex:none}
+.tile .evt{
+  flex:1;min-width:0;margin-left:auto;justify-content:center;
+  display:flex;flex-direction:column;gap:1px;text-align:center;
+  background:rgba(255,203,5,.14);border:2px solid var(--yellow);border-radius:8px;padding:3px 6px;
+  font-family:var(--display);color:var(--yellow);line-height:1.15;
+  animation:evtBlink 2.6s ease-in-out infinite;
+}
+.tile .evt b{font-weight:400;font-size:9px;letter-spacing:.04em}
+.tile .evt span{font-size:9px;letter-spacing:.04em;color:#fff}
+@keyframes evtBlink{0%,100%{opacity:1;box-shadow:0 0 14px rgba(255,203,5,.45)}50%{opacity:.35;box-shadow:none}}
+
+/* ---------- Tabla del último torneo ---------- */
+.last{margin:6px 0 28px}
+.last h2{font-family:var(--display);font-weight:400;font-size:22px;letter-spacing:.06em;margin:0 0 4px}
+.last .sub{color:var(--muted);font-size:13px;margin:0 0 12px}
+.tbl-wrap{overflow-x:auto;border:2px solid var(--line);border-radius:14px;background:var(--tile)}
+.tbl{width:100%;border-collapse:collapse;min-width:480px;font-variant-numeric:tabular-nums}
+.tbl th{font-family:var(--display);font-weight:400;font-size:12px;letter-spacing:.1em;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:2px solid var(--line)}
+.tbl td{padding:9px 12px;font-size:15px;border-bottom:1px solid rgba(255,255,255,.06)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tbody tr:nth-child(even){background:rgba(0,0,0,.14)}
+.tbl .pl{font-family:var(--display);width:44px}
+.tbl tr.top1 .pl{color:var(--gold)} .tbl tr.top2 .pl{color:var(--silver)} .tbl tr.top3 .pl{color:var(--bronze)}
+.tbl .nm{font-family:var(--display);font-size:15px}
+.tbl .pts{font-family:var(--display);color:var(--yellow)}
+.tbl tr.yo td{background:rgba(255,203,5,.1)}
+.tbl .dim{color:var(--muted)}
 
 .btns{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .vb{
@@ -266,11 +295,32 @@ button{font:inherit;color:inherit}
     </div>
     <div class="brand">
       <div class="t1">TORNEO <em>δ</em></div>
-      <div class="t2">OCTUBRE 2026</div>
+      <div class="t2">NOVIEMBRE 2026</div>
     </div>
     <div class="live off" id="live"><i></i><span>EN VIVO</span></div>
     <button class="mute" id="mute" type="button" aria-pressed="false" aria-label="Silenciar sonidos" title="Silenciar"></button>
   </header>
+
+  <section class="last" aria-label="Posiciones del último torneo">
+    <h2>POSICIONES · ÚLTIMO TORNEO</h2>
+    <p class="sub">Así viene la tabla.</p>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>#</th><th>NOMBRE</th><th>PUNTOS</th><th>RÉCORD</th><th>OPP. WIN %</th><th>OPP. OPP. %</th></tr></thead>
+        <tbody>
+          <tr class="top1"><td class="pl">1</td><td class="nm">Matias Alvarez</td><td class="pts">16</td><td>5 - 0 - 1</td><td class="dim">—</td><td class="dim">—</td></tr>
+          <tr class="top2"><td class="pl">2</td><td class="nm">Nahuel Avalos</td><td class="pts">10</td><td>3 - 2 - 1</td><td class="dim">—</td><td class="dim">—</td></tr>
+          <tr class="top3"><td class="pl">3</td><td class="nm">Alejandro Zapico</td><td class="pts">10</td><td>3 - 1 - 1</td><td class="dim">—</td><td class="dim">—</td></tr>
+          <tr><td class="pl">4</td><td class="nm">Alejo Antonio Salvador</td><td class="pts">6</td><td>2 - 3 - 0</td><td class="dim">—</td><td class="dim">—</td></tr>
+          <tr><td class="pl">5</td><td class="nm">Juan Cruz Correa</td><td class="pts">6</td><td>2 - 2 - 0</td><td>62.50%</td><td>53.57%</td></tr>
+          <tr><td class="pl">6</td><td class="nm">Mariano Uribe</td><td class="pts">6</td><td>2 - 2 - 0</td><td>41.67%</td><td>62.50%</td></tr>
+          <tr class="yo"><td class="pl">7</td><td class="nm">Miguel Margenat</td><td class="pts">5</td><td>1 - 1 - 2</td><td>41.67%</td><td>52.27%</td></tr>
+          <tr><td class="pl">8</td><td class="nm">Jorge Luis Como</td><td class="pts">4</td><td>1 - 2 - 1</td><td>66.67%</td><td>46.59%</td></tr>
+          <tr><td class="pl">9</td><td class="nm">Federico Nattkemper</td><td class="pts">3</td><td>1 - 3 - 0</td><td>53.13%</td><td>47.32%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <div class="me" id="meBox">
     <span class="av" id="meAv"></span>
@@ -635,23 +685,25 @@ window.FX = (() => {
 
 <script>
 (() => {
+  const SPECIAL = {short:'SPECIAL EVENT BS AS · 14/11 – 15/11', full:'Special Event Bs As · 14/11 – 15/11'};
+  const LAIC = {short:'LAIC · 20/11 – 22/11', full:'LAIC · Latin American International Championship · 20/11 – 22/11'};
   const DATES = [
-    ['2026-10-03','SÁB',3],['2026-10-04','DOM',4],
-    ['2026-10-10','SÁB',10],['2026-10-11','DOM',11],
-    ['2026-10-17','SÁB',17],['2026-10-18','DOM',18],
-    ['2026-10-24','SÁB',24],['2026-10-25','DOM',25],
-    ['2026-10-31','SÁB',31],
-  ].map(([id,d,n]) => ({id,d,n}));
+    ['2026-11-01','DOM',1],
+    ['2026-11-07','SÁB',7],['2026-11-08','DOM',8],
+    ['2026-11-14','SÁB',14,SPECIAL],['2026-11-15','DOM',15,SPECIAL],
+    ['2026-11-21','SÁB',21,LAIC],['2026-11-22','DOM',22,LAIC],
+    ['2026-11-28','SÁB',28],['2026-11-29','DOM',29],
+  ].map(([id,d,n,ev]) => ({id,d,n,ev}));
   const OPTS = [
     {v:'yes',  sym:'✓', label:'Puedo'},
     {v:'maybe',sym:'?', label:'No estoy seguro'},
     {v:'no',   sym:'✕', label:'No puedo'},
   ];
   const SAMPLE = {
-    s1:{nick:'Ash',  votes:{'2026-10-03':'yes','2026-10-04':'maybe','2026-10-10':'yes','2026-10-17':'no','2026-10-24':'yes','2026-10-31':'yes'}},
-    s2:{nick:'Misty',votes:{'2026-10-03':'yes','2026-10-04':'no','2026-10-10':'maybe','2026-10-11':'yes','2026-10-24':'yes','2026-10-25':'maybe'}},
-    s3:{nick:'Brock',votes:{'2026-10-03':'maybe','2026-10-10':'yes','2026-10-11':'yes','2026-10-18':'no','2026-10-24':'yes','2026-10-31':'no'}},
-    s4:{nick:'Gary', votes:{'2026-10-04':'yes','2026-10-10':'yes','2026-10-17':'maybe','2026-10-24':'maybe','2026-10-31':'yes'}},
+    s1:{nick:'Ash',  votes:{'2026-11-01':'yes','2026-11-07':'maybe','2026-11-08':'yes','2026-11-21':'no','2026-11-28':'yes','2026-11-29':'yes'}},
+    s2:{nick:'Misty',votes:{'2026-11-01':'yes','2026-11-07':'no','2026-11-08':'maybe','2026-11-14':'yes','2026-11-28':'yes','2026-11-29':'maybe'}},
+    s3:{nick:'Brock',votes:{'2026-11-01':'maybe','2026-11-08':'yes','2026-11-14':'yes','2026-11-22':'no','2026-11-28':'yes','2026-11-29':'no'}},
+    s4:{nick:'Gary', votes:{'2026-11-07':'yes','2026-11-08':'yes','2026-11-21':'maybe','2026-11-28':'maybe','2026-11-29':'yes'}},
   };
   const $ = s => document.querySelector(s);
   const el = (t,c,x) => { const e=document.createElement(t); if(c) e.className=c; if(x!=null) e.textContent=x; return e; };
@@ -685,9 +737,14 @@ window.FX = (() => {
   // ---- build tiles once ----
   const tiles={};
   DATES.forEach(d=>{
-    const t=el('article','tile'); t.setAttribute('aria-label',`${d.d} ${d.n} de octubre`);
+    const t=el('article','tile'); t.setAttribute('aria-label',`${d.d} ${d.n} de noviembre`+(d.ev?` · ${d.ev.full}`:''));
     const crown=el('span','crown','★ FAVORITA'); crown.hidden=true;
     const head=el('div','head'); head.append(el('span','n',String(d.n)), el('span','d'+(d.d==='DOM'?' sun':''),d.d));
+    let evt=null;
+    if(d.ev){
+      evt=el('div','evt'); evt.title=d.ev.full;
+      evt.append(el('b',null,'⚠ ATENCIÓN, COINCIDE CON EL EVENTO'), el('span',null,d.ev.short));
+    }
     const btns=el('div','btns'); const ref={t,crown,btn:{},k:{},who:{},bar:{}};
     OPTS.forEach(o=>{
       const b=el('button','vb '+o.v); b.type='button'; b.id=`v-${d.id}-${o.v}`;
@@ -698,6 +755,10 @@ window.FX = (() => {
       btns.append(b); ref.btn[o.v]=b; ref.k[o.v]=k; ref.who[o.v]=who;
     });
     const bar=el('div','bar'); OPTS.forEach(o=>{const i=el('i',o.v); bar.append(i); ref.bar[o.v]=i;});
+    if(evt){
+      // con aviso: el día va debajo del número y el aviso ocupa el resto de la fila
+      const dn=el('div','dn'); dn.append(...head.children); head.append(dn,evt); head.classList.add('conevt');
+    }
     t.append(crown,head,btns,bar); $('#grid').append(t); tiles[d.id]=ref;
   });
 

@@ -10,8 +10,8 @@ import { getStore } from "@netlify/blobs";
 import { createHash } from "node:crypto";
 
 const DATES = [
-  "2026-10-03", "2026-10-04", "2026-10-10", "2026-10-11", "2026-10-17",
-  "2026-10-18", "2026-10-24", "2026-10-25", "2026-10-31",
+  "2026-11-01", "2026-11-07", "2026-11-08", "2026-11-14", "2026-11-15",
+  "2026-11-21", "2026-11-22", "2026-11-28", "2026-11-29",
 ];
 const CHOICES = new Set(["yes", "maybe", "no"]);
 const MAX_VOTERS = 80;
@@ -49,9 +49,11 @@ async function migrateToNames(store, blobs) {
 }
 
 export default async (req) => {
-  const store = getStore({ name: "encuesta-pokemon", consistency: "strong" });
+  // Cada mes arranca con stores nuevos (octubre quedó en "encuesta-pokemon" y
+  // "encuesta-pokemon-ideas", sin uso).
+  const store = getStore({ name: "encuesta-pokemon-nov", consistency: "strong" });
 
-  const ideasStore = getStore({ name: "encuesta-pokemon-ideas", consistency: "strong" });
+  const ideasStore = getStore({ name: "encuesta-pokemon-nov-ideas", consistency: "strong" });
 
   if (req.method === "GET") {
     const [{ blobs: voteBlobs }, { blobs: ideaBlobs }] = await Promise.all([store.list(), ideasStore.list()]);
