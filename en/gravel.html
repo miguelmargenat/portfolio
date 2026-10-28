@@ -282,6 +282,71 @@
 .in-track .cel img.on{opacity:1}
 .in-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;color:var(--fg-soft);margin-top:14px;opacity:.7}
 
+/* Películas del comienzo: la horizontal y la vertical miden lo mismo de alto.
+   Las columnas se reparten 256:81, que sale de 16/9 contra 9/16: si el ancho de
+   una es 256 partes, su alto es 144; y la otra, con 81 partes de ancho, también
+   da 144 de alto. Así no hay franjas negras ni recortes. */
+.in-film{padding:6px 5vw 38px}
+.in-fgrid{display:grid;grid-template-columns:1fr}
+.in-fv{position:relative;overflow:hidden;background:#000;border:1px solid var(--line);border-radius:10px}
+.in-fv.wide{aspect-ratio:16/9}
+.in-fv.tall{aspect-ratio:9/16}
+.in-fv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.in-snd{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:3;
+  display:inline-flex;align-items:center;gap:9px;padding:10px 18px;border-radius:999px;cursor:pointer;
+  font-family:var(--mono);font-size:10px;letter-spacing:1.4px;text-transform:uppercase;white-space:nowrap;
+  background:rgba(12,12,11,.72);border:1px solid var(--line-strong);color:#fff;backdrop-filter:blur(5px);
+  transition:border-color .3s,background .3s}
+.in-snd:hover{border-color:var(--accent);background:rgba(232,85,58,.8)}
+@media(max-width:760px){
+  .in-film{padding:2px 6vw 28px}
+  .in-fgrid{grid-template-columns:1fr}
+  .in-fv.tall{width:min(100%,340px);justify-self:center}
+}
+
+/* Tirrena: dos cintas horizontales de celdas cuadradas (las fotos son 1:1
+   sobre blanco de estudio, así que no se recortan). Cada pista lleva la lista
+   dos veces y corre a -50%: el bucle no salta. Una va para cada lado. */
+.ti-cintas{padding:6px 0 56px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.ti-row{overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
+.ti-track{display:flex;gap:10px;width:max-content;animation:tiRun var(--dur,90s) linear infinite}
+.ti-row.rev .ti-track{animation-direction:reverse}
+.ti-row:hover .ti-track{animation-play-state:paused}
+.ti-cel{flex:none;width:clamp(150px,15vw,210px);aspect-ratio:1/1;overflow:hidden;cursor:zoom-in;
+  background:#fff;border:1px solid var(--line);border-radius:8px;transition:border-color .3s}
+.ti-cel:hover{border-color:var(--accent)}
+.ti-cel{position:relative}
+.ti-cel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity 1.1s var(--ease);will-change:opacity}
+.ti-cel img.on{opacity:1}
+@keyframes tiRun{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ti-track{animation:none}}
+
+/* En ruta: mosaico de 4 columnas sin huecos. Las 10 horizontales (4:3) y las
+   3 verticales, que ocupan dos filas cada una: 10 + 3×2 = 16 celdas = 4×4.
+   En celular son 2 columnas × 8 filas, y también cierra justo. */
+.in-ruta{padding:40px 5vw 80px}
+.in-rgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.in-rgrid figure{margin:0;position:relative;overflow:hidden;aspect-ratio:4/3;cursor:zoom-in;
+  background:var(--bg-2);border:1px solid var(--line);border-radius:8px;
+  transition:border-color .3s}
+.in-rgrid figure:hover{border-color:var(--accent)}
+.in-rgrid figure.v{aspect-ratio:auto}
+.in-rgrid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .6s var(--ease)}
+.in-rgrid figure:hover img{transform:scale(1.04)}
+.in-rgrid .v1{grid-column:1;grid-row:1 / span 2}
+.in-rgrid .v2{grid-column:3;grid-row:2 / span 2}
+.in-rgrid .v3{grid-column:4;grid-row:3 / span 2}
+@media(max-width:760px){
+  .in-ruta{padding:30px 6vw 60px}
+  .in-rgrid{gap:8px;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .in-rgrid .v1{grid-column:1;grid-row:2 / span 2}
+  .in-rgrid .v2{grid-column:2;grid-row:4 / span 2}
+  .in-rgrid .v3{grid-column:1;grid-row:6 / span 2}
+}
+
 /* video de cierre */
 /* Cierre de la página: los videos dentro de un panel, para que no queden
    sueltos al final. Un halo naranja apenas visible los apoya sobre el fondo. */
@@ -390,6 +455,21 @@
 
 <div class="fx-dash"></div>
 
+<!-- Video del proyecto, arriba de todo (16:9). Mudo y en bucle al entrar en
+     pantalla; el botón prende el sonido. -->
+<section class="in-film">
+  <div class="in-fgrid" id="inFilm">
+    <div class="in-fv wide">
+      <video muted loop playsinline preload="metadata"
+             poster="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/gravel-nuevo.jpg"
+             src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/gravel-nuevo.mp4"></video>
+      <button class="in-snd"><span class="ic">🔇</span><span class="tx">Turn on sound</span></button>
+    </div>
+  </div>
+</section>
+
+<div class="fx-dash rev"></div>
+
 <section class="in-intro solo">
   <div class="in-txt">
     <p>I developed Volta's latest gravel line, a booming segment that keeps growing year after year. It was a very challenging project: it covered <strong>two models</strong>, each offered in several spec levels, meeting the needs of riders buying their first gravel bike, of those who want to head out on long adventures and, finally, of riders looking for higher-spec options built for performance, racing and elite categories.</p>
@@ -399,6 +479,28 @@
 </section>
 
 <div class="fx-dash"></div>
+
+<!-- En ruta: fotos de la campaña con gente. Cada clic abre el visor con esta
+     misma lista (data-r), no con la de las muestras de color. -->
+<section class="in-ruta">
+  <div class="in-rgrid" id="inRuta">
+    <figure class="v v1"><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/v-retrato.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/camioneta.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/puente-1.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/tirrena-bosque.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/camino.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure class="v v2"><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/v-salto-doble.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/salto-1.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/pareja-alambrado.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/indomita-manubrio.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure class="v v3"><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/v-salto.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/sillin.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/puente-2.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/en%20ruta/pareja-espalda.jpg" alt="Rider out on the trail with a bike from the gravel line" loading="lazy"></figure>
+  </div>
+</section>
+
+<div class="fx-dash rev"></div>
 
 <section class="in-video">
   <div class="in-vpanel">
@@ -446,6 +548,9 @@
   </div>
 </section>
 
+<!-- Tirrena: tres cintas horizontales con las fotos de producto. Las arma el JS. -->
+<section class="ti-cintas" id="tiCintas" aria-label="Photos of Tirrena"></section>
+
 <section class="in-split inv">
   <div class="in-spshots" id="inShots">
     <div class="in-dots" id="inDots"></div>
@@ -457,6 +562,7 @@
     <p>With Indómita we set out to make it not only an excellent piece of engineering but also a work of art: the paint details really bring out the different parts of the frame, giving it a unique identity.</p>
   </div>
 </section>
+
 
 <div class="in-zoom" id="inZoom">
   <button class="zc" aria-label="Close">✕</button>
@@ -736,11 +842,108 @@ const PUNTOS=[
 
 /* zoom */
 const zb=document.getElementById('inZoom'), zim=document.getElementById('inZoomImg'), zct=document.getElementById('inZoomCount');
-let zi=0;
-function openZ(i){zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
+let zi=0, zl=ZOOM;   /* zl: la lista que recorre el visor (muestras o En ruta) */
+function openZ(i,lista){zl=lista||ZOOM;zi=i;paintZ();zb.classList.add('on');document.body.style.overflow='hidden';}
 function closeZ(){zb.classList.remove('on');document.body.style.overflow='';}
-function paintZ(){zim.src=ZOOM[zi];zct.textContent=(zi+1)+' / '+ZOOM.length;}
-function stepZ(n){zi=(zi+n+ZOOM.length)%ZOOM.length;paintZ();}
+function paintZ(){zim.src=zl[zi];zct.textContent=(zi+1)+' / '+zl.length;}
+function stepZ(n){zi=(zi+n+zl.length)%zl.length;paintZ();}
+
+/* Tirrena: dos cintas horizontales. Sólo van las tomas que dicen algo del
+   producto (bici entera, cockpit, sillín, tija, maneta, pedalier, horquilla);
+   quedaron afuera las de rueda sola y las de cassette. Cada celda es una toma y
+   guarda sus variantes de color: son casi idénticas, así que no se muestran
+   todas juntas sino que se alternan cada 4 segundos con un fundido, igual que
+   las cintas de muestras. La segunda cinta arranca 2 s después de la primera. */
+(function(){
+  const box=document.getElementById('tiCintas'); if(!box)return;
+  const TC="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/3.%20Tirrena/cintas/";
+  const f=n=>TC+n+".jpg";
+  /* a·b: Tirrena cues blanca y gris · c·d: grx blanca y roja */
+  const FILAS=[
+    [["a03","b02"],["a02","b01"],["a01","c01"],["a04","b03"],["b06","d12"],["a10","d10"],["a12","b08"],["a06","b05"]],
+    [["c04"],["c08","d06"],["c05","d03"],["b10","c03"],["c02","d02"],["c11","d08"],["d01","a11"],["c06","d04"]]
+  ].map(fila=>fila.map(c=>c.map(f)));
+  const lista=FILAS.flat(2);
+  const DUR=[100,115];
+
+  box.innerHTML=FILAS.map((fila,r)=>{
+    const celdas=fila.map(vars=>'<div class="ti-cel">'+vars.map((src,k)=>
+      '<img'+(k?'':' class="on"')+' src="'+src+'" alt="Tirrena" decoding="async" data-z="'+lista.indexOf(src)+'">').join('')+'</div>').join('');
+    return '<div class="ti-row'+(r%2?' rev':'')+'" data-celdas=\''+celdas.replace(/'/g,"&#39;")+'\'>'
+      +'<div class="ti-track" style="--dur:'+DUR[r]+'s"></div></div>';
+  }).join('');
+
+  /* la pista repite la lista un número PAR de veces, hasta cubrir más del
+     doble del ancho de la pantalla: si no, el bucle a -50% pega un salto */
+  const filas=[...box.querySelectorAll('.ti-row')];
+  function llenar(){
+    const ancho=Math.max(innerWidth,screen.width||0);
+    filas.forEach(row=>{
+      const tr=row.querySelector('.ti-track');
+      const unidad=row.dataset.celdas;
+      tr.innerHTML=unidad; const c=tr.firstElementChild;
+      const w=(c.offsetWidth+10)*tr.children.length||1;
+      const veces=Math.max(2,Math.ceil(ancho*2.2/w/2)*2);
+      tr.innerHTML=unidad.repeat(veces);
+    });
+  }
+  llenar();
+  let ult=innerWidth;
+  addEventListener('resize',()=>{ if(Math.abs(innerWidth-ult)>200){ult=innerWidth;llenar();} },{passive:true});
+
+  /* alternancia de color: todas las celdas de una cinta cambian a la vez */
+  const idx=[0,0];
+  const cambiar=r=>{
+    idx[r]++;
+    requestAnimationFrame(()=>filas[r].querySelectorAll('.ti-cel').forEach(c=>{
+      const im=c.querySelectorAll('img'); if(im.length<2)return;
+      im.forEach((x,k)=>x.classList.toggle('on',k===idx[r]%im.length));
+    }));
+  };
+  setInterval(()=>cambiar(0),4000);
+  setTimeout(()=>setInterval(()=>cambiar(1),4000),2000);
+
+  /* el clic abre la foto que se está viendo, y el visor recorre toda la lista */
+  box.addEventListener('click',e=>{
+    const c=e.target.closest('.ti-cel'); if(!c)return;
+    const v=c.querySelector('img.on'); if(v)openZ(+v.dataset.z,lista);
+  });
+})();
+
+/* En ruta: el clic abre el visor con las fotos del mosaico, en el orden del HTML */
+(function(){
+  const figs=[...document.querySelectorAll('#inRuta figure')];
+  const lista=figs.map(f=>f.querySelector('img').getAttribute('src'));
+  figs.forEach((f,i)=>f.addEventListener('click',()=>openZ(i,lista)));
+})();
+
+/* Películas del comienzo: arrancan solas y mudas al entrar en pantalla.
+   Prender el sonido de una silencia la otra (igual que en Indumentaria). */
+(function(){
+  const cajas=[...document.querySelectorAll('#inFilm .in-fv')];
+  const vids=cajas.map(c=>c.querySelector('video'));
+  function pintar(){
+    cajas.forEach((c,i)=>{
+      const m=vids[i].muted;
+      c.querySelector('.ic').textContent=m?'🔇':'🔊';
+      c.querySelector('.tx').textContent=m?'Turn on sound':'Turn off sound';
+    });
+  }
+  const vio=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting)e.target.play().catch(()=>{}); else e.target.pause();
+  }),{threshold:.3});
+  cajas.forEach((c,i)=>{
+    const v=vids[i];
+    vio.observe(v);
+    c.querySelector('.in-snd').addEventListener('click',()=>{
+      const prender=v.muted;
+      vids.forEach(o=>{if(o!==v)o.muted=true;});
+      v.muted=!prender; if(prender){v.volume=1;v.play().catch(()=>{});}
+      pintar();
+    });
+  });
+  pintar();
+})();
 zb.querySelector('.zc').addEventListener('click',closeZ);
 zb.querySelector('.zp').addEventListener('click',e=>{e.stopPropagation();stepZ(-1);});
 zb.querySelector('.zn').addEventListener('click',e=>{e.stopPropagation();stepZ(1);});

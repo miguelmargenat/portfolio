@@ -142,6 +142,20 @@
    Vienen sobre fondo blanco de estudio, así que van sobre panel claro. */
 .iz-cell.foto{background-color:#f4f2ee;background-size:cover;background-position:50% 50%}
 .iz-cell:hover{border-color:var(--accent);transform:scale(1.03)}
+/* En uso: 4 fotos 3:4 en fila completa; en celular, 2×2 */
+.uso-wrap{padding:38px 5vw 0}
+.uso-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.uso-grid figure{margin:0;position:relative;aspect-ratio:3/4;overflow:hidden;cursor:zoom-in;
+  border:1px solid var(--line);border-radius:8px;background:var(--bg-2);transition:border-color .3s}
+.uso-grid figure:hover{border-color:var(--accent)}
+.uso-grid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.uso-grid figure:hover img{transform:scale(1.04)}
+/* segunda fila: cuadros del video de campaña (verticales, 9:16), 5 columnas;
+   en celular, la primera ocupa dos columnas y las otras cuatro cierran 2x2 */
+.uso-grid.b{grid-template-columns:repeat(5,minmax(0,1fr));margin-top:10px}
+.uso-grid.b figure{aspect-ratio:9/16}
+@media(max-width:700px){.uso-wrap{padding:30px 6vw 0}.uso-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .uso-grid.b{margin-top:8px;grid-template-columns:repeat(2,minmax(0,1fr))}.uso-grid.b figure:first-child{grid-column:span 2;aspect-ratio:1/1}}
 .iz-note{font-family:var(--mono);font-size:10px;letter-spacing:1.2px;text-transform:uppercase;
   color:var(--fg-soft);margin-top:14px;opacity:.7}
 
@@ -279,6 +293,26 @@
   </div>
 </section>
 
+<!-- En uso: cuatro fotos de la campaña con modelo, en una fila pareja. -->
+<section class="uso-wrap">
+  <div class="iz-cat">En uso</div>
+  <div id="izUso">
+  <div class="uso-grid">
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-1.jpg" alt="Ciclista atándose la zapatilla con jersey coral" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-2.jpg" alt="Espalda del jersey Amanecer con bolsillos" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-3.jpg" alt="Jersey de manga larga con el celular en el bolsillo trasero" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-4.jpg" alt="Detalle del cierre del jersey de manga larga" loading="lazy"></figure>
+  </div>
+  <div class="uso-grid b">
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-5.jpg" alt="Modelo sentada con el jersey Coral" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-6.jpg" alt="Modelo con el jersey Amanecer" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-7.jpg" alt="Pareja de modelos con jerseys de manga larga" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-8.jpg" alt="Modelo con jersey de manga larga Amanecer" loading="lazy"></figure>
+    <figure><img src="img/3.%20Volta/3.%20indumentaria/fotos%20indumentaria/en%20uso/uso-9.jpg" alt="Pareja de modelos con jerseys de manga larga" loading="lazy"></figure>
+  </div>
+  </div>
+</section>
+
 <div id="izSets"></div>
 <div id="izPlacas"></div>
 
@@ -310,6 +344,7 @@ const SUB="/news%20editadas%20sin%20lo%20de%20abajo/";
    Los jerseys masculinos todavía no tienen estas fotos: sin `det`, la página
    cae sola en los recortes de la foto principal. */
 const DET=(carpeta,nums)=>nums.map(n=>B+"femenino/"+carpeta+"/"+n+".jpg");
+const DETM=(carpeta,nums)=>nums.map(n=>B+"masculino/"+carpeta+"/"+n+".jpg");
 
 /* Un mismo jersey de manga corta en seis colores por género, más el jersey
    de manga larga (unisex), que es otro producto y va en su propio set.
@@ -328,16 +363,24 @@ const GRUPOS=[
       DET("calzas%20azules%20y%20jersey%20blanco",[4,8,2,5,9,10])],
     ["Aqua",      "Mesa%20de%20trabajo%201%20copia.jpg",     "Verde agua, liso. Logo al costado en rosa palo.",
       DET("turquezas",[4,7,2,5,8,9])],
-    ["Coral",     "Mesa%20de%20trabajo%201%20copia%202.jpg", "Coral flúo, liso. Logo al costado en blanco."],
-    ["Negro",     "Mesa%20de%20trabajo%201%20copia%205.jpg", "Negro, liso. Logo al costado en blanco."]
+    ["Coral",     "Mesa%20de%20trabajo%201%20copia%202.jpg", "Coral flúo, liso. Logo al costado en blanco.",
+      DET("coral",[4,6,2,5,3,1])],
+    ["Negro",     "Mesa%20de%20trabajo%201%20copia%205.jpg", "Negro, liso. Logo al costado en blanco.",
+      DET("negro",[4,7,2,5,3,1])]
   ], carpeta:"femenino"},
   {t:"Masculino", prendas:[
-    ["Atardecer", "Mesa%20de%20trabajo%201%20copia%209.jpg", "Print de sierras en crudo, amarillo y rojo, con el logo cruzando el pecho."],
-    ["Embajador", "Mesa%20de%20trabajo%201%20copia%2010.jpg","Jersey del equipo: rayas bordó y naranja con los sponsors en la manga."],
-    ["Marino",    "Mesa%20de%20trabajo%201%20copia%206.jpg", "Azul, liso. Logo al costado en gris."],
-    ["Negro",     "Mesa%20de%20trabajo%201%20copia%205.jpg", "Negro, liso, con panel lateral de otra textura."],
-    ["Nube",      "Mesa%20de%20trabajo%201%20copia%207.jpg", "Blanco, liso, con paneles de malla a la vista."],
-    ["Naranja",   "Mesa%20de%20trabajo%201%20copia%208.jpg", "Naranja flúo, liso. Logo al costado en claro."]
+    ["Atardecer", "Mesa%20de%20trabajo%201%20copia%209.jpg", "Print de sierras en crudo, amarillo y rojo, con el logo cruzando el pecho.",
+      DETM("atardecer",[4,7,2,5,3,8])],
+    ["Embajador", "Mesa%20de%20trabajo%201%20copia%2010.jpg","Jersey del equipo: rayas bordó y naranja con los sponsors en la manga.",
+      DETM("embajador",[4,7,2,5,3,1])],
+    ["Marino",    "Mesa%20de%20trabajo%201%20copia%206.jpg", "Azul, liso. Logo al costado en gris.",
+      DETM("marino",[4,7,2,3,5,1])],
+    ["Negro",     "Mesa%20de%20trabajo%201%20copia%205.jpg", "Negro, liso, con panel lateral de otra textura.",
+      DETM("negro",[4,1,2,5,6,7])],
+    ["Nube",      "Mesa%20de%20trabajo%201%20copia%207.jpg", "Blanco, liso, con paneles de malla a la vista.",
+      DETM("nube",[4,7,2,5,8,9])],
+    ["Naranja",   "Mesa%20de%20trabajo%201%20copia%208.jpg", "Naranja flúo, liso. Logo al costado en claro.",
+      DETM("naranja",[4,1,2,3])]
   ], carpeta:"masculino"}
 ].map(g=>({...g, fotos:g.prendas.map(p=>(g.base||(B+g.carpeta+SUB))+p[1])}));
 
@@ -501,6 +544,13 @@ document.querySelectorAll('.iz-stage').forEach(stage=>{
   /* el contador de arriba suma las de manga corta más las placas */
   document.getElementById('in2Cant').textContent=(FOTOS.length+zoomDe.length)+' prendas';
   window.PLACAS_FOTOS=zoomDe;
+})();
+
+/* En uso: el clic abre el visor con las cuatro fotos */
+(function(){
+  const figs=[...document.querySelectorAll('#izUso figure')];
+  const lista=figs.map(f=>f.querySelector('img').getAttribute('src'));
+  figs.forEach((f,i)=>f.addEventListener('click',()=>openZ(lista,i)));
 })();
 
 /* Encuadre calculado de la miniatura.
