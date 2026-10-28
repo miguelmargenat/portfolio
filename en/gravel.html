@@ -323,6 +323,13 @@
 @keyframes tiRun{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.ti-track{animation:none}}
 
+/* enlace a la familia completa, entre dos barras */
+.in-mas{padding:30px 5vw}
+.in-mas p{font-size:clamp(16px,1.6vw,19px);line-height:1.8;color:var(--fg-soft);margin:0}
+.in-mas a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;word-break:break-word}
+.in-mas a:hover{color:var(--accent-2)}
+@media(max-width:760px){.in-mas{padding:22px 6vw}}
+
 /* En ruta: mosaico de 4 columnas sin huecos. Las 10 horizontales (4:3) y las
    3 verticales, que ocupan dos filas cada una: 10 + 3×2 = 16 celdas = 4×4.
    En celular son 2 columnas × 8 filas, y también cierra justo. */
@@ -472,13 +479,18 @@
 
 <section class="in-intro solo">
   <div class="in-txt">
-    <p>I developed Volta's latest gravel line, a booming segment that keeps growing year after year. It was a very challenging project: it covered <strong>two models</strong>, each offered in several spec levels, meeting the needs of riders buying their first gravel bike, of those who want to head out on long adventures and, finally, of riders looking for higher-spec options built for performance, racing and elite categories.</p>
+    <p>I developed Volta's latest gravel line, a booming segment that keeps growing year after year. It was a very challenging project: it covered two models, each offered in several spec levels, meeting the needs of riders buying their first gravel bike, of those who want to head out on long adventures and, finally, of riders looking for higher-spec options built for performance, racing and elite categories.</p>
     <p class="hl">I'm proud to have been part of this project, because the final product clearly breathes design, engineering and innovation.</p>
     <p>The aluminium model is called <strong>Tirrena</strong> and the carbon one was named <strong>Indómita</strong> (Spanish for “untamed”), capturing the untameable feeling we get riding fast on dirt.</p>
   </div>
 </section>
 
 <div class="fx-dash"></div>
+
+<section class="in-mas">
+  <p>Here you can find out more about the complete gravel family: <a href="https://voltabikes.com.ar/pages/gen-gravel" target="_blank" rel="noopener">https://voltabikes.com.ar/pages/gen-gravel</a></p>
+</section>
+<div class="fx-dash rev"></div>
 
 <!-- En ruta: fotos de la campaña con gente. Cada clic abre el visor con esta
      misma lista (data-r), no con la de las muestras de color. -->
@@ -596,23 +608,34 @@ const rango=(a,b)=>Array.from({length:b-a+1},(_,i)=>MP+(a+i)+".JPG");
 /* Cuatro cintas, pero solo dos acabados a la vez: el blanco pasa a verde y
    el celeste pasa a rojo, como estaba antes. Para que sean cuatro filas sin
    repetir ninguna foto, cada par de ocho se reparte en dos mitades de cuatro. */
-const CINTAS=[
+/* PAUSA TEMPORAL (pedido el 28/10/2026): el color verde y el rojo de la Indómita
+   se ocultan por dos semanas, y se reactivan SOLOS el 11/11/2026 a las 00:00
+   (hora de Argentina). Afecta el selector de colores del render, la rotación,
+   el visor y las muestras que alternan a verde/rojo en las cintas.
+   Para reactivarlos antes, o prorrogar, basta con cambiar esta fecha. */
+const PAUSA_HASTA=new Date('2026-11-11T00:00:00-03:00');
+const EN_PAUSA=new Date()<PAUSA_HASTA;
+
+const CINTAS_TODAS=[
   {a:rango(1,4),   b:rango(25,28)},   /* blanco  → verde  */
   {a:rango(5,8),   b:rango(29,32)},   /* blanco  → verde  */
   {a:rango(9,12),  b:rango(17,20)},   /* celeste → rojo   */
   {a:rango(13,16), b:rango(21,24)}    /* celeste → rojo   */
 ];
+const CINTAS=EN_PAUSA ? CINTAS_TODAS.map(c=>({a:c.a})) : CINTAS_TODAS;   /* en pausa, cada cinta queda fija en su primer acabado */
+
 
 /* Lista para el visor: las 32 muestras, una sola vez.
    Las cintas repiten grupos entre sí, así que el índice se busca por la ruta
    en vez de ir acumulando, y el contador del visor no queda inflado. */
-const FOTOS=rango(1,32);
+const FOTOS=CINTAS.flatMap(c=>c.a.concat(c.b||[]));
 const indiceDe=src=>FOTOS.indexOf(src);
 
 /* Los cuatro renders de color de la Indómita. Vienen sobre fondo negro, así
    que van sin panel claro. Se suman al final del visor. */
 const RP="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/2.%20Ind%C3%B3mita/fotos/fotografias%20y%20renders/van/";
-const RENDERS=[["Green","verde.jpg"],["Blue","azul.jpg"],["Red","roja.jpg"],["White","blanca.jpg"]];
+const RENDERS_TODOS=[["Verde","verde.jpg"],["Azul","azul.jpg"],["Roja","roja.jpg"],["Blanca","blanca.jpg"]];
+const RENDERS=EN_PAUSA ? RENDERS_TODOS.filter(r=>r[0]!=="Verde"&&r[0]!=="Roja") : RENDERS_TODOS;
 
 const ZOOM=FOTOS.concat(RENDERS.map(r=>RP+r[1]));
 
@@ -758,8 +781,11 @@ const PUNTOS=[
 /* secuencia de Tirrena, al costado de su texto */
 (function(){
   const TP="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/3.%20Tirrena/fotos%20editadas/";
-  const FT=["tirrena%20blanca.jpg","tirrena%20roja.jpg","tirrena%20gris.jpg",
-            "tirrena%20celeste%20violeta.jpg"].map(f=>TP+f);
+  /* PAUSA TEMPORAL (pedido el 28/10/2026): la Tirrena celeste violeta se oculta
+     por dos semanas y vuelve sola el 11/11/2026 (misma fecha que el verde y el
+     rojo de la Indómita: PAUSA_HASTA / EN_PAUSA, definidas más arriba). */
+  const FT=["tirrena%20blanca.jpg","tirrena%20roja.jpg","tirrena%20gris.jpg"]
+    .concat(EN_PAUSA?[]:["tirrena%20celeste%20violeta.jpg"]).map(f=>TP+f);
   const box=document.getElementById('inTirrena'), dots=document.getElementById('inTirrenaDots');
   if(!box)return;
   const frag=document.createDocumentFragment();

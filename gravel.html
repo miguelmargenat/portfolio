@@ -322,6 +322,13 @@
 @keyframes tiRun{to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.ti-track{animation:none}}
 
+/* enlace a la familia completa, entre dos barras */
+.in-mas{padding:30px 5vw}
+.in-mas p{font-size:clamp(16px,1.6vw,19px);line-height:1.8;color:var(--fg-soft);margin:0}
+.in-mas a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;word-break:break-word}
+.in-mas a:hover{color:var(--accent-2)}
+@media(max-width:760px){.in-mas{padding:22px 6vw}}
+
 /* En ruta: mosaico de 4 columnas sin huecos. Las 10 horizontales (4:3) y las
    3 verticales, que ocupan dos filas cada una: 10 + 3×2 = 16 celdas = 4×4.
    En celular son 2 columnas × 8 filas, y también cierra justo. */
@@ -471,13 +478,18 @@
 
 <section class="in-intro solo">
   <div class="in-txt">
-    <p>Desarrollé la última línea de gravel de Volta. Un segmento en auge que viene creciendo año a año. Fue un desarrollo muy desafiante: contempló <strong>dos modelos</strong> con sus versiones de equipamiento como variantes, atendiendo las necesidades tanto del usuario que quiere su primera bici de gravel, como versiones para quienes quieren aventurarse haciendo travesías largas y, por último, opciones más equipadas pensadas para el rendimiento, la competición y las categorías elite.</p>
+    <p>Desarrollé la última línea de gravel de Volta. Un segmento en auge que viene creciendo año a año. Fue un desarrollo muy desafiante: contempló dos modelos con sus versiones de equipamiento como variantes, atendiendo las necesidades tanto del usuario que quiere su primera bici de gravel, como versiones para quienes quieren aventurarse haciendo travesías largas y, por último, opciones más equipadas pensadas para el rendimiento, la competición y las categorías elite.</p>
     <p class="hl">Es un orgullo haber participado de este desarrollo, porque se nota que el producto final respira diseño, ingeniería e innovación.</p>
     <p>El modelo de aluminio lleva el nombre de <strong>Tirrena</strong> y el de carbono se bautizó como <strong>Indómita</strong>, representando esa sensación de indomable que sentimos al pedalear rápido por la tierra.</p>
   </div>
 </section>
 
 <div class="fx-dash"></div>
+
+<section class="in-mas">
+  <p>Acá pueden conocer más en detalle la familia completa de la línea gravel: <a href="https://voltabikes.com.ar/pages/gen-gravel" target="_blank" rel="noopener">https://voltabikes.com.ar/pages/gen-gravel</a></p>
+</section>
+<div class="fx-dash rev"></div>
 
 <!-- En ruta: fotos de la campaña con gente. Cada clic abre el visor con esta
      misma lista (data-r), no con la de las muestras de color. -->
