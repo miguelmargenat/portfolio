@@ -550,19 +550,6 @@
   </div>
 </section>
 
-<section class="in-split">
-  <div class="in-spshots" id="inTirrena">
-    <div class="in-dots" id="inTirrenaDots"></div>
-  </div>
-  <div class="in-spbox">
-    <span class="sp-kick">Tirrena · aluminium</span>
-    <p>Tirrena was designed as a value-for-money product with a fresh look compared with what the market offers, fitted with a complete Shimano GRX groupset on every version in the range.</p>
-  </div>
-</section>
-
-<!-- Tirrena: tres cintas horizontales con las fotos de producto. Las arma el JS. -->
-<section class="ti-cintas" id="tiCintas" aria-label="Photos of Tirrena"></section>
-
 <section class="in-split inv">
   <div class="in-spshots" id="inShots">
     <div class="in-dots" id="inDots"></div>
@@ -575,6 +562,19 @@
   </div>
 </section>
 
+
+<section class="in-split">
+  <div class="in-spshots" id="inTirrena">
+    <div class="in-dots" id="inTirrenaDots"></div>
+  </div>
+  <div class="in-spbox">
+    <span class="sp-kick">Tirrena · aluminium</span>
+    <p>Tirrena was designed as a value-for-money product with a fresh look compared with what the market offers, fitted with a complete Shimano GRX groupset on every version in the range.</p>
+  </div>
+</section>
+
+<!-- Tirrena: tres cintas horizontales con las fotos de producto. Las arma el JS. -->
+<section class="ti-cintas" id="tiCintas" aria-label="Photos of Tirrena"></section>
 
 <div class="in-zoom" id="inZoom">
   <button class="zc" aria-label="Close">✕</button>
@@ -602,34 +602,19 @@ const HERO=["1%20editada.jpg","3%20editadas.jpg","4%20editadas.jpg",
    así que cada color arma su propia cinta. */
 const MP="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/2.%20Ind%C3%B3mita/fotos/MUESTRAS%20COLOR/muestras%202%20ordenadas/";
 const rango=(a,b)=>Array.from({length:b-a+1},(_,i)=>MP+(a+i)+".JPG");
-
-/* Dos cintas de color: cada una alterna entre dos acabados cada 4 segundos,
-   cambiando todas sus fotos a la vez con un fundido. */
-/* Cuatro cintas, pero solo dos acabados a la vez: el blanco pasa a verde y
-   el celeste pasa a rojo, como estaba antes. Para que sean cuatro filas sin
-   repetir ninguna foto, cada par de ocho se reparte en dos mitades de cuatro. */
 /* PAUSA TEMPORAL (pedido el 28/10/2026): el color verde y el rojo de la Indómita
    se ocultan por dos semanas, y se reactivan SOLOS el 11/11/2026 a las 00:00
    (hora de Argentina). Afecta el selector de colores del render, la rotación,
-   el visor y las muestras que alternan a verde/rojo en las cintas.
+   el visor y las muestras de las cintas.
    Para reactivarlos antes, o prorrogar, basta con cambiar esta fecha. */
 const PAUSA_HASTA=new Date('2026-11-11T00:00:00-03:00');
 const EN_PAUSA=new Date()<PAUSA_HASTA;
 
-const CINTAS_TODAS=[
-  {a:rango(1,4),   b:rango(25,28)},   /* blanco  → verde  */
-  {a:rango(5,8),   b:rango(29,32)},   /* blanco  → verde  */
-  {a:rango(9,12),  b:rango(17,20)},   /* celeste → rojo   */
-  {a:rango(13,16), b:rango(21,24)}    /* celeste → rojo   */
-];
-const CINTAS=EN_PAUSA ? CINTAS_TODAS.map(c=>({a:c.a})) : CINTAS_TODAS;   /* en pausa, cada cinta queda fija en su primer acabado */
-
-
-/* Lista para el visor: las 32 muestras, una sola vez.
-   Las cintas repiten grupos entre sí, así que el índice se busca por la ruta
-   en vez de ir acumulando, y el contador del visor no queda inflado. */
-const FOTOS=CINTAS.flatMap(c=>c.a.concat(c.b||[]));
-const indiceDe=src=>FOTOS.indexOf(src);
+/* Dos cintas de muestras que siguen al color elegido arriba: cada color tiene
+   8 muestras (las 32 vienen ordenadas de a 8 por color); la primera cinta lleva
+   las primeras 4 y la segunda las otras 4. Al cambiar el color del render
+   (solo o a mano), las dos cintas cambian con él, con un fundido. */
+const MUESTRAS={Blanca:rango(1,8), Azul:rango(9,16), Roja:rango(17,24), Verde:rango(25,32)};
 
 /* Los cuatro renders de color de la Indómita. Vienen sobre fondo negro, así
    que van sin panel claro. Se suman al final del visor. */
@@ -637,6 +622,10 @@ const RP="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/2.%20Ind
 const RENDERS_TODOS=[["Verde","verde.jpg"],["Azul","azul.jpg"],["Roja","roja.jpg"],["Blanca","blanca.jpg"]];
 const RENDERS=EN_PAUSA ? RENDERS_TODOS.filter(r=>r[0]!=="Verde"&&r[0]!=="Roja") : RENDERS_TODOS;
 
+/* Lista para el visor: las muestras de los colores activos, una sola vez, y
+   después los renders. El índice se busca por la ruta. */
+const FOTOS=RENDERS.flatMap(r=>MUESTRAS[r[0]]);
+const indiceDe=src=>FOTOS.indexOf(src);
 const ZOOM=FOTOS.concat(RENDERS.map(r=>RP+r[1]));
 
 /* Los puntos de diseño sobre la bici.
@@ -736,6 +725,8 @@ const PUNTOS=[
     i=(k+RENDERS.length)%RENDERS.length;
     escena.querySelectorAll('img').forEach(im=>im.classList.toggle('on',+im.dataset.c===i));
     tiras.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.c===i));
+    /* avisa a las cintas de muestras, que siguen al color elegido */
+    document.dispatchEvent(new CustomEvent('in-color',{detail:RENDERS[i][0]}));
   };
   const arrancar=()=>{ clearInterval(reloj); reloj=setInterval(()=>elegir(i+1),2000); };
   arrancar();
@@ -806,64 +797,52 @@ const PUNTOS=[
   mk.forEach((s,n)=>s.addEventListener('click',e=>{e.stopPropagation();go(n);start();}));
 })();
 
-/* Cintas: la de decals es fija; las dos de color alternan entre sus dos
-   acabados cada 4 segundos, cambiando todas las fotos a la vez. */
+/* Cintas de muestras: dos, y siguen al color que se ve arriba. Cada celda apila
+   las muestras del mismo lugar en todos los colores activos; sólo está visible
+   la del color elegido, y al cambiar el render cambian todas con un fundido. */
 (function(){
-  document.getElementById('inGal').innerHTML=CINTAS.map((c,r)=>{
+  const gal=document.getElementById('inGal'); if(!gal)return;
+  const colores=RENDERS.map(r=>r[0]);
+  const MITADES=[[0,4],[4,8]];
+  gal.innerHTML=MITADES.map(([d,h],r)=>{
     /* La lista se repite lo necesario para cubrir el doble de lo que se ve:
        el bucle va a -50%, así que si la pista se queda corta el desfile pega
        un salto al reiniciar. Siempre un número par de vueltas.
        En escritorio corren en vertical y lo que hay que cubrir es el alto. */
     const vertical=window.matchMedia('(min-width:901px)').matches;
-    const largoCelda=vertical?69:260;                 /* celda + separación */
+    const largoCelda=vertical?140:260;                /* celda + separación */
     const aCubrir=vertical?(window.innerHeight*1.4):window.innerWidth;
-    const necesarias=Math.ceil((aCubrir*2)/(c.a.length*largoCelda));
+    const n=h-d;
+    const necesarias=Math.ceil((aCubrir*2)/(n*largoCelda));
     const veces=Math.max(2,Math.ceil(necesarias/2)*2);
-    let lista=[]; for(let v=0;v<veces;v++)lista=lista.concat(c.a);
-    /* sin loading="lazy": las dos capas tienen que estar decodificadas antes
+    let posiciones=[]; for(let v=0;v<veces;v++)for(let k=d;k<h;k++)posiciones.push(k);
+    /* sin loading="lazy": todas las capas tienen que estar decodificadas antes
        del cambio, si no el navegador se traba justo al hacer el fundido */
-    const cells=lista.map((src,n)=>{
-      const k=n%c.a.length;
-      const capaA='<img class="fa on" src="'+src+'" alt="'+c.t+' — Indómita" decoding="async" data-z="'+indiceDe(src)+'">';
-      const capaB=c.b?'<img class="fb" src="'+c.b[k]+'" alt="'+c.t+' — Indómita" decoding="async" data-z="'+indiceDe(c.b[k])+'">':'';
-      return '<span class="cel">'+capaA+capaB+'</span>';
-    }).join('');
-    return '<div class="in-row'+(r%2?' rev':'')+'" data-alt="'+(c.b?1:0)+'">'+
-           '<div class="in-track">'+cells+'</div></div>';
+    const cells=posiciones.map(k=>'<span class="cel">'+colores.map((c,i)=>{
+      const src=MUESTRAS[c][k];
+      return '<img data-c="'+c+'"'+(i===0?' class="on"':'')+' src="'+src+'" alt="" decoding="async" data-z="'+indiceDe(src)+'">';
+    }).join('')+'</span>').join('');
+    return '<div class="in-row'+(r%2?' rev':'')+'"><div class="in-track">'+cells+'</div></div>';
   }).join('');
 
-  document.querySelectorAll('.in-track img').forEach(im=>{
-    im.addEventListener('error',()=>im.remove());
-  });
-  /* el clic abre la foto que se está viendo en ese momento */
-  document.querySelectorAll('.in-track .cel').forEach(cel=>{
+  gal.querySelectorAll('img').forEach(im=>im.addEventListener('error',()=>im.remove()));
+  /* el clic abre la muestra que se está viendo en ese momento */
+  gal.querySelectorAll('.cel').forEach(cel=>{
     cel.addEventListener('click',()=>{
       const vis=cel.querySelector('img.on');
       if(vis)openZ(+vis.dataset.z);
     });
   });
 
-  /* Alternancia de acabado.
-     Antes de arrancar se espera a que todas las fotos estén descargadas y
-     decodificadas. Si no, el primer cambio dispara la decodificación de 16
-     imágenes a la vez y el desfile se traba. */
-  const filas=[...document.querySelectorAll('.in-row[data-alt="1"]')];
-  if(!filas.length)return;
-
-  const todas=[...document.querySelectorAll('.in-track .cel img')];
-  const listas=todas.map(im=>
-    (im.decode?im.decode():Promise.resolve()).catch(()=>{})
-  );
-
-  Promise.all(listas).then(()=>{
-    setInterval(()=>{
-      /* el cambio se agenda para el próximo cuadro, así no compite con el
-         desplazamiento de la cinta */
-      requestAnimationFrame(()=>{
-        filas.forEach(f=>f.querySelectorAll('.cel img').forEach(im=>im.classList.toggle('on')));
-      });
-    },4000);
-  });
+  /* Cambio de color: lo avisa el render de arriba (elegir). Se espera a que
+     las fotos estén decodificadas para que el primer fundido no trabe el desfile. */
+  let listo=false, pendiente=null;
+  const aplicar=c=>{
+    requestAnimationFrame(()=>gal.querySelectorAll('img').forEach(im=>im.classList.toggle('on',im.dataset.c===c)));
+  };
+  Promise.all([...gal.querySelectorAll('img')].map(im=>(im.decode?im.decode():Promise.resolve()).catch(()=>{})))
+    .then(()=>{listo=true; if(pendiente)aplicar(pendiente);});
+  document.addEventListener('in-color',e=>{ if(listo)aplicar(e.detail); else pendiente=e.detail; });
 })();
 
 /* zoom */
