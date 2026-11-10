@@ -606,8 +606,9 @@ const rango=(a,b)=>Array.from({length:b-a+1},(_,i)=>MP+(a+i)+".JPG");
    se ocultan por dos semanas, y se reactivan SOLOS el 11/11/2026 a las 00:00
    (hora de Argentina). Afecta el selector de colores del render, la rotación,
    el visor y las muestras de las cintas.
-   Para reactivarlos antes, o prorrogar, basta con cambiar esta fecha. */
-const PAUSA_HASTA=new Date('2026-11-11T00:00:00-03:00');
+   Para reactivarlos antes, o prorrogar, basta con cambiar esta fecha.
+   10/11/2026: Miguel pidió activarlos ya, así que la fecha se adelantó a hoy. */
+const PAUSA_HASTA=new Date('2026-11-10T00:00:00-03:00');
 const EN_PAUSA=new Date()<PAUSA_HASTA;
 
 /* Dos cintas de muestras que siguen al color elegido arriba: cada color tiene

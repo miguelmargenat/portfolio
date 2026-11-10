@@ -854,10 +854,9 @@ html[lang="en"] .ig-slot::after{content:"loading…"}
 
 /* grilla de sub-proyectos (Renders) */
 /* los 8 proyectos: 4 × 2 en horizontal, 2 × 4 en celular */
-/* 3 columnas porque las fichas visibles son 6 (Clash y Ruta están ocultas en
-   experiencia.html): dos filas completas, sin huecos al final. Si vuelven las
-   dos ocultas, esto tiene que volver a repeat(4,...). */
-.po-embed.sub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+/* 4 columnas: Clash y Ruta volvieron el 10/11/2026, así que son 8 fichas
+   (dos filas completas). Si se vuelve a ocultar alguna, pasar a repeat(3,...). */
+.po-embed.sub-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .sub-tile{position:relative;aspect-ratio:4/3;border:1px solid var(--line);padding:0;border-radius:5px;overflow:hidden;cursor:pointer;background:var(--bg-3);display:block;transition:transform .35s var(--ease),border-color .3s}
 .sub-tile:hover{transform:translateY(-4px);border-color:var(--accent);z-index:2}
 .sub-tile .st-img{position:absolute;inset:0}
