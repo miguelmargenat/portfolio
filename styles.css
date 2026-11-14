@@ -975,7 +975,7 @@ html[lang="en"] .ig-slot::after{content:"loading…"}
 .ct-kick{font-family:var(--mono);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;
   color:var(--accent);display:block;margin-bottom:34px}
 
-.ct-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+.ct-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
   gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
 
 /* formulario */
@@ -997,7 +997,7 @@ html[lang="en"] .ig-slot::after{content:"loading…"}
 .ct-aviso.ok{color:var(--accent)}
 
 /* columna de datos */
-.ct-side{padding:clamp(28px,3.2vw,46px);background:var(--bg-2);border-left:1px solid var(--line);
+.ct-side{padding:clamp(28px,3.2vw,46px);background:var(--bg-2);border-right:1px solid var(--line);
   display:flex;flex-direction:column;justify-content:center;gap:28px}
 .ct-mail{display:inline-block;font-family:var(--disp);font-weight:700;
   font-size:clamp(16px,1.6vw,21px);letter-spacing:-.5px;color:var(--fg);
@@ -1015,7 +1015,7 @@ a.ct-value:hover{color:var(--accent)}
 
 @media(max-width:900px){
   .ct-grid{grid-template-columns:1fr}
-  .ct-side{border-left:0;border-top:1px solid var(--line)}
+  .ct-side{border-right:0;border-bottom:1px solid var(--line)}
 }
 @media(max-width:640px){
   .ct-wrap{padding:24px 6vw 80px}

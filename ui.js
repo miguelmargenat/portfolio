@@ -71,7 +71,7 @@
      escritorio no cambia nada: el submenú queda oculto por CSS.
      Se arma desde acá para no repetirlo en las quince páginas. */
   (function(){
-    const enlace=document.querySelector('nav .links a[href$="experiencia.html"]');
+    const enlace=document.querySelector('nav .links a[href$="#portfolio"]');
     if(!enlace||document.querySelector('.navsub'))return;
 
     const PREFIJO=EN?'en/':'';

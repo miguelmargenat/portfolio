@@ -31,6 +31,110 @@
 <link rel="alternate" hreflang="en" href="https://miguelmargenat.com.ar/en/">
 <link rel="alternate" hreflang="x-default" href="https://miguelmargenat.com.ar/">
 <link rel="stylesheet" href="styles.css">
+<style>
+/* ---------- la home es una página larga: #portfolio y #contacto ---------- */
+/* el menú va fijo arriba: las anclas frenan debajo de él */
+#portfolio,#contacto{scroll-margin-top:72px}
+/* el contacto cierra la página: aire arriba para separarlo de Trayectoria */
+#contacto{padding-top:110px}
+/* ---------- índice de proyectos (prefijo px-) ---------- */
+.px-sep{margin:70px 5vw 0;height:1px;background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);background-size:12px 1px}
+.px-wrap{margin:44px 5vw 0}
+.px-h{font-family:var(--disp);font-weight:700;font-size:clamp(26px,3.2vw,44px);letter-spacing:-1px;line-height:1;margin-bottom:26px}
+.px-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+.px-chip{font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;
+  padding:12px 16px;min-height:44px;border-radius:999px;border:1px solid var(--line-strong);
+  background:none;color:var(--fg);cursor:pointer;display:inline-flex;align-items:center;gap:9px;
+  transition:border-color .3s,background .3s,color .3s}
+.px-chip i{font-style:normal;font-size:10px;color:var(--fg-soft)}
+.px-chip:hover{border-color:var(--accent)}
+.px-chip:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+.px-chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.px-chip[aria-pressed="true"] i{color:var(--bg)}
+/* Cada rubro va en su propio panel: fondo y borde del color del rubro,
+   muy suaves, y su nombre arriba. La grilla de afuera reparte paneles
+   (6 columnas en PC: 6 · 2+1+1+2), y cada panel reparte sus fichas en las
+   columnas que ocupa (--s). Así las filas quedan siempre completas:
+   PC 6 + 6 · mediana 3 + 3 + 3 + 3 · celular 2 + 2 + 2 + 2 + 2 + 2. */
+.px-grupo[data-grupo="bici"],.px-chip[data-cat="bici"]{--r:232,85,58}
+.px-grupo[data-grupo="ropa"],.px-chip[data-cat="ropa"]{--r:110,140,214}
+.px-grupo[data-grupo="vehi"],.px-chip[data-cat="vehi"]{--r:224,176,58}
+.px-grupo[data-grupo="i3d"],.px-chip[data-cat="i3d"]{--r:104,176,112}
+.px-grupo[data-grupo="rend"],.px-chip[data-cat="rend"]{--r:168,124,220}
+.px-grilla{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.px-grupo{--s:1;grid-column:span var(--s);display:flex;flex-direction:column;gap:10px;
+  padding:12px;border-radius:8px;background:rgba(var(--r),.07);border:1px solid rgba(var(--r),.24);
+  transition:opacity .35s}
+.px-gh{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:2px 2px 0}
+.px-gn{font-family:var(--mono);font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:rgb(var(--r));
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.px-gc{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--fg-soft)}
+.px-gf{flex:1;display:grid;grid-template-columns:repeat(var(--s),1fr);gap:10px}
+.px-grupo .px-t{background:rgba(var(--r),.09);border-color:rgba(var(--r),.2)}
+.px-grupo .px-t:hover{border-color:rgb(var(--r))}
+.px-grupo .px-cat{color:rgb(var(--r))}
+.px-chip[data-cat]:not([data-cat="todos"])::before{content:"";width:8px;height:8px;border-radius:50%;
+  background:rgb(var(--r));flex:none}
+.px-chip[aria-pressed="true"]::before{box-shadow:0 0 0 1.5px var(--bg)}
+.px-grupo.apagada{opacity:.3}
+@media(min-width:701px) and (max-width:1499px){
+  .px-grupo[data-grupo="bici"]{--s:3}
+  .px-grupo[data-grupo="ropa"]{--s:2}
+  .px-grupo[data-grupo="vehi"]{--s:1}
+  .px-grupo[data-grupo="i3d"]{--s:1}
+  .px-grupo[data-grupo="rend"]{--s:2}
+}
+@media(min-width:1500px){
+  .px-grilla{grid-template-columns:repeat(6,1fr)}
+  .px-grupo[data-grupo="bici"]{--s:6}
+  .px-grupo[data-grupo="ropa"]{--s:2}
+  .px-grupo[data-grupo="vehi"]{--s:1}
+  .px-grupo[data-grupo="i3d"]{--s:1}
+  .px-grupo[data-grupo="rend"]{--s:2}
+}
+@media(max-width:700px){
+  .px-grilla{grid-template-columns:repeat(2,1fr);gap:10px}
+  .px-grupo{padding:8px;gap:8px}
+  .px-gf{gap:6px}
+  .px-grupo[data-grupo="bici"]{--s:2}
+  .px-grupo[data-grupo="ropa"]{--s:2}
+  .px-grupo[data-grupo="vehi"]{--s:1}
+  .px-grupo[data-grupo="i3d"]{--s:1}
+  .px-grupo[data-grupo="rend"]{--s:2}
+}
+.px-t{display:flex;flex-direction:column;overflow:hidden;border-radius:5px;
+  border:1px solid var(--line);background:var(--bg-2);
+  transition:transform .35s var(--ease),border-color .3s,opacity .35s}
+.px-t:hover{transform:translateY(-4px);border-color:var(--accent)}
+.px-t:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+/* la foto va entera arriba, en 4:3 como las fichas de Volta, y el texto
+   abajo: así no tapa el producto */
+.px-img{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg-3)}
+.px-img img,.px-img video{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.1s var(--ease)}
+.px-t:hover .px-img img,.px-t:hover .px-img video{transform:scale(1.06)}
+.px-t.claro .px-img{background:#f4f2ee}
+.px-t.fit .px-img{background:#000}
+.px-t.fit .px-img img{object-fit:contain;padding:8px;transform:none}
+.px-info{flex:1;padding:13px 14px 16px;display:flex;flex-direction:column;gap:6px}
+.px-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.px-cat{font-family:var(--mono);font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--accent-2);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.px-cue{font-size:14px;opacity:.7;transition:transform .35s,opacity .35s}
+.px-t:hover .px-cue{transform:translate(3px,-3px);opacity:1}
+.px-tit{font-family:var(--disp);font-weight:600;font-size:18px;line-height:1.2;color:var(--fg)}
+.px-desc{font-size:13px;line-height:1.45;color:var(--fg-soft)}
+.px-t.apagada{opacity:.22}
+.px-t.apagada:hover,.px-t.apagada:focus-visible{opacity:.6}
+@media(max-width:780px){
+  .px-sep{margin-top:44px}
+  .px-wrap{margin:30px 5vw 0}
+}
+@media(max-width:560px){
+  .px-info{padding:10px 10px 12px;gap:4px}
+  .px-tit{font-size:15px}.px-desc{display:none}.px-cat{font-size:9px;letter-spacing:1.2px}
+}
+@media(prefers-reduced-motion:reduce){ .px-t,.px-img img,.px-img video,.px-cue,.px-chip{transition:none} }
+</style>
 </head>
 <body class="loading">
 
@@ -51,8 +155,8 @@
   <div class="navright">
     <div class="links">
       <a href="en/index.html" class="navlink active">Home</a>
-      <a href="en/experiencia.html" class="navlink">Portfolio</a>
-      <a href="en/contacto.html" class="navlink">Contact</a>
+      <a href="en/index.html#portfolio" class="navlink">Portfolio</a>
+      <a href="en/index.html#contacto" class="navlink">Contact</a>
     </div>
     <div class="lang">
       <a href="/index.html" class="flag" hreflang="es" title="Español" aria-label="Ver en español"><svg viewBox="0 0 30 20" xmlns="http://www.w3.org/2000/svg"><rect width="30" height="20" fill="#74ACDF"/><rect y="6.67" width="30" height="6.66" fill="#fff"/><circle cx="15" cy="10" r="2.1" fill="#F6B40E"/></svg></a>
@@ -114,7 +218,7 @@
      Es un <div> y no un <section> a propósito: la regla global
      section{padding:150px 5vw} de styles.css le metería márgenes, y esto va
      a sangre, sin aire a los costados. -->
-<div class="hm-proy">
+<div class="hm-proy" id="portfolio">
   <a href="en/volta.html" class="exp-tile">
     <div class="ht-cover">
       <img src="img/0.%20Experiencia/imagenes%20portada/Volta/1%20modificada.jpg" alt="Volta bicycles" style="animation-delay:0s">
@@ -166,6 +270,124 @@
       <span class="tname">Renders & animations <span class="ar">↗</span></span>
     </div>
   </a>
+</div>
+
+<!-- ÍNDICE DE PROYECTOS (14/11/2026): los 12 proyectos a un clic, debajo de las
+     4 portadas. Cada rubro va en su propio panel teñido; el filtro no mueve
+     nada, apaga lo que no coincide. Las fichas están escritas en el HTML (no
+     las arma el JS) para que los buscadores sigan los enlaces y armar-en.ps1
+     las pueda traducir. El <a> lleva sólo class, href y data-cat: ver la nota
+     de Netlify en CLAUDE.md antes de sumarle atributos. -->
+<div class="px-sep"></div>
+<div class="px-wrap reveal">
+  <h2 class="px-h">Projects</h2>
+  <div class="px-chips" role="group" aria-label="Filter projects">
+    <button type="button" class="px-chip" data-cat="todos" aria-pressed="true">All <i>12</i></button>
+    <button type="button" class="px-chip" data-cat="bici" aria-pressed="false">Bicycles & components <i>6</i></button>
+    <button type="button" class="px-chip" data-cat="ropa" aria-pressed="false">Apparel & footwear <i>2</i></button>
+    <button type="button" class="px-chip" data-cat="vehi" aria-pressed="false">Vehicles <i>1</i></button>
+    <button type="button" class="px-chip" data-cat="i3d" aria-pressed="false">3D Printing <i>1</i></button>
+    <button type="button" class="px-chip" data-cat="rend" aria-pressed="false">Rendering & animation <i>3</i></button>
+  </div>
+  <div class="px-grilla" id="pxGrilla">
+  <div class="px-grupo" data-grupo="bici">
+    <div class="px-gh"><span class="px-gn">Bicycles &amp; components</span><span class="px-gc">06</span></div>
+    <div class="px-gf">
+      <a class="px-t" href="en/gravel.html" data-cat="bici">
+        <span class="px-img"><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/secuencia%20portada/3%20editadas.jpg" alt=""></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Bicycles</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Gravel line · Indómita &amp; Tirrena</span>
+        <span class="px-desc">Two models, in carbon and aluminium.</span></span>
+      </a>
+      <a class="px-t" href="en/campeones.html" data-cat="bici">
+        <span class="px-img"><img src="img/3.%20Volta/4.5%20campeones/fotografias/secuencia%20portada/1.jpg" alt=""></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Bicycles</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Campeones</span>
+        <span class="px-desc">The most Argentine bike of them all.</span></span>
+      </a>
+      <a class="px-t fit" href="en/clash.html" data-cat="bici">
+        <span class="px-img"><img src="img/3.%20Volta/4.%20kids%20CLASH/Fotos%20bicicletas%20ia/20%20naranja%20edit.jpg" alt="" loading="lazy"></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Bicycles</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Clash · Kids' line</span>
+        <span class="px-desc">A line of bicycles for kids.</span></span>
+      </a>
+      <a class="px-t claro" href="en/whipper.html" data-cat="bici">
+        <span class="px-img"><img src="img/3.%20Volta/7.%20whipper/Negro%20y%20rosa/1013089-bicicleta-mtb-topmega-whiper-aluminio-r24_-7vel-negro-fucsia-a4e952c41fe9fca31e17855084128409-1024-1024.jpg" alt="" loading="lazy"></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Bicycles</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Whipper · Street bike</span>
+        <span class="px-desc">Stunt street bike.</span></span>
+      </a>
+      <a class="px-t claro" href="en/ruta.html" data-cat="bici rend">
+        <span class="px-img"><img src="img/3.%20Volta/8.%20Ruta%202026/renders/1%20al.jpg" alt="" loading="lazy"></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Bicycles</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Road Line · Concept</span>
+        <span class="px-desc">A carbon road concept, developed entirely in renders.</span></span>
+      </a>
+      <a class="px-t" href="en/sportace.html" data-cat="bici">
+        <span class="px-img"><img src="img/3.%20Volta/5.%20Sportace/Componentes/Secuencia/IMG_8394.JPG" alt="" loading="lazy"></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Components</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">SportAce</span>
+        <span class="px-desc">Carbon handlebar, wheels and seatpost for gravel.</span></span>
+      </a>
+    </div>
+  </div>
+  <div class="px-grupo" data-grupo="ropa">
+    <div class="px-gh"><span class="px-gn">Apparel &amp; footwear</span><span class="px-gc">02</span></div>
+    <div class="px-gf">
+      <a class="px-t" href="en/indumentaria.html" data-cat="ropa">
+        <span class="px-img"><img src="img/3.%20Volta/3.%20indumentaria/portada%20secuencia/01.jpg" alt=""></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Apparel</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Apparel</span>
+        <span class="px-desc">A complete cycling apparel line.</span></span>
+      </a>
+      <a class="px-t" href="en/calzado.html" data-cat="ropa">
+        <span class="px-img"><img src="img/3.%20Volta/6.%20ZAPATILLAS/portada%20secuencia/@hugoserraphoto_260430_132222.jpg" alt=""></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Footwear</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Footwear</span>
+        <span class="px-desc">A complete line: road, MTB, gravel and urban.</span></span>
+      </a>
+    </div>
+  </div>
+  <div class="px-grupo" data-grupo="vehi">
+    <div class="px-gh"><span class="px-gn">Vehicles</span><span class="px-gc">01</span></div>
+    <div class="px-gf">
+      <a class="px-t" href="en/ugarte.html" data-cat="vehi">
+        <span class="px-img"><img src="img/0.%20Experiencia/imagenes%20portada/Ugarte/1770412477114.jpg" alt="" loading="lazy"></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Vehicles</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Ugarte Vehicles</span>
+        <span class="px-desc">Parts for city buses and coaches.</span></span>
+      </a>
+    </div>
+  </div>
+  <div class="px-grupo" data-grupo="i3d">
+    <div class="px-gh"><span class="px-gn">3D printing</span><span class="px-gc">01</span></div>
+    <div class="px-gf">
+      <a class="px-t" href="en/impresion-3d.html" data-cat="i3d">
+        <span class="px-img"><img src="img/0.%20Experiencia/imagenes%20portada/Lunfardo/selecci%C3%B3n/final1-108.jpg" alt="" loading="lazy"></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">3D Printing</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">3D Printing · Pantano · Lunfardo</span>
+        <span class="px-desc">Objects and lamps, designed and 3D-printed.</span></span>
+      </a>
+    </div>
+  </div>
+  <div class="px-grupo" data-grupo="rend">
+    <div class="px-gh"><span class="px-gn">Rendering &amp; animation</span><span class="px-gc">02</span></div>
+    <div class="px-gf">
+      <a class="px-t" href="en/renders.html#animaciones" data-cat="rend">
+        <span class="px-img"><video src="img/6.%20Renders/secuencia%20portada/voronoi%20redimencionado.mp4" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Animation</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Animations</span>
+        <span class="px-desc">Voronoi, chairs and the Pantano logo.</span></span>
+      </a>
+      <a class="px-t" href="en/renders.html#renders" data-cat="rend">
+        <span class="px-img"><img src="img/6.%20Renders/Reloj%20Braun/1.jpg" alt="" loading="lazy"></span>
+        <span class="px-info"><span class="px-top"><span class="px-cat">Render</span><span class="px-cue">↗</span></span>
+        <span class="px-tit">Renders</span>
+        <span class="px-desc">Product, interiors and architecture.</span></span>
+      </a>
+    </div>
+  </div>
+  </div>
 </div>
 
 <!-- TRAYECTORIA
@@ -271,12 +493,149 @@
   </div>
 </section>
 
+<!-- CONTACTO: es el último tramo de la home (id="contacto"). Antes era la página
+     contacto.html, que ahora sólo redirige acá. El formulario, sus estilos
+     (.ct-*, en styles.css) y el envío por Formspree son los mismos. -->
+<section class="ct-wrap" id="contacto">
+  <h2 class="ct-kick reveal tit-plano">Contact</h2>
+
+  <div class="ct-grid reveal">
+    <!-- Los datos van a la izquierda y el formulario a la derecha; en celular, los datos arriba y el formulario abajo. -->
+    <aside class="ct-side">
+      <div>
+        <span class="ct-label">Email me directly</span>
+        <a class="ct-mail" href="mailto:miguelmargenat@gmail.com">miguelmargenat@gmail.com</a>
+      </div>
+      <div>
+        <span class="ct-label">WhatsApp</span>
+        <a class="ct-value" href="https://wa.me/5491128920255" target="_blank" rel="noopener">+54 11 2892 0255</a>
+      </div>
+      <div>
+        <span class="ct-label">LinkedIn</span>
+        <a class="ct-value" href="https://linkedin.com/in/miguel-margenat" target="_blank" rel="noopener">/miguel-margenat</a>
+      </div>
+      <div>
+        <span class="ct-label">Location</span>
+        <span class="ct-value">Buenos Aires, Argentina</span>
+      </div>
+    </aside>
+
+    <form class="ct-form" id="ctForm" novalidate>
+      <div class="ct-campo">
+        <label class="ct-label" for="ctNombre">Name</label>
+        <input type="text" id="ctNombre" name="nombre" placeholder="Your name" required>
+      </div>
+      <div class="ct-campo">
+        <label class="ct-label" for="ctMail">Email</label>
+        <!-- se llama "email" a propósito: Formspree lo usa como remitente,
+             así se puede responder el mensaje directo desde el correo -->
+        <input type="email" id="ctMail" name="email" placeholder="you@email.com" required>
+      </div>
+      <div class="ct-campo">
+        <label class="ct-label" for="ctMsg">Message</label>
+        <textarea id="ctMsg" name="mensaje" placeholder="Tell me about your project…" required></textarea>
+      </div>
+      <!-- trampa para robots: es invisible y ninguna persona la completa.
+           Si viene con texto, Formspree descarta el mensaje. -->
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+             aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+      <button type="submit" class="ct-enviar">Send message</button>
+      <p class="ct-aviso" id="ctAviso"></p>
+    </form>
+  </div>
+</section>
+
 <footer class="mini">
   <span>Buenos Aires, Argentina</span>
-  <a href="en/contacto.html">Contact ↗</a>
+  <span>Industrial designer · Product development</span>
   <span>© 2026 Miguel Margenat</span>
 </footer>
 
+<script>
+/* Filtro del índice de proyectos. No mueve ni oculta nada: los paneles
+   quedan en su lugar y se apagan las fichas (y los paneles enteros) que
+   no coinciden. Línea Ruta está en Bicicletas y también cuenta como Render. */
+(function(){
+  const grilla=document.getElementById('pxGrilla');
+  if(!grilla)return;
+  const fichas=[...grilla.querySelectorAll('.px-t')];
+  const grupos=[...grilla.querySelectorAll('.px-grupo')];
+  const chips=[...document.querySelectorAll('.px-chip')];
+  function filtrar(cat){
+    const va=f=>cat==='todos'||f.dataset.cat.split(' ').includes(cat);
+    fichas.forEach(f=>f.classList.toggle('apagada',!va(f)));
+    grupos.forEach(g=>g.classList.toggle('apagada',![...g.querySelectorAll('.px-t')].some(va)));
+    chips.forEach(c=>c.setAttribute('aria-pressed',c.dataset.cat===cat?'true':'false'));
+  }
+  chips.forEach(c=>c.addEventListener('click',()=>filtrar(c.dataset.cat)));
+})();
+</script>
+<script>
+/* Envío del formulario, por Formspree.
+   El sitio es HTML y JavaScript a secas, sin bundler, así que no hace falta
+   ninguna librería: alcanza con mandar los datos por fetch y leer la
+   respuesta. Así el formulario queda con los mensajes y la validación de
+   la página, en vez de los que trae el servicio.
+
+   Si algún día hay que cambiar de cuenta, se cambia solo esta línea.      */
+const ENVIO='https://formspree.io/f/xoeavwnw';
+
+(function(){
+  const f=document.getElementById('ctForm');
+  const aviso=document.getElementById('ctAviso');
+  const boton=f?f.querySelector('.ct-enviar'):null;
+  if(!f)return;
+
+  const decir=(t,ok)=>{aviso.textContent=t;aviso.classList.toggle('ok',!!ok);};
+
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const nombre =f.nombre.value.trim();
+    const correo =f.email.value.trim();
+    const mensaje=f.mensaje.value.trim();
+
+    if(!nombre||!correo||!mensaje){decir('Please fill in all three fields.');return;}
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)){decir('Please check your email address.');return;}
+
+    /* mientras se manda, el botón no se puede volver a apretar */
+    boton.disabled=true;
+    const textoBoton=boton.textContent;
+    boton.textContent='Sending…';
+    decir('');
+
+    try{
+      const datos=new FormData(f);
+      /* así el asunto del mail que te llega ya dice quién escribió */
+      datos.append('_subject','Contacto desde el portfolio (EN) — '+nombre);
+
+      const r=await fetch(ENVIO,{
+        method:'POST',
+        headers:{'Accept':'application/json'},
+        body:datos
+      });
+
+      if(r.ok){
+        f.reset();
+        decir('Thanks! I’ll get back to you soon.',true);
+      }else{
+        /* Formspree explica el motivo cuando algo no cierra */
+        let motivo='';
+        try{
+          const j=await r.json();
+          if(j.errors&&j.errors.length)motivo=j.errors.map(x=>x.message).join('. ');
+        }catch(_){}
+        decir(motivo||'It couldn’t be sent. Please email me at miguelmargenat@gmail.com');
+      }
+    }catch(_){
+      /* sin internet, o el servicio no responde */
+      decir('It couldn’t be sent. Please email me at miguelmargenat@gmail.com');
+    }finally{
+      boton.disabled=false;
+      boton.textContent=textoBoton;
+    }
+  });
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>

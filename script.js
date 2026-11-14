@@ -20,7 +20,10 @@
     }
     startIntro();
   }
-  if(pre && !reduce){
+  /* Si se llega con ancla (/#portfolio, /#contacto), por ejemplo desde
+     "Volver a Portfolio" de un proyecto, no se muestra el contador: la
+     persona ya conoce el sitio y quiere ir directo a ese tramo. */
+  if(pre && !reduce && !location.hash){
     document.body.classList.add('loading');
     const count = pre.querySelector('.pl-count');
     const bar = pre.querySelector('.pl-bar');
@@ -35,8 +38,12 @@
   } else {
     if(pre) pre.remove();
     document.body.classList.remove('loading');
+    /* Sin contador (movimiento reducido, o se llegó con ancla) la intro
+       arranca sola. No se llama acá mismo: más abajo se declara `lenis` y
+       startIntro lo usa, así que invocarla ahora daba "Cannot access 'lenis'
+       before initialization" y cortaba el script. Se difiere un instante. */
     document.addEventListener('DOMContentLoaded',startIntro);
-    startIntro();
+    setTimeout(startIntro,0);
   }
 
   /* ---------------- SMOOTH SCROLL (Lenis) ---------------- */
@@ -47,6 +54,77 @@
     requestAnimationFrame(raf);
     if(hasST){lenis.on('scroll',ScrollTrigger.update);}
   }
+
+  /* ---------------- ANCLAS: la home es una página larga ----------------
+     Portfolio y Contacto no son páginas aparte: son tramos de la home
+     (#portfolio y #contacto). Los enlaces del menú que apuntan a esta misma
+     página se interceptan y se baja deslizando hasta el tramo. Además:
+     · el menú marca solo el tramo en el que se está (scrollspy);
+     · si se llega con ancla desde otra página, se baja directo al cargar. */
+  (function(){
+    const portf=document.getElementById('portfolio');
+    const cont=document.getElementById('contacto');
+    if(!portf&&!cont)return;
+    const navLinks=[...document.querySelectorAll('nav .links .navlink')];
+    /* "/", "/index.html" y "/en" cuentan como la misma página */
+    const norm=p=>p.replace(/index\.html$/,'').replace(/\/?$/,'/');
+    const topDe=t=>t.getBoundingClientRect().top+window.scrollY-(parseFloat(getComputedStyle(t).scrollMarginTop)||0);
+
+    function ir(destino,inmediato){
+      const y=destino==='arriba'?0:topDe(destino);
+      if(lenis) lenis.scrollTo(y,{immediate:!!inmediato,duration:1.4});
+      else window.scrollTo({top:y,behavior:(inmediato||reduce)?'auto':'smooth'});
+      return y;
+    }
+
+    document.addEventListener('click',e=>{
+      const a=e.target.closest('a[href]');
+      if(!a||e.defaultPrevented||e.button||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||a.target==='_blank')return;
+      let u; try{u=new URL(a.href,document.baseURI);}catch(_){return;}
+      if(u.origin!==location.origin||norm(u.pathname)!==norm(location.pathname))return;
+      const id=decodeURIComponent(u.hash.slice(1));
+      const t=id?document.getElementById(id):null;
+      if(id&&!t)return;
+      if(!id&&!a.closest('nav'))return;      /* sólo el logo y "Inicio" suben */
+      e.preventDefault();
+      ir(t||'arriba');
+      if(history.replaceState)history.replaceState(null,'',t?'#'+id:location.pathname+location.search);
+    });
+
+    /* scrollspy: Inicio hasta Portfolio, Portfolio hasta Contacto, y Contacto */
+    function marcar(){
+      const mitad=innerHeight*.5;
+      const alFinal=window.scrollY+innerHeight>=document.documentElement.scrollHeight-4;
+      let k='inicio';
+      if(cont&&(cont.getBoundingClientRect().top<mitad||alFinal))k='contacto';
+      else if(portf&&portf.getBoundingClientRect().top<mitad)k='portfolio';
+      navLinks.forEach(a=>{
+        const h=a.getAttribute('href')||'';
+        const kk=/#contacto$/.test(h)?'contacto':/#portfolio$/.test(h)?'portfolio':'inicio';
+        a.classList.toggle('active',kk===k);
+      });
+    }
+    addEventListener('scroll',marcar,{passive:true});
+    addEventListener('resize',marcar,{passive:true});
+    marcar();
+
+    /* llegada con ancla: se espera a que termine la carga y se baja de golpe.
+       Las fotos de más abajo terminan de cargar después y corren el tramo,
+       así que se vuelve a ajustar una vez, salvo que la persona ya haya
+       empezado a mover la página. */
+    const id0=decodeURIComponent(location.hash.slice(1));
+    const t0=id0?document.getElementById(id0):null;
+    if(t0&&(t0===portf||t0===cont)){
+      let tocó=false;
+      ['wheel','touchstart','keydown','mousedown'].forEach(ev=>addEventListener(ev,()=>{tocó=true;},{once:true,passive:true}));
+      const bajar=()=>{
+        ir(t0,true);
+        setTimeout(()=>{ if(!tocó&&Math.abs(window.scrollY-topDe(t0))>4)ir(t0,true); },900);
+      };
+      if(document.readyState==='complete')setTimeout(bajar,60);
+      else addEventListener('load',()=>setTimeout(bajar,60),{once:true});
+    }
+  })();
 
   /* ---------------- CURSOR ---------------- */
   if(window.matchMedia('(hover:hover)').matches){
