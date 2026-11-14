@@ -37,8 +37,10 @@
 #portfolio,#contacto{scroll-margin-top:72px}
 /* el contacto cierra la página: aire arriba para separarlo de Trayectoria */
 #contacto{padding-top:110px}
-/* portada con una sola pieza (el video de gravel): sin el ciclo de aparecer y desaparecer */
-.exp-tile .ht-cover.uno video{opacity:1;animation:none;transform:none}
+/* portada con dos videos que se turnan: aparecen con un fundido cuando les toca,
+   sin el ciclo fijo de 8 s de las portadas con fotos */
+.exp-tile .ht-cover.seq video{opacity:0;animation:none;transform:none;transition:opacity .6s ease}
+.exp-tile .ht-cover.seq video.on{opacity:1}
 /* ---------- índice de proyectos (prefijo px-) ---------- */
 .px-sep{margin:70px 5vw 0;height:1px;background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);background-size:12px 1px}
 .px-wrap{margin:44px 5vw 0}
@@ -222,12 +224,13 @@
      a sangre, sin aire a los costados. -->
 <div class="hm-proy" id="portfolio">
   <a href="en/volta.html" class="exp-tile">
-    <div class="ht-cover uno">
-      <video src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.mp4" poster="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Volta bicycles"></video>
+    <div class="ht-cover seq" id="portadaVolta">
+      <!-- Dos videos que se turnan (sin loop): el de gravel y el primero de indumentaria. El turno lo hace el script de abajo. -->
+      <video class="on" src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.mp4" poster="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.jpg" autoplay muted playsinline preload="metadata" aria-label="Volta bicycles"></video>
+      <video src="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.mp4" poster="img/3.%20Volta/3.%20indumentaria/videos/1-ajuste-perfecto.jpg" muted playsinline preload="none" aria-hidden="true"></video>
     </div>
     <div class="tfade"></div>
     <div class="tinfo">
-      <span class="tnum">01</span>
       <span class="tname">Bicycles & apparel <span class="ar">↗</span></span>
     </div>
   </a>
@@ -240,7 +243,6 @@
     </div>
     <div class="tfade"></div>
     <div class="tinfo">
-      <span class="tnum">02</span>
       <span class="tname">Ugarte Vehicles <span class="ar">↗</span></span>
     </div>
   </a>
@@ -253,7 +255,6 @@
     </div>
     <div class="tfade"></div>
     <div class="tinfo">
-      <span class="tnum">03</span>
       <span class="tname">3D Printing <span class="ar">↗</span></span>
     </div>
   </a>
@@ -265,7 +266,6 @@
     </div>
     <div class="tfade"></div>
     <div class="tinfo">
-      <span class="tnum">04</span>
       <span class="tname">Renders & animations <span class="ar">↗</span></span>
     </div>
   </a>
@@ -293,7 +293,7 @@
     <div class="px-gh"><span class="px-gn">Bicycles &amp; components</span><span class="px-gc">06</span></div>
     <div class="px-gf">
       <a class="px-t" href="en/gravel.html" data-cat="bici">
-        <span class="px-img"><video src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.mp4" poster="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.jpg" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video></span>
+        <span class="px-img"><video src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel-ficha.mp4" poster="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel-ficha.jpg" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video></span>
         <span class="px-info"><span class="px-top"><span class="px-cat">Bicycles</span><span class="px-cue">↗</span></span>
         <span class="px-tit">Gravel line · Indómita &amp; Tirrena</span>
         <span class="px-desc">Two models, in carbon and aluminium.</span></span>
@@ -633,6 +633,32 @@ const ENVIO='https://formspree.io/f/xoeavwnw';
       boton.textContent=textoBoton;
     }
   });
+})();
+</script>
+<script>
+/* Portada "Bicycles & apparel": el video de gravel y, cuando termina, el
+   primero de indumentaria; después vuelve a empezar. Sólo se reproduce el que
+   está a la vista del turno, y todo se frena cuando la portada sale de pantalla. */
+(function(){
+  const c=document.getElementById('portadaVolta');
+  if(!c)return;
+  const vs=[...c.querySelectorAll('video')];
+  let actual=0, visible=true;
+  function pasarA(n){
+    actual=n;
+    vs.forEach((v,k)=>v.classList.toggle('on',k===n));
+    const v=vs[n];
+    try{v.currentTime=0;}catch(_){}
+    if(visible)v.play().catch(()=>{});
+  }
+  vs.forEach((v,k)=>v.addEventListener('ended',()=>pasarA((k+1)%vs.length)));
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(es=>es.forEach(e=>{
+      visible=e.isIntersecting;
+      const v=vs[actual];
+      if(visible)v.play().catch(()=>{}); else v.pause();
+    }),{threshold:.1}).observe(c);
+  }
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
