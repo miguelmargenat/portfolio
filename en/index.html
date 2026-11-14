@@ -37,6 +37,8 @@
 #portfolio,#contacto{scroll-margin-top:72px}
 /* el contacto cierra la página: aire arriba para separarlo de Trayectoria */
 #contacto{padding-top:110px}
+/* portada con una sola pieza (el video de gravel): sin el ciclo de aparecer y desaparecer */
+.exp-tile .ht-cover.uno video{opacity:1;animation:none;transform:none}
 /* ---------- índice de proyectos (prefijo px-) ---------- */
 .px-sep{margin:70px 5vw 0;height:1px;background-image:linear-gradient(90deg,rgba(232,85,58,.4) 50%,transparent 50%);background-size:12px 1px}
 .px-wrap{margin:44px 5vw 0}
@@ -220,11 +222,8 @@
      a sangre, sin aire a los costados. -->
 <div class="hm-proy" id="portfolio">
   <a href="en/volta.html" class="exp-tile">
-    <div class="ht-cover">
-      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/1%20modificada.jpg" alt="Volta bicycles" style="animation-delay:0s">
-      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/4.jpg" alt="Volta bicycles" style="animation-delay:-2s">
-      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/3.jpg" alt="Volta bicycles" style="animation-delay:-4s">
-      <img src="img/0.%20Experiencia/imagenes%20portada/Volta/5%20-%20copia.jpg" alt="Volta bicycles" style="animation-delay:-6s">
+    <div class="ht-cover uno">
+      <video src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.mp4" poster="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Volta bicycles"></video>
     </div>
     <div class="tfade"></div>
     <div class="tinfo">
@@ -294,7 +293,7 @@
     <div class="px-gh"><span class="px-gn">Bicycles &amp; components</span><span class="px-gc">06</span></div>
     <div class="px-gf">
       <a class="px-t" href="en/gravel.html" data-cat="bici">
-        <span class="px-img"><img src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/secuencia%20portada/3%20editadas.jpg" alt=""></span>
+        <span class="px-img"><video src="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.mp4" poster="img/3.%20Volta/2.%20Linea%20gravel%20(Indomita%20y%20Tirrena)/video/portada-gravel.jpg" muted loop playsinline autoplay preload="metadata" aria-hidden="true"></video></span>
         <span class="px-info"><span class="px-top"><span class="px-cat">Bicycles</span><span class="px-cue">↗</span></span>
         <span class="px-tit">Gravel line · Indómita &amp; Tirrena</span>
         <span class="px-desc">Two models, in carbon and aluminium.</span></span>
