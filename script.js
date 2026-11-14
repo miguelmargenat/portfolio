@@ -224,7 +224,28 @@
   function initMarquee(){
     const strip=document.querySelector('.strip .track');
     if(!strip)return;
-    let base= -0.6, cur=base, target=base, x=0, w=strip.scrollWidth/2;
+    /* La lista del HTML va una sola vez. Acá se repite las veces que hagan falta
+       para que un juego mida al menos lo que la pantalla (si no, el bucle deja un
+       hueco), y siempre con una cantidad PAR de piezas por juego: así el blanco y
+       el naranja alternan también en la costura de cada vuelta. */
+    const piezas=[...strip.children].map(el=>el.cloneNode(true));
+    let w=1;
+    function armar(){
+      strip.textContent='';
+      piezas.forEach(p=>strip.appendChild(p.cloneNode(true)));
+      const uno=strip.scrollWidth||1;
+      const meta=Math.max(window.innerWidth,screen.width||0)*1.05;
+      let m=Math.max(1,Math.ceil(meta/uno));
+      if((piezas.length*m)%2)m++;
+      strip.textContent='';
+      for(let i=0;i<2*m;i++)piezas.forEach(p=>strip.appendChild(p.cloneNode(true)));
+      [...strip.children].forEach((el,k)=>el.classList.toggle('alt',k%2===1));
+      w=strip.scrollWidth/2;
+    }
+    armar();
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{armar();x%=w;});
+    let rt; addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{armar();x%=w;},200);},{passive:true});
+    let base= -0.6, cur=base, target=base, x=0;
     if(lenis){lenis.on('scroll',({velocity})=>{target=base - Math.min(Math.abs(velocity),40)*0.12*Math.sign(velocity||1);});}
     (function tick(){
       cur+=(target-cur)*.06; target+=(base-target)*.04;
