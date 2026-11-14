@@ -132,6 +132,8 @@
 
 /* animaciones */
 .rd-anim{padding:70px 5vw 50px}
+/* destino de las fichas "Animaciones" y "Renders" del índice de proyectos */
+#animaciones,#renders{scroll-margin-top:70px}
 .rd-lbl{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:24px}
 .rd-animgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .rd-vid{margin:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg-2);transition:border-color .3s}
@@ -205,7 +207,7 @@
   </div>
 </section>
 
-<section class="rd-anim">
+<section class="rd-anim" id="animaciones">
   <div class="rd-lbl">Animaciones</div>
   <div class="rd-animgrid">
     <figure class="rd-vid">
@@ -234,7 +236,7 @@
 
 <div class="rd-dash rev"></div>
 
-<section class="rd-proj">
+<section class="rd-proj" id="renders">
   <div class="rd-media">
     <img class="lead" src="img/6.%20Renders/Reloj%20Braun/1.jpg" alt="Reloj Braun" loading="lazy">
     <div class="subs">
