@@ -29,6 +29,21 @@
     window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
   });
 
+  const pie=document.querySelector('footer.mini');
+
+  /* ---------- menú de celular: avisar si está abierto ----------
+     Cada página abre el menú con su propio código (clase .open en la
+     lista). Acá sólo se copia ese estado a aria-expanded, para los
+     lectores de pantalla. */
+  (function(){
+    const boton=document.querySelector('.navtoggle');
+    const lista=document.querySelector('nav .links');
+    if(!boton||!lista||!window.MutationObserver)return;
+    const avisar=()=>boton.setAttribute('aria-expanded',lista.classList.contains('open')?'true':'false');
+    avisar();
+    new MutationObserver(avisar).observe(lista,{attributes:true,attributeFilter:['class']});
+  })();
+
   let pendiente=false;
   function pintar(){
     pendiente=false;
@@ -37,6 +52,11 @@
     const pct=alto>0?Math.min(100,(y/alto)*100):0;
     relleno.style.width=pct+'%';
     subir.classList.toggle('on', y>window.innerHeight*.9);
+    /* cuando asoma el pie, el botón sube lo mismo: si no, tapa el copyright */
+    if(pie){
+      const asoma=Math.max(0,window.innerHeight-pie.getBoundingClientRect().top);
+      subir.style.setProperty('--sube',asoma+'px');
+    }
   }
   window.addEventListener('scroll',()=>{
     if(pendiente)return;

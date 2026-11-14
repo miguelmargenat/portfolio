@@ -1,0 +1,15 @@
+# Caché del navegador (Netlify). Sin esto todo sale con max-age=0 y cada
+# visita vuelve a preguntar por cada foto.
+# Fotos y videos: una semana. Si se reemplaza una foto SIN cambiarle el
+# nombre, quien ya visitó el sitio puede seguir viendo la vieja hasta 7 días.
+# El HTML, el CSS y el JS no se tocan: siguen revalidando en cada visita.
+/img/*
+  Cache-Control: public, max-age=604800
+/favicon-32.png
+  Cache-Control: public, max-age=604800
+/favicon-180.png
+  Cache-Control: public, max-age=604800
+/favicon-512.png
+  Cache-Control: public, max-age=604800
+/og.jpg
+  Cache-Control: public, max-age=604800

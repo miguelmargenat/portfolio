@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página no encontrada — Miguel Margenat</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<meta name="theme-color" content="#0c0c0b">
+<!-- Netlify muestra esta página sola cuando una dirección no existe.
+     Las rutas van con barra adelante porque puede aparecer a cualquier
+     profundidad (/algo, /en/algo, /a/b/c). No carga script.js ni ui.js:
+     por eso se le devuelve el cursor normal. -->
+<link rel="stylesheet" href="/styles.css">
+<style>
+body,body *{cursor:auto}
+a{cursor:pointer}
+.nf{min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:26px;padding:0 5vw}
+.nf-marca{position:absolute;top:34px;left:5vw;font-family:var(--disp);font-weight:700;font-size:18px;color:var(--fg)}
+.nf-marca span{color:var(--accent)}
+.nf-cod{font-family:var(--mono);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent)}
+.nf h1{font-family:var(--disp);font-weight:700;font-size:clamp(34px,6vw,84px);letter-spacing:-2px;line-height:1;color:var(--fg)}
+.nf p{font-family:var(--body);font-size:16px;line-height:1.6;color:var(--fg-soft);max-width:52ch}
+.nf-links{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.nf-links a{font-family:var(--mono);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:15px 24px;border-radius:999px;border:1px solid var(--line-strong);color:var(--fg);
+  transition:border-color .3s,color .3s,background .3s}
+.nf-links a:hover{border-color:var(--accent);color:var(--accent)}
+.nf-links a.solid{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.nf-links a.solid:hover{background:transparent;color:var(--accent)}
+</style>
+</head>
+<body>
+<a class="nf-marca" href="/">Migue<span>.</span>stl</a>
+<main class="nf">
+  <span class="nf-cod">Error 404</span>
+  <h1>Esta página no existe</h1>
+  <p>Puede que el enlace esté mal escrito o que la página haya cambiado de lugar.<br>
+     <span lang="en">This page doesn't exist — the link may be wrong or the page may have moved.</span></p>
+  <div class="nf-links">
+    <a class="solid" href="/experiencia">Ver el portfolio</a>
+    <a href="/">Ir al inicio</a>
+    <a href="/en/" lang="en">English home</a>
+  </div>
+</main>
+</body>
+</html>

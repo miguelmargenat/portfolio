@@ -1029,7 +1029,16 @@ a.ct-value:hover{color:var(--accent)}
 .scrollbar i{display:block;height:100%;width:0;background:var(--accent);
   transform-origin:left;transition:width .1s linear}
 
-/* ---------- botón para volver arriba ---------- */
+/* ---------- títulos para buscadores y lectores de pantalla ----------
+   .solo-lector: un h1 que no se ve (páginas donde el título es un logo o
+   no hay título a la vista). .tit-plano: un h1 que conserva el aspecto del
+   rótulo que reemplaza, sin la negrita que le pone el navegador. */
+.solo-lector{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tit-plano{font-weight:inherit}
+
+/* ---------- botón para volver arriba ----------
+   --sube lo pone ui.js: es lo que asoma el pie de página, para que el
+   botón quede arriba del pie en vez de taparle el copyright. */
 .totop{position:fixed;right:clamp(16px,3vw,34px);bottom:clamp(16px,3vw,34px);z-index:150;
   width:46px;height:46px;border-radius:50%;cursor:pointer;
   background:rgba(12,12,11,.72);border:1px solid var(--line-strong);color:var(--fg);
@@ -1038,7 +1047,7 @@ a.ct-value:hover{color:var(--accent)}
   opacity:0;visibility:hidden;transform:translateY(10px);
   transition:opacity .35s var(--ease),transform .35s var(--ease),
              border-color .3s,background .3s,visibility .35s}
-.totop.on{opacity:1;visibility:visible;transform:none}
+.totop.on{opacity:1;visibility:visible;transform:translateY(calc(var(--sube,0px) * -1))}
 .totop:hover{border-color:var(--accent);background:rgba(232,85,58,.8)}
 
 @media(prefers-reduced-motion:reduce){

@@ -582,6 +582,9 @@
       if(lenis)lenis.start();
     }
     document.querySelectorAll('.card').forEach(c=>{
+      /* las tarjetas con página propia son enlaces de verdad (<a href>):
+         navega el navegador, así andan Ctrl+clic y el botón del medio */
+      if(c.tagName==='A')return;
       c.addEventListener('click',()=>openProject(c));
       c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openProject(c);}});
     });
