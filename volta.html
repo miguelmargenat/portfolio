@@ -44,7 +44,13 @@
 .overlay.vt-pagina{position:static;transform:none;visibility:visible;
   overflow:visible;z-index:auto;background:none}
 /* el panel arrancaba pegado a la barra; como página respira un poco más */
-.overlay.vt-pagina .po-inner{padding-top:clamp(96px,11vh,132px)}
+.overlay.vt-pagina .po-inner{padding-top:clamp(18px,3vh,32px)}
+/* título visible arriba (era un h1 oculto): mismo patrón que Clash y Campeones */
+.vt-head{padding:150px 5vw 0;max-width:none}
+.vt-head .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:16px}
+.vt-head h1{font-family:var(--disp);font-size:clamp(30px,5vw,64px);font-weight:700;letter-spacing:-2px;line-height:1}
+.vt-head h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+@media(max-width:900px){.vt-head{padding:112px 6vw 0}}
 </style>
 </head>
 <body>
@@ -68,7 +74,10 @@
   <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
 </nav>
 
-<h1 class="solo-lector">Bicicletas e indumentaria</h1>
+<header class="vt-head">
+  <span class="eyebrow">Volta · López Hermanos</span>
+  <h1>Bicicletas e <em>indumentaria</em></h1>
+</header>
 <div class="overlay has-subs vt-pagina">
   <div class="po-inner">
 

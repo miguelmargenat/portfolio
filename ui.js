@@ -44,6 +44,9 @@
     new MutationObserver(avisar).observe(lista,{attributes:true,attributeFilter:['class']});
   })();
 
+  /* páginas de proyecto: la barra toma fondo al bajar (ver styles.css) */
+  const barraNav=document.querySelector('nav.haslang:not(.conbarra)');
+
   let pendiente=false;
   function pintar(){
     pendiente=false;
@@ -52,6 +55,7 @@
     const pct=alto>0?Math.min(100,(y/alto)*100):0;
     relleno.style.width=pct+'%';
     subir.classList.toggle('on', y>window.innerHeight*.9);
+    if(barraNav)barraNav.classList.toggle('scrolled', y>24);
     /* cuando asoma el pie, el botón sube lo mismo: si no, tapa el copyright */
     if(pie){
       const asoma=Math.max(0,window.innerHeight-pie.getBoundingClientRect().top);

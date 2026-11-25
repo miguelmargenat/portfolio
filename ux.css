@@ -1,0 +1,100 @@
+/* ============================================================
+   UX · mejoras de uso (25/11/2026) · componentes aditivos, separados de styles.css.
+   ============================================================ */
+
+/* ---------- índice fijo (chips que acompañan al bajar) ---------- */
+.ux-idx{position:sticky;top:var(--uxnav,66px);z-index:55;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+  padding:10px 5vw;background:rgba(12,12,11,.9);border-bottom:1px solid var(--line);margin:0}
+.ux-idx::-webkit-scrollbar{display:none}
+.ux-idx button{flex:none;font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--fg-soft);
+  background:none;border:1px solid var(--line-strong);border-radius:999px;padding:8px 15px;cursor:pointer;
+  transition:border-color .25s,color .25s,background .25s}
+.ux-idx button:hover,.ux-idx button:focus-visible{color:var(--fg);border-color:var(--fg-soft)}
+.ux-idx button.on{color:var(--fg);border-color:var(--accent);background:rgba(232,85,58,.1)}
+@media(min-width:781px){.ux-idx{backdrop-filter:blur(8px)}}
+@media(max-width:900px){.ux-idx{padding:9px 6vw}}
+
+/* ---------- Ugarte: grilla de 3 reels y zoom al clic ---------- */
+@media(min-width:901px){body.ux-ugarte .ug-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
+body.ux-ugarte .ug-slot::before{content:"";position:absolute;inset:0;z-index:5;cursor:zoom-in}
+body.ux-ugarte .ug-slot{border:1px solid var(--line);transition:border-color .3s}
+body.ux-ugarte .ug-slot:hover{border-color:var(--accent)}
+.ux-rzbox{width:min(540px,88vw);max-height:90vh;overflow:auto;border-radius:6px;scrollbar-width:thin}
+.ux-rzbox .instagram-media{margin:0!important}
+.ux-reelzoom .zct{bottom:14px}
+
+/* ---------- Whipper: chips de color también arriba ---------- */
+.wh-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 28px}
+.wh-head .eyebrow{flex:0 0 100%;margin-bottom:0}
+.wh-head h1{margin-right:auto}
+.wh-head .ux-prox{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:6px}
+.wh-head .ux-prox button{display:inline-flex;align-items:center;gap:8px;background:none;cursor:pointer;font-family:var(--mono);
+  font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--fg-soft);border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.wh-head .ux-prox button:hover{color:var(--fg);border-color:var(--line-strong)}
+.wh-head .ux-prox button.on{color:var(--fg);border-color:var(--accent);background:rgba(232,85,58,.08)}
+.wh-head .ux-prox i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none}
+
+/* ---------- grupos de rol (Calzado y SportAce) ---------- */
+.ux-rol{padding:8px 5vw 40px}
+.ux-rol .ux-t{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-soft);margin-bottom:16px}
+.ux-rolgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.ux-rolcol{background:var(--bg-2);border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:8px;padding:20px 22px}
+.ux-rolcol h3{font-family:var(--disp);font-size:17px;font-weight:700;letter-spacing:-.3px;margin:0 0 12px}
+.ux-rolcol ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.ux-rolcol li{font-size:13.5px;line-height:1.6;color:var(--fg-soft);padding-left:14px;position:relative}
+.ux-rolcol li::before{content:"";position:absolute;left:0;top:.75em;width:7px;height:1px;background:var(--accent)}
+@media(max-width:900px){.ux-rol{padding:8px 6vw 32px}.ux-rolgrid{grid-template-columns:1fr}}
+
+/* ---------- SportAce: logo + marca en una franja, productos pegados, enfoque y rol ---------- */
+.ux-sa-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;
+  gap:clamp(24px,4.5vw,72px);padding:100px 5vw 36px}
+.ux-sa-hero .sa-head{padding:0;justify-content:flex-start}
+.ux-sa-hero .sa-head img{width:100%}
+.ux-sa-lead{border-left:2px solid rgba(232,85,58,.55);padding-left:clamp(20px,2.6vw,38px)}
+.ux-sa-lead p{margin:10px 0 0;font-size:clamp(16px,1.55vw,21px);line-height:1.7;font-weight:300;max-width:56ch}
+.ux-sa-k{display:block;font-family:var(--mono);font-size:10px;letter-spacing:2.2px;text-transform:uppercase;color:var(--accent)}
+body.ux-sa-page .sa-tres{padding-top:0}
+body.ux-sa-page .sa-prod{padding-top:0;padding-bottom:0}
+body.ux-sa-page .sa-main{aspect-ratio:3/2}
+.ux-sa-txt{padding:30px 5vw 26px}
+.ux-sa-dos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px clamp(24px,4vw,60px);margin-bottom:26px}
+.ux-sa-dos p{margin:10px 0 0;font-size:clamp(15px,1.3vw,17px);line-height:1.75;color:var(--fg-soft);max-width:60ch}
+@media(max-width:900px){
+  .ux-sa-hero{grid-template-columns:1fr;gap:22px;padding:96px 6vw 24px}
+  .ux-sa-lead{padding-left:18px}
+  .ux-sa-txt{padding:24px 6vw 24px}.ux-sa-dos{grid-template-columns:1fr}
+}
+
+/* ---------- Clash: numeral, brillo del color y visor grande ---------- */
+body.ux-clash .cl-view{height:clamp(280px,46vh,500px);overflow:visible}
+body.ux-clash .cl-view img{z-index:1;max-width:100%;mix-blend-mode:screen}
+.cl-num{position:absolute;left:0;top:-4%;z-index:0;pointer-events:none;white-space:nowrap;
+  font-family:var(--disp);font-weight:700;font-size:clamp(100px,10vw,160px);line-height:1;letter-spacing:-.06em;
+  color:transparent;-webkit-text-stroke:1px rgba(245,242,234,.2)}
+body.ux-clash .cl-top .r{font-size:clamp(22px,2.3vw,32px);white-space:nowrap}
+body.ux-clash .cl-top .k{max-width:130px;line-height:1.5}
+body.ux-clash .cl-top .c{white-space:nowrap}
+body.ux-clash .cl-sel .nm{display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.cl-dot{width:9px;height:9px;border-radius:50%;display:inline-block;flex:none;box-shadow:0 0 0 1px rgba(245,242,234,.3)}
+@media(max-width:900px){body.ux-clash .cl-view{height:clamp(220px,38vh,360px)}.cl-num{font-size:clamp(90px,26vw,130px)}}
+
+/* ---------- Gravel: fotos más grandes en las cintas del final ---------- */
+body.ux-gravel .ti-cel{width:clamp(210px,22vw,330px)}
+@media(max-width:600px){body.ux-gravel .ti-cel{width:clamp(180px,52vw,240px)}}
+
+/* ---------- Indumentaria: las 6 calzas en una línea (en pantallas chicas queda 3 × 2 como hoy) ---------- */
+@media(min-width:1181px){
+  body.ux-indu .pl-wrap.ux-calzas{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0 14px;align-content:start}
+  body.ux-indu .pl-wrap.ux-calzas > .iz-cat,body.ux-indu .pl-wrap.ux-calzas > .pl-sub{grid-column:1/-1}
+  body.ux-indu .pl-wrap.ux-calzas .pl-grid{display:contents}
+  body.ux-indu .pl-wrap.ux-calzas .pl-rot{grid-row:3;margin-top:8px}
+  body.ux-indu .pl-wrap.ux-calzas .pl-rot:nth-child(3){grid-column:1/4}
+  body.ux-indu .pl-wrap.ux-calzas .pl-rot:nth-child(5){grid-column:4/7}
+  body.ux-indu .pl-wrap.ux-calzas .pl{grid-row:4}
+}
+
+/* ---------- Campeones: el video queda centrado en su columna, sin la franja negra ancha ---------- */
+@media(min-width:901px){
+  body.ux-campeones .cp-intro{grid-template-columns:minmax(0,.62fr) minmax(0,1fr)}
+  body.ux-campeones .cp-video{align-items:center}
+}

@@ -215,6 +215,11 @@ header.intro-hero .bp-grid{opacity:.22}
    .haslang (el selector de idioma) ahora está en las quince páginas y las de
    proyecto no llevan barra. */
 nav.conbarra{background:rgba(12,12,11,.88);backdrop-filter:blur(8px)}
+/* páginas de proyecto: la barra sigue transparente arriba y toma fondo al bajar,
+   para que el logo y los enlaces no se pisen con párrafos y fotos (ui.js pone .scrolled) */
+nav.haslang:not(.conbarra){transition:background-color .3s}
+nav.haslang:not(.conbarra).scrolled{background:rgba(12,12,11,.88)}
+@media(min-width:781px){nav.haslang:not(.conbarra).scrolled{backdrop-filter:blur(8px)}}
 @media(max-width:780px){
   .hm-top{--navh:68px}
   .hm-top .strip{padding:12px 0}

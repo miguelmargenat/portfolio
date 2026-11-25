@@ -40,8 +40,12 @@
   -webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%);
   mask-image:radial-gradient(ellipse 90% 75% at 50% 45%,#000 0%,transparent 88%)}
 
-/* sin header: la página arranca directo con el producto */
-.wh-top{padding:132px 5vw 0}
+/* título visible arriba (era un h1 oculto): mismo patrón que Clash y Campeones */
+.wh-head{padding:132px 5vw 0}
+.wh-head .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:16px}
+.wh-head h1{font-family:var(--disp);font-size:clamp(30px,5vw,64px);font-weight:700;letter-spacing:-2px;line-height:1}
+.wh-head h1 em{font-style:italic;font-weight:300;color:var(--accent)}
+.wh-top{padding:26px 5vw 0}
 
 /* arriba de todo: video de campaña a la izquierda y, a la derecha, el texto
    de lo que hice en el proyecto. El video es vertical (720x1280): manda el
@@ -156,7 +160,8 @@
 .wh-back:hover{border-color:var(--accent);color:var(--accent)}
 
 @media(max-width:900px){
-  .wh-top{padding:112px 6vw 0}
+  .wh-head{padding:112px 6vw 0}
+  .wh-top{padding:20px 6vw 0}
   /* video arriba, centrado, y el texto debajo */
   .wh-intro{grid-template-columns:1fr;gap:10px}
   .wh-video{margin:0 auto}
@@ -196,7 +201,10 @@
   <button class="navtoggle" aria-label="Abrir menú"><span></span><span></span><span></span></button>
 </nav>
 
-<h1 class="solo-lector">Whipper · Street bike</h1>
+<header class="wh-head">
+  <span class="eyebrow">Volta · López Hermanos</span>
+  <h1>Whipper <em>Street bike</em></h1>
+</header>
 <section class="wh-top">
   <div class="wh-intro">
     <div class="wh-video">
@@ -391,5 +399,7 @@ const tg=document.querySelector('.navtoggle'), lk=document.querySelector('nav .l
 if(tg&&lk)tg.addEventListener('click',()=>lk.classList.toggle('open'));
 </script>
 <script src="ui.js"></script>
+<link rel="stylesheet" href="ux.css">
+<script src="ux.js"></script>
 </body>
 </html>

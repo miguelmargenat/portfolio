@@ -70,6 +70,11 @@
 
 /* intro */
 .rd-intro{padding:70px 5vw 20px}
+/* chips para saltar a cada pieza (la página mide ~6 pantallas) */
+.rd-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.rd-chips a{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg);padding:9px 16px;border:1px solid var(--line-strong);border-radius:99px;transition:border-color .25s,color .25s}
+.rd-chips a:hover,.rd-chips a:focus-visible{border-color:var(--accent);color:var(--accent)}
+.rd-anim,.rd-proj{scroll-margin-top:72px}
 .rd-box{background:var(--bg-2);border-left:2px solid rgba(232,85,58,.55);border-radius:0 8px 8px 0;
   padding:32px clamp(24px,3.5vw,48px);width:100%}
 .rd-box p{font-size:clamp(15px,1.35vw,19px);line-height:1.75;color:var(--fg-soft);margin:0;max-width:100ch}
@@ -206,6 +211,13 @@
   <div class="rd-box">
     <p><span class="lead">I like creating animations that communicate.</span> <span class="rest">Every render and every animation is a chance to experiment with new tools, techniques and ways of bringing a concept to life.</span></p>
   </div>
+  <div class="rd-chips" role="navigation" aria-label="Pieces">
+    <a href="en/renders.html#animaciones">Animations</a>
+    <a href="en/renders.html#renders">Braun Clock</a>
+    <a href="en/renders.html#cepillo-gum">GUM Toothbrush</a>
+    <a href="en/renders.html#interiorismo">Interior design</a>
+    <a href="en/renders.html#arquitectonico">Architectural render</a>
+  </div>
 </section>
 
 <section class="rd-anim" id="animaciones">
@@ -262,7 +274,7 @@
 
 <div class="rd-dash rev"></div>
 
-<section class="rd-proj inv">
+<section class="rd-proj inv" id="cepillo-gum">
   <div class="rd-media">
     <img class="lead" src="img/6.%20Renders/Cepillo%20dientes/ultimo%20render.114.jpg" alt="GUM Toothbrush" loading="lazy">
     <span class="corner tl"></span><span class="corner tr"></span>
@@ -283,7 +295,7 @@
 
 <div class="rd-dash"></div>
 
-<section class="rd-proj">
+<section class="rd-proj" id="interiorismo">
   <div class="rd-media">
     <img class="lead" src="img/6.%20Renders/Interior%20living/render%20interiorismo%202.jpg" alt="Interior design" loading="lazy">
     <span class="corner tl"></span><span class="corner tr"></span>
@@ -309,7 +321,7 @@
 
 <div class="rd-dash rev"></div>
 
-<section class="rd-proj inv">
+<section class="rd-proj inv" id="arquitectonico">
   <div class="rd-media">
     <img class="lead" src="img/6.%20Renders/Exterior/render%20interiorismo%201.jpg" alt="Architectural render" loading="lazy">
     <span class="corner tl"></span><span class="corner tr"></span>
