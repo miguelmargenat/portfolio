@@ -176,6 +176,27 @@
     hero.appendChild(lead);
     /* 2) los productos, pegados debajo */
     hero.after(prods);
+    /* 2b) un producto por vez: pestañas con los nombres; la cinta de miniaturas deja de correr sola */
+    const sas = [...prods.querySelectorAll('.sa-prod')];
+    sas.forEach(p => p.querySelectorAll('.sa-track').forEach(t => { const k = t.children.length / 2; [...t.children].slice(k).forEach(c => c.remove()); }));
+    const tabs = document.createElement('div');
+    tabs.className = 'ux-sa-tabs';
+    tabs.setAttribute('role', 'tablist');
+    sas.forEach((p, i) => {
+      const nm = p.querySelector('.sa-name'), kk = p.querySelector('.sa-kick');
+      const b = document.createElement('button');
+      b.type = 'button'; b.setAttribute('role', 'tab');
+      b.innerHTML = '<i>0' + (i + 1) + '</i><b>' + (nm ? nm.innerHTML : '') + '</b><span>' + (kk ? kk.innerHTML : '') + '</span>';
+      b.addEventListener('click', () => elegir(i));
+      tabs.appendChild(b);
+    });
+    prods.before(tabs);
+    function elegir(i) {
+      sas.forEach((p, k) => p.classList.toggle('off', k !== i));
+      [...tabs.children].forEach((b, k) => { b.classList.toggle('on', k === i); b.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    }
+    const h = sas.findIndex(p => p.id === decodeURIComponent(location.hash.slice(1)));
+    elegir(h >= 0 ? h : 0);
     /* 3) enfoque y rol, con las tareas agrupadas */
     const txt = document.createElement('section');
     txt.className = 'ux-sa-txt';

@@ -53,9 +53,40 @@ body.ux-ugarte .ug-slot:hover{border-color:var(--accent)}
 .ux-sa-lead{border-left:2px solid rgba(232,85,58,.55);padding-left:clamp(20px,2.6vw,38px)}
 .ux-sa-lead p{margin:10px 0 0;font-size:clamp(16px,1.55vw,21px);line-height:1.7;font-weight:300;max-width:56ch}
 .ux-sa-k{display:block;font-family:var(--mono);font-size:10px;letter-spacing:2.2px;text-transform:uppercase;color:var(--accent)}
-body.ux-sa-page .sa-tres{padding-top:0}
+/* un producto por vez: pestañas arriba, foto grande + texto al lado (v3, 25/11/2026) */
+.ux-sa-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:40px 5vw 0}
+.ux-sa-tabs button{position:relative;text-align:left;background:none;border:0;border-top:1px solid var(--line-strong);
+  padding:16px 4px 4px;cursor:pointer;color:var(--fg-soft);font:inherit;display:grid;gap:4px;transition:color .25s}
+.ux-sa-tabs button::before{content:"";position:absolute;left:0;top:-1px;height:2px;width:0;background:var(--accent);transition:width .35s}
+.ux-sa-tabs button.on::before{width:100%}
+.ux-sa-tabs button:hover,.ux-sa-tabs button:focus-visible{color:var(--fg)}
+.ux-sa-tabs button.on{color:var(--fg)}
+.ux-sa-tabs i{font-style:normal;font-family:var(--mono);font-size:11px;letter-spacing:2px;color:var(--accent)}
+.ux-sa-tabs b{font-family:var(--disp);font-size:clamp(20px,2.2vw,32px);font-weight:700;letter-spacing:-.8px;line-height:1.1}
+.ux-sa-tabs span{font-family:var(--mono);font-size:10.5px;letter-spacing:1.6px;text-transform:uppercase}
+body.ux-sa-page #saProds.sa-tres{display:block;padding:28px 5vw 24px}
 body.ux-sa-page .sa-prod{padding-top:0;padding-bottom:0}
-body.ux-sa-page .sa-main{aspect-ratio:3/2}
+body.ux-sa-page .sa-prod.off{display:none}
+body.ux-sa-page .sa-prod:not(.off){display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);
+  grid-template-areas:"main bar" "row bar";column-gap:clamp(28px,4vw,64px);row-gap:12px;align-items:start}
+body.ux-sa-page .sa-main{grid-area:main;aspect-ratio:4/3;background:#fff;border-color:rgba(245,242,234,.14)}
+body.ux-sa-page .sa-main img{padding:10px}
+body.ux-sa-page .sa-row{grid-area:row;margin:0;overflow-x:auto;scrollbar-width:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent)}
+body.ux-sa-page .sa-row::-webkit-scrollbar{display:none}
+body.ux-sa-page .sa-track{animation:none;width:max-content}
+body.ux-sa-page .sa-track .th{width:92px;height:70px;opacity:.8;background:#fff}
+body.ux-sa-page .sa-track .th:hover,body.ux-sa-page .sa-track .th.on{opacity:1}
+body.ux-sa-page .sa-bar{grid-area:bar;align-self:start;background:none;border:0;border-radius:0;padding:6px 0 0;flex:none}
+body.ux-sa-page .sa-kick{display:none}
+body.ux-sa-page .sa-name{font-size:clamp(28px,3vw,46px);letter-spacing:-1.2px;margin-bottom:20px}
+body.ux-sa-page .sa-desc{font-size:clamp(15px,1.2vw,17px);line-height:1.8}
+@media(max-width:900px){
+  .ux-sa-tabs{padding:28px 6vw 0;gap:8px}.ux-sa-tabs span{display:none}
+  body.ux-sa-page #saProds.sa-tres{padding:24px 6vw 8px}
+  body.ux-sa-page .sa-prod:not(.off){grid-template-columns:1fr;grid-template-areas:"main" "row" "bar"}
+  body.ux-sa-page .sa-bar{margin-top:14px}
+}
 .ux-sa-txt{padding:30px 5vw 26px}
 .ux-sa-dos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px clamp(24px,4vw,60px);margin-bottom:26px}
 .ux-sa-dos p{margin:10px 0 0;font-size:clamp(15px,1.3vw,17px);line-height:1.75;color:var(--fg-soft);max-width:60ch}
